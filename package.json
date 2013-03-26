@@ -1,10 +1,11 @@
 {
 	"name": "imports-loader",
-	"version": "0.5.0",
+	"version": "0.6.0",
 	"author": "Tobias Koppers @sokra",
 	"description": "imports loader module for webpack",
 	"dependencies": {
-		"loader-utils": "0.2.x"
+		"loader-utils": "0.2.x",
+		"source-map": "https://github.com/sokra/source-map/archive/master.tar.gz"
 	},
 	"licenses": [
 		{

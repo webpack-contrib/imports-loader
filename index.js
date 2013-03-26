@@ -3,7 +3,10 @@
 	Author Tobias Koppers @sokra
 */
 var loaderUtils = require("loader-utils");
-module.exports = function(content) {
+var SourceNode = require("source-map").SourceNode;
+var SourceMapConsumer = require("source-map").SourceMapConsumer;
+var HEADER = "/*** IMPORTS FROM imports-loader ***/\n";
+module.exports = function(content, sourceMap) {
 	if(this.cacheable) this.cacheable();
 	var query = loaderUtils.parseQuery(this.query);
 	var imports = [];
@@ -17,5 +20,15 @@ module.exports = function(content) {
 		}
 		imports.push("var " + name + " = require(" + JSON.stringify(mod) + ");");
 	});
-	return "/*** IMPORTS FROM imports-loader ***/\n" + imports.join("\n") + "\n\n" + content;
+	if(sourceMap) {
+		var currentRequest = loaderUtils.getCurrentRequest(this);
+		var node = SourceNode.fromStringWithSourceMap(content, new SourceMapConsumer(sourceMap));
+		node.prepend(HEADER + imports.join("\n") + "\n\n");
+		var result = node.toStringWithSourceMap({
+			file: currentRequest
+		});
+		this.callback(null, result.code, result.map.toJSON());
+		return;
+	}
+	return HEADER + imports.join("\n") + "\n\n" + content;
 }
