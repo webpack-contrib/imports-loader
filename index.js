@@ -10,25 +10,37 @@ module.exports = function(content, sourceMap) {
 	if(this.cacheable) this.cacheable();
 	var query = loaderUtils.parseQuery(this.query);
 	var imports = [];
+	var postfixes = [];
 	Object.keys(query).forEach(function(name) {
+		var value;
 		if(typeof query[name] == "string" && query[name].substr(0, 1) == ">") {
-			return imports.push("var " + name + " = " + query[name].substr(1) + ";");
+			value = query[name].substr(1);
+		} else {
+			var mod = name;
+			if(typeof query[name] === "string") {
+				mod = query[name];
+			}
+			value = "require(" + JSON.stringify(mod) + ")";
 		}
-		var mod = name;
-		if(typeof query[name] == "string") {
-			mod = query[name];
+		if(name === "this") {
+			imports.push("(function() {");
+			postfixes.unshift("}.call(" + value + "));");
+		} else {
+			imports.push("var " + name + " = " + value + ";");
 		}
-		imports.push("var " + name + " = require(" + JSON.stringify(mod) + ");");
 	});
+	var prefix = HEADER + imports.join("\n") + "\n\n";
+	var postfix = postfixes.join("\n");
 	if(sourceMap) {
 		var currentRequest = loaderUtils.getCurrentRequest(this);
 		var node = SourceNode.fromStringWithSourceMap(content, new SourceMapConsumer(sourceMap));
-		node.prepend(HEADER + imports.join("\n") + "\n\n");
+		node.prepend(prefix);
+		node.add(postfix);
 		var result = node.toStringWithSourceMap({
 			file: currentRequest
 		});
 		this.callback(null, result.code, result.map.toJSON());
 		return;
 	}
-	return HEADER + imports.join("\n") + "\n\n" + content;
+	return prefix + content + postfix;
 }
