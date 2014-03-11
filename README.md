@@ -10,6 +10,8 @@ require("imports?page=../pages/mypage,jQuery,config=>{size:50}!./file.js");
 //  var config = {size:50};
 ```
 
+[Documentation: Using loaders](http://webpack.github.io/docs/using-loaders.html)
+
 ## License
 
 MIT (http://www.opensource.org/licenses/mit-license.php)
