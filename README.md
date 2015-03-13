@@ -54,7 +54,7 @@ module.exports = {
     module: {
         loaders: [
             {
-                test: /[\/\\]node_modules[\/\\]some-module[\/\\]index\.js$/
+                test: require.resolve("some-module")
                 loader: "imports?this=>window"
             }
         ]
@@ -82,6 +82,8 @@ Then you can easily disable the AMD path by writing
 ```javascript
 imports?define=>false
 ```
+
+For further hints on compatibility issues, check out [Shimming Modules](http://webpack.github.io/docs/shimming-modules.html) of the official docs.
 
 ## License
 
