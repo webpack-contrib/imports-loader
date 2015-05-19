@@ -7,13 +7,8 @@
 		"loader-utils": "0.2.x",
 		"source-map": "0.1.x"
 	},
-	"licenses": [
-		{
-			"type": "MIT",
-			"url": "http://www.opensource.org/licenses/mit-license.php"
-		}
-	],
-	"repository": { 
+	"license": "MIT",
+	"repository": {
 		"type": "git",
 		"url" : "https://github.com/webpack/imports-loader.git"
 	}
