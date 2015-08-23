@@ -100,7 +100,7 @@ loaders: [
 ]
 ```
 
-And every less file with the same filename as of a jsx file would be loaded as well.
+And every `less` file that has the same filename as of a `jsx` file would be loaded as well.
 
 ## License
 
