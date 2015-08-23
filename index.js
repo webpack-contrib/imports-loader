@@ -1,8 +1,9 @@
 /*
-	MIT License http://www.opensource.org/licenses/mit-license.php
-	Author Tobias Koppers @sokra
-*/
+ MIT License http://www.opensource.org/licenses/mit-license.php
+ Author Tobias Koppers @sokra
+ */
 var path = require("path");
+var fs = require("fs");
 var loaderUtils = require("loader-utils");
 var SourceNode = require("source-map").SourceNode;
 var SourceMapConsumer = require("source-map").SourceMapConsumer;
@@ -23,6 +24,14 @@ module.exports = function(content, sourceMap) {
 				mod = query[name]
 					.replace("{name}", parsedResourcePath.name)
 					.replace("{ext}", parsedResourcePath.ext);
+			}
+			var optionalMod = /^\[(.*)]$/.exec(mod);
+			if(optionalMod){
+				mod = optionalMod[1];
+				var moduleAbsolutePath = path.resolve(parsedResourcePath.dir, mod);
+				if(!fs.existsSync(moduleAbsolutePath)){
+					return;
+				}
 			}
 			value = "require(" + JSON.stringify(mod) + ")";
 		}
