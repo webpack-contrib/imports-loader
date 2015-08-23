@@ -34,9 +34,9 @@ Query value | Equals
 `config=>{size:50}` | `var config = {size:50};`
 `this=>window` | `(function () { ... }).call(window);`
 `null=./index.css` | `require("./index.css");`
-`null=[./index.css]` | `require("./index.css");`<br>(only added if `index.css` exists in src folder)
+`null=[./index.css]` | `require("./index.css");`<br>(only added if `index.css` exists in processed file's directory)
 `css=./{name}{ext}.css` | `var css = require("./filename.jsx.css");`
-`css=[./{name}{ext}.css]` | `var css = require("./filename.jsx.css");`<br>(only added if `filename.jsx.css` exists in src folder)
+`css=[./{name}{ext}.css]` | `var css = require("./filename.jsx.css");`<br>(only added if `filename.jsx.css` exists in processed file's directory)
 
 ### Multiple values
 
