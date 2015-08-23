@@ -46,6 +46,18 @@ Multiple values are separated by comma `,`:
 require("imports?$=jquery,null=[./index.css],angular,config=>{size:50}!./file.js");
 ```
 
+### Optional modules
+
+Module is Considered optional if it is surrounded by square brackets `[ ]`:
+
+```javascript
+require("imports?null=[./index.css]!./file.js");
+```
+
+The loader checks if the processed file's dir path and the future imported module name are resolved to an existing file.
+
+If they are, the require is added (without the square brackets), otherwise it isn't.
+
 ### webpack.config.js
 
 As always, you should rather configure this in your `webpack.config.js`:
