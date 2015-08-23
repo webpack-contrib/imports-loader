@@ -48,7 +48,7 @@ require("imports?$=jquery,null=[./index.css],angular,config=>{size:50}!./file.js
 
 ### Optional modules
 
-Module is Considered optional if it is surrounded by square brackets `[ ]`:
+Module is considered optional if it is surrounded by square brackets `[ ]`:
 
 ```javascript
 require("imports?null=[./index.css]!./file.js");
