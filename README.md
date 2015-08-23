@@ -101,7 +101,7 @@ imports?define=>false
 
 For further hints on compatibility issues, check out [Shimming Modules](http://webpack.github.io/docs/shimming-modules.html) of the official docs.
 
-### Add optional stylesheets for every module
+### Add an optional stylesheet for every module
 
 Instead of writing `require('modulename.less')` at the top of every file, simply add a `jsx` loader like this:
 
