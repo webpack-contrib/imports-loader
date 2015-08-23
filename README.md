@@ -107,8 +107,8 @@ Instead of writing `require('modulename.less')` at the top of every file, simply
 
 ```javascript
 loaders: [
-  {test: /\.jsx?$/, loaders: ['imports?null=[./{name}.less]', 'react-hot', 'babel'], exclude: /node_modules/},
-  {test: /\.less$/, loader: 'style!css!less'}
+  { test: /\.jsx?$/, loaders: ['imports?null=[./{name}.less]', 'react-hot', 'babel'] },
+  { test: /\.less$/, loader: 'style!css!less' }
 ]
 ```
 
