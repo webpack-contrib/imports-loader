@@ -1,5 +1,5 @@
 {
-  "name": "imports-loader",
+  "name": "@malykhinvi/imports-loader",
   "version": "0.6.4",
   "author": "Vasily Malykhin @malykhinvi",
   "description": "imports loader module for webpack (ok with sourcemaps)",
