@@ -30,7 +30,7 @@ module.exports = function(content, sourceMap) {
 		}
 	});
 	var prefix = HEADER + imports.join("\n") + "\n\n";
-	var postfix = postfixes.join("\n");
+	var postfix = "\n" + postfixes.join("\n");
 	if(sourceMap) {
 		var currentRequest = loaderUtils.getCurrentRequest(this);
 		var node = SourceNode.fromStringWithSourceMap(content, new SourceMapConsumer(sourceMap));
