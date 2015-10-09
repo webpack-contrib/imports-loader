@@ -1,6 +1,6 @@
 {
   "name": "@malykhinvi/imports-loader",
-  "version": "0.6.4",
+  "version": "0.6.5",
   "author": "Vasily Malykhin @malykhinvi",
   "description": "imports loader module for webpack (ok with sourcemaps)",
   "dependencies": {
