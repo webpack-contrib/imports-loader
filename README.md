@@ -54,7 +54,7 @@ module.exports = {
     module: {
         loaders: [
             {
-                test: require.resolve("some-module")
+                test: require.resolve("some-module"),
                 loader: "imports?this=>window"
             }
         ]
