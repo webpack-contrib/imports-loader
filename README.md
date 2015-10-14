@@ -33,14 +33,30 @@ Query value | Equals
 `define=>false` | `var define = false;`
 `config=>{size:50}` | `var config = {size:50};`
 `this=>window` | `(function () { ... }).call(window);`
+`null=./index.css` | `require("./index.css");`
+`null=[./index.css]` | `require("./index.css");`<br>(only added if `index.css` exists in processed file's directory)
+`css=./{name}{ext}.css` | `var css = require("./filename.jsx.css");`
+`css=[./{name}{ext}.css]` | `var css = require("./filename.jsx.css");`<br>(only added if `filename.jsx.css` exists in processed file's directory)
 
 ### Multiple values
 
 Multiple values are separated by comma `,`:
 
 ```javascript
-require("imports?$=jquery,angular,config=>{size:50}!./file.js");
+require("imports?$=jquery,null=[./index.css],angular,config=>{size:50}!./file.js");
 ```
+
+### Optional modules
+
+Module is considered optional if it is surrounded by square brackets `[ ]`:
+
+```javascript
+require("imports?null=[./index.css]!./file.js");
+```
+
+The loader checks if the processed file's dir path and the future imported module name are resolved to an existing file.
+
+If they are, the require is added (without the square brackets), otherwise it isn't.
 
 ### webpack.config.js
 
@@ -84,6 +100,19 @@ imports?define=>false
 ```
 
 For further hints on compatibility issues, check out [Shimming Modules](http://webpack.github.io/docs/shimming-modules.html) of the official docs.
+
+### Add an optional stylesheet for every module
+
+Instead of writing `require('modulename.less')` at the top of every file, simply add a `jsx` loader like this:
+
+```javascript
+loaders: [
+  { test: /\.jsx?$/, loaders: ['imports?null=[./{name}.less]', 'react-hot', 'babel'] },
+  { test: /\.less$/, loader: 'style!css!less' }
+]
+```
+
+And every `less` file that has the same filename as of a `jsx` file would be loaded as well.
 
 ## License
 

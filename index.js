@@ -2,6 +2,8 @@
 	MIT License http://www.opensource.org/licenses/mit-license.php
 	Author Tobias Koppers @sokra
 */
+var path = require("path");
+var fs = require("fs");
 var loaderUtils = require("loader-utils");
 var SourceNode = require("source-map").SourceNode;
 var SourceMapConsumer = require("source-map").SourceMapConsumer;
@@ -11,6 +13,7 @@ module.exports = function(content, sourceMap) {
 	var query = loaderUtils.parseQuery(this.query);
 	var imports = [];
 	var postfixes = [];
+	var parsedResourcePath = path.parse(this.resourcePath);
 	Object.keys(query).forEach(function(name) {
 		var value;
 		if(typeof query[name] == "string" && query[name].substr(0, 1) == ">") {
@@ -18,13 +21,25 @@ module.exports = function(content, sourceMap) {
 		} else {
 			var mod = name;
 			if(typeof query[name] === "string") {
-				mod = query[name];
+				mod = query[name]
+					.replace("{name}", parsedResourcePath.name)
+					.replace("{ext}", parsedResourcePath.ext);
+			}
+			var optionalMod = /^\[(.*)]$/.exec(mod);
+			if(optionalMod){
+				mod = optionalMod[1];
+				var moduleAbsolutePath = path.resolve(parsedResourcePath.dir, mod);
+				if(!fs.existsSync(moduleAbsolutePath)){
+					return;
+				}
 			}
 			value = "require(" + JSON.stringify(mod) + ")";
 		}
 		if(name === "this") {
 			imports.push("(function() {");
 			postfixes.unshift("}.call(" + value + "));");
+		} else if(name === "null") {
+			imports.push(value + ";");
 		} else {
 			imports.push("var " + name + " = " + value + ";");
 		}
