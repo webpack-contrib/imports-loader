@@ -1,6 +1,6 @@
 {
   "name": "imports-loader",
-  "version": "0.6.4",
+  "version": "0.6.5",
   "author": "Tobias Koppers @sokra",
   "description": "imports loader module for webpack",
   "dependencies": {
