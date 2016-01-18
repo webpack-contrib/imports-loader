@@ -13,18 +13,28 @@ module.exports = function(content, sourceMap) {
 	var postfixes = [];
 	Object.keys(query).forEach(function(name) {
 		var value;
+		var values = [];
 		if(typeof query[name] == "string" && query[name].substr(0, 1) == ">") {
 			value = query[name].substr(1);
 		} else {
 			var mod = name;
 			if(typeof query[name] === "string") {
 				mod = query[name];
+			} else if (Array.isArray(query[name])) {
+				query[name].forEach(function(el) {
+					values.push("require(" + JSON.stringify(el) + ")");
+				})
 			}
 			value = "require(" + JSON.stringify(mod) + ")";
 		}
 		if(name === "this") {
 			imports.push("(function() {");
 			postfixes.unshift("}.call(" + value + "));");
+		} else if (values.length) {
+			imports.push("var " + name + " = [];")
+			values.forEach(function(val) {
+				imports.push(name + ".push(" + val + ");");
+			})
 		} else {
 			imports.push("var " + name + " = " + value + ";");
 		}
