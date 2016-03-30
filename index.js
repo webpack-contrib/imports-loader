@@ -26,7 +26,12 @@ module.exports = function(content, sourceMap) {
 			imports.push("(function() {");
 			postfixes.unshift("}.call(" + value + "));");
 		} else {
-			imports.push("var " + name + " = " + value + ";");
+			if (/\./.test(name)) {
+				imports.push(name + " = " + value + ";");
+			} else {
+				imports.push("var " + name + " = " + value + ";");
+			}
+
 		}
 	});
 	var prefix = HEADER + imports.join("\n") + "\n\n";
