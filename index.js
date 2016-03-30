@@ -26,7 +26,13 @@ module.exports = function(content, sourceMap) {
 			imports.push("(function() {");
 			postfixes.unshift("}.call(" + value + "));");
 		} else {
-			imports.push("var " + name + " = " + value + ";");
+			if (name.substring(0, 7) === 'window.') {
+				imports.push(name + " = " + value + ";");
+				postfixes.unshift("delete " + name + ";");
+			} else {
+				imports.push("var " + name + " = " + value + ";");
+			}
+
 		}
 	});
 	var prefix = HEADER + imports.join("\n") + "\n\n";
