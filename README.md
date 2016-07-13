@@ -58,6 +58,7 @@ module.exports = {
                 loader: "imports?this=>window"
             }
         ]
+    }
 };
 ```
 
