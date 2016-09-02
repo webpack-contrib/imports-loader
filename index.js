@@ -30,9 +30,9 @@ module.exports = function(content, sourceMap) {
 				var expr = (previous.length > 0 ? previous : "var ") + current;
 
 				if(index < names.length-1) {
-					imports.push(expr += " = {};");
+					imports.push(expr + " = {};");
 				} else {
-					imports.push(expr += " = " + value + ";");
+					imports.push(expr + " = " + value + ";");
 				}
 
 				return previous + current + ".";
