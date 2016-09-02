@@ -29,7 +29,9 @@ module.exports = function(content, sourceMap) {
 			name.split(".").reduce(function(previous, current, index, names) {
 				var expr = (previous.length > 0 ? previous : "var ") + current;
 
-				if(index < names.length-1) {
+				if(expr === "var window") {
+					imports.push("window = (window || {});");
+				} else if(index < names.length-1) {
 					imports.push(expr + " = {};");
 				} else {
 					imports.push(expr + " = " + value + ";");
