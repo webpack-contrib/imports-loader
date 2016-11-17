@@ -21,7 +21,7 @@ $("img").doSomeAwesomeJqueryPluginStuff();
 then you can inject the `$` variable into the module by configuring the imports-loader like this:
 
 ``` javascript
-require("imports?$=jquery!./example.js");
+require("imports-loader?$=jquery!./example.js");
 ```
 
 This simply prepends `var $ = require("jquery");` to `example.js`.
@@ -41,7 +41,7 @@ Query value | Equals
 Multiple values are separated by comma `,`:
 
 ```javascript
-require("imports?$=jquery,angular,config=>{size:50}!./file.js");
+require("imports-loader?$=jquery,angular,config=>{size:50}!./file.js");
 ```
 
 ### webpack.config.js
@@ -57,7 +57,7 @@ module.exports = {
         loaders: [
             {
                 test: require.resolve("some-module"),
-                loader: "imports?this=>window"
+                loader: "imports-loader?this=>window"
             }
         ]
     }
@@ -70,11 +70,11 @@ module.exports = {
 
 ### jQuery plugins
 
-`imports?$=jquery`
+`imports-loader?$=jquery`
 
 ### Custom Angular modules
 
-`imports?angular`
+`imports-loader?angular`
 
 ### Disable AMD
 
@@ -83,7 +83,7 @@ There are many modules that check for a `define` function before using CommonJS.
 Then you can easily disable the AMD path by writing
 
 ```javascript
-imports?define=>false
+imports-loader?define=>false
 ```
 
 For further hints on compatibility issues, check out [Shimming Modules](http://webpack.github.io/docs/shimming-modules.html) of the official docs.
