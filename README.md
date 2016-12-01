@@ -89,8 +89,9 @@ imports-loader?define=>false
 For further hints on compatibility issues, check out [Shimming Modules](http://webpack.github.io/docs/shimming-modules.html) of the official docs.
 
 ###Troubleshooting
-1. `You may need an appropriate loader to handle this file type. SyntaxError: Unexpected token`
-Keep in mind that `imports-loader?noty.theme` injects dependecy as variable to the code. This means plugin will tranform your code to `var noty.theme = __webpack_require__(XXX);` which is not valid JavaScript. This issue can be solved by assigning correct variable name as dependency `imports-loader?notyTheme=noty.theme`.
+`You may need an appropriate loader to handle this file type. SyntaxError: Unexpected token`
+
+Keep in mind that plugin injects dependecy name as variable to the code. This means for example  `imports-loader?noty.theme` will be tranformed to `var noty.theme = __webpack_require__(XXX);` which is not valid JavaScript. This issue can be solved by assigning correct variable name as dependency `imports-loader?notyTheme=noty.theme` and compiled to correct `var notyTheme = __webpack_require__(XXX);`.
 
 ## License
 
