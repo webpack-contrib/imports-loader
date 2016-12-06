@@ -27,10 +27,10 @@ module.exports = function(content, sourceMap) {
 			postfixes.unshift("}.call(" + value + "));");
 		} else if(name.indexOf(".") !== -1) {
 			name.split(".").reduce(function(previous, current, index, names) {
-				var expr = (previous.length > 0 ? previous : "var ") + current;
+				var expr = previous + current;
 
-				if(expr === "var window") {
-					imports.push("window = (window || {});");
+				if(previous.length === 0) {
+					imports.push("var " + expr + " = (" + current + " || {});");
 				} else if(index < names.length-1) {
 					imports.push(expr + " = {};");
 				} else {

@@ -8,7 +8,7 @@ describe("loader", function() {
 		loader.call({
 			query: "?abc.def.ghi=>1"
 		}, "").should.be.eql(HEADER +
-			"var abc = {};\n" +
+			"var abc = (abc || {});\n" +
 			"abc.def = {};\n" +
 			"abc.def.ghi = 1;\n\n\n"
 		);
@@ -19,11 +19,11 @@ describe("loader", function() {
 			query: "?abc.def.ghi=>1,foo.bar.baz=>2"
 		}, "").should.be.eql(HEADER +
 			// First import
-			"var abc = {};\n" +
+			"var abc = (abc || {});\n" +
 			"abc.def = {};\n" +
 			"abc.def.ghi = 1;\n" +
 			// Second import
-			"var foo = {};\n" +
+			"var foo = (foo || {});\n" +
 			"foo.bar = {};\n" +
 			"foo.bar.baz = 2;\n\n\n"
 		);
@@ -33,7 +33,7 @@ describe("loader", function() {
 		loader.call({
 			query: "?window.jQuery=jquery"
 		}, "").should.be.eql(HEADER +
-			"window = (window || {});\n" +
+			"var window = (window || {});\n" +
 			'window.jQuery = require("jquery");\n\n\n'
 		);
 	});
@@ -43,10 +43,10 @@ describe("loader", function() {
 			query: "?window.jQuery=jquery,window._=lodash"
 		}, "").should.be.eql(HEADER +
 			// First import
-			"window = (window || {});\n" +
+			"var window = (window || {});\n" +
 			'window.jQuery = require("jquery");\n' +
 			// Second import
-			"window = (window || {});\n" +
+			"var window = (window || {});\n" +
 			'window._ = require("lodash");\n\n\n'
 		);
 	});
