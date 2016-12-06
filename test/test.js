@@ -28,26 +28,4 @@ describe("loader", function() {
 			"foo.bar.baz = 2;\n\n\n"
 		);
 	});
-
-	it("should not redeclare window imports", function() {
-		loader.call({
-			query: "?window.jQuery=jquery"
-		}, "").should.be.eql(HEADER +
-			"var window = (window || {});\n" +
-			'window.jQuery = require("jquery");\n\n\n'
-		);
-	});
-
-	it("should not redeclare window for muntiple imports", function() {
-		loader.call({
-			query: "?window.jQuery=jquery,window._=lodash"
-		}, "").should.be.eql(HEADER +
-			// First import
-			"var window = (window || {});\n" +
-			'window.jQuery = require("jquery");\n' +
-			// Second import
-			"var window = (window || {});\n" +
-			'window._ = require("lodash");\n\n\n'
-		);
-	});
 });
