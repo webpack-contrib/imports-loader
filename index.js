@@ -25,6 +25,20 @@ module.exports = function(content, sourceMap) {
 		if(name === "this") {
 			imports.push("(function() {");
 			postfixes.unshift("}.call(" + value + "));");
+		} else if(name.indexOf(".") !== -1) {
+			name.split(".").reduce(function(previous, current, index, names) {
+				var expr = previous + current;
+
+				if(previous.length === 0) {
+					imports.push("var " + expr + " = (" + current + " || {});");
+				} else if(index < names.length-1) {
+					imports.push(expr + " = {};");
+				} else {
+					imports.push(expr + " = " + value + ";");
+				}
+
+				return previous + current + ".";
+			}, "");
 		} else {
 			imports.push("var " + name + " = " + value + ";");
 		}

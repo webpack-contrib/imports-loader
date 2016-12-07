@@ -3,9 +3,16 @@
   "version": "0.6.5",
   "author": "Tobias Koppers @sokra",
   "description": "imports loader module for webpack",
+  "scripts": {
+    "test": "mocha"
+  },
   "dependencies": {
     "loader-utils": "0.2.x",
     "source-map": "0.1.x"
+  },
+  "devDependencies": {
+    "mocha": "^3.1.2",
+    "should": "^11.1.1"
   },
   "license": "MIT",
   "repository": {
