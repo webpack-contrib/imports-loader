@@ -4,7 +4,8 @@
   "author": "Tobias Koppers @sokra",
   "description": "imports loader module for webpack",
   "scripts": {
-    "test": "mocha"
+    "test": "mocha",
+    "travis": "npm run -s test"
   },
   "dependencies": {
     "loader-utils": "0.2.x",
