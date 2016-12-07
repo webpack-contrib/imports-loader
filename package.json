@@ -8,8 +8,8 @@
     "travis": "npm run -s test"
   },
   "dependencies": {
-    "loader-utils": "0.2.x",
-    "source-map": "0.1.x"
+    "loader-utils": "^0.2.16",
+    "source-map": "^0.5.6"
   },
   "devDependencies": {
     "mocha": "^3.1.2",
