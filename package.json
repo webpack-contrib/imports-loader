@@ -5,7 +5,7 @@
   "description": "imports loader module for webpack",
   "scripts": {
     "test": "mocha",
-    "travis": "npm run -s test"
+    "travis:test": "npm run -s test"
   },
   "dependencies": {
     "loader-utils": "^1.0.2",
