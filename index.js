@@ -8,7 +8,7 @@ var SourceMapConsumer = require("source-map").SourceMapConsumer;
 var HEADER = "/*** IMPORTS FROM imports-loader ***/\n";
 module.exports = function(content, sourceMap) {
 	if(this.cacheable) this.cacheable();
-	var query = loaderUtils.parseQuery(this.query);
+	var query = loaderUtils.getOptions(this) || {};
 	var imports = [];
 	var postfixes = [];
 	Object.keys(query).forEach(function(name) {
