@@ -9,7 +9,7 @@ describe("loader", function() {
 			query: "?abc.def.ghi=>1"
 		}, "").should.be.eql(HEADER +
 			"var abc = (abc || {});\n" +
-			"abc.def = {};\n" +
+			"abc.def = abc.def || {};\n" +
 			"abc.def.ghi = 1;\n\n\n"
 		);
 	});
@@ -20,11 +20,11 @@ describe("loader", function() {
 		}, "").should.be.eql(HEADER +
 			// First import
 			"var abc = (abc || {});\n" +
-			"abc.def = {};\n" +
+			"abc.def = abc.def || {};\n" +
 			"abc.def.ghi = 1;\n" +
 			// Second import
 			"var foo = (foo || {});\n" +
-			"foo.bar = {};\n" +
+			"foo.bar = foo.bar || {};\n" +
 			"foo.bar.baz = 2;\n\n\n"
 		);
 	});
