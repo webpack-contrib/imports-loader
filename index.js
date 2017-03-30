@@ -32,7 +32,7 @@ module.exports = function(content, sourceMap) {
 				if(previous.length === 0) {
 					imports.push("var " + expr + " = (" + current + " || {});");
 				} else if(index < names.length-1) {
-					imports.push(expr + " = {};");
+					imports.push(expr + " = " + expr + " || {};");
 				} else {
 					imports.push(expr + " = " + value + ";");
 				}
