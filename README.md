@@ -75,7 +75,7 @@ module.exports = {
 };
 ```
 
-[Documentation: Using loaders](http://webpack.github.io/docs/using-loaders.html)
+[Documentation: Using loaders](https://webpack.js.org/concepts/loaders/)
 
 <h2 align="center">Typical Use Cases</h2>
 
