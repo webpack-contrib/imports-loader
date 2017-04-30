@@ -40,7 +40,12 @@ module.exports = function(content, sourceMap) {
 				return previous + current + ".";
 			}, "");
 		} else {
-			imports.push("var " + name + " = " + value + ";");
+			if (/\./.test(name)) {
+				imports.push(name + " = " + value + ";");
+			} else {
+				imports.push("var " + name + " = " + value + ";");
+			}
+
 		}
 	});
 	var prefix = HEADER + imports.join("\n") + "\n\n";

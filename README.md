@@ -43,6 +43,7 @@ Query value | Equals
 ------------|-------
 `angular` | `var angular = require("angular");`
 `$=jquery` | `var $ = require("jquery");`
+`window.jQuery=jquery` | `window.jQuery = require("jquery");`
 `define=>false` | `var define = false;`
 `config=>{size:50}` | `var config = {size:50};`
 `this=>window` | `(function () { ... }).call(window);`
