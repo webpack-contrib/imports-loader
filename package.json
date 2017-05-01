@@ -7,12 +7,12 @@
     "test": "jest",
     "travis:test": "yarn run test",
     "webpack-defaults": "webpack-defaults",
-    "start": "yarn run serve:dev src",
+    "start": "yarn run build -- -w",
     "build": "cross-env NODE_ENV=production babel src -d dist --ignore 'src/**/*.test.js'",
     "clean:dist": "del-cli dist",
     "lint": "eslint --cache src test",
     "lint-staged": "lint-staged",
-    "prebuild": "yarn run clean:dist",
+    "prebuild": "yarn run clean",
     "prepublish": "yarn run build",
     "release": "yarn run standard-version",
     "security": "nsp check",
@@ -20,7 +20,8 @@
     "test:watch": "jest --watch",
     "test:coverage": "jest --collectCoverageFrom='src/**/*.js' --coverage",
     "travis:coverage": "yarn run test:coverage",
-    "travis:lint": "yarn run lint && yarn run security"
+    "travis:lint": "yarn run lint && yarn run security",
+    "clean": "del-cli dist"
   },
   "dependencies": {
     "loader-utils": "^1.0.2",
