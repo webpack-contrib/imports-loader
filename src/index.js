@@ -1,3 +1,4 @@
+/* eslint-disable consistent-return */
 /*
   MIT License http://www.opensource.org/licenses/mit-license.php
   Author Tobias Koppers @sokra
@@ -47,6 +48,7 @@ export default function (content, sourceMap) {
 
   const prefix = `${HEADER + imports.join('\n')}\n\n`;
   const postfix = `\n${postfixes.join('\n')}`;
+
   if (sourceMap) {
     const currentRequest = loaderUtils.getCurrentRequest(this);
     const node = SourceNode.fromStringWithSourceMap(content, new SourceMapConsumer(sourceMap));
@@ -58,5 +60,6 @@ export default function (content, sourceMap) {
     this.callback(null, result.code, result.map.toJSON());
     return;
   }
-  return prefix + content + postfix; // eslint-disable-line consistent-return
+  if (content) { return prefix + content + postfix; }
+  return prefix + postfix;
 }
