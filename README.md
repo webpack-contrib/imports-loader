@@ -1,6 +1,7 @@
 [![npm][npm]][npm-url]
 [![deps][deps]][deps-url]
 [![test][test]][test-url]
+[![coverage][cover]][cover-url]
 [![chat][chat]][chat-url]
 
 <div align="center">
@@ -132,7 +133,6 @@ For further hints on compatibility issues, check out [Shimming Modules](http://w
   <tbody>
 </table>
 
-
 [npm]: https://img.shields.io/npm/v/imports-loader.svg
 [npm-url]: https://npmjs.com/package/imports-loader
 
@@ -144,3 +144,6 @@ For further hints on compatibility issues, check out [Shimming Modules](http://w
 
 [test]: http://img.shields.io/travis/webpack-contrib/imports-loader.svg
 [test-url]: https://travis-ci.org/webpack-contrib/imports-loader
+
+[cover]: https://codecov.io/gh/webpack-contrib/imports-loader/branch/master/graph/badge.svg
+[cover-url]: https://codecov.io/gh/webpack-contrib/imports-loader

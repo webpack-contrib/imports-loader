@@ -3,10 +3,12 @@
   "version": "0.7.1",
   "author": "Tobias Koppers @sokra",
   "description": "imports loader module for webpack",
+  "main": "dist/cjs.js",
+  "files": [
+    "dist"
+  ],
+  "license": "MIT",
   "scripts": {
-    "test": "jest",
-    "travis:test": "yarn run test",
-    "webpack-defaults": "webpack-defaults",
     "start": "yarn run build -- -w",
     "build": "cross-env NODE_ENV=production babel src -d dist --ignore 'src/**/*.test.js'",
     "clean:dist": "del-cli dist",
@@ -17,10 +19,13 @@
     "release": "yarn run standard-version",
     "security": "nsp check",
     "serve:dev": "nodemon $2 --exec babel-node",
+    "test": "jest",
     "test:watch": "jest --watch",
     "test:coverage": "jest --collectCoverageFrom='src/**/*.js' --coverage",
     "travis:coverage": "yarn run test:coverage",
     "travis:lint": "yarn run lint && yarn run security",
+    "travis:test": "yarn run test",
+    "webpack-defaults": "webpack-defaults",
     "clean": "del-cli dist"
   },
   "dependencies": {
@@ -48,19 +53,16 @@
     "standard-version": "^4.0.0",
     "webpack-defaults": "^0.4.6"
   },
-  "files": [
-    "index.js",
-    "dist"
-  ],
-  "license": "MIT",
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/webpack/imports-loader.git"
-  },
   "engines": {
     "node": ">= 4.3 < 5.0.0 || >= 5.10"
   },
-  "main": "dist/cjs.js",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/webpack-contrib/imports-loader.git"
+  },
+  "bugs": {
+    "url": "https://github.com/webpack-contrib/imports-loader/issues"
+  },
   "pre-commit": "lint-staged",
   "lint-staged": {
     "*.js": [
