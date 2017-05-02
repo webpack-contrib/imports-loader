@@ -1,4 +1,4 @@
-import loader from '../src';
+import ImportsLoader from '../src';
 
 // TODO: @d3viant0ne - Kill eval() with fire and deal with the rest of the tests
 
@@ -12,7 +12,7 @@ import loader from '../src';
 
 describe('loader', () => {
   test('sets a header so the developer can see where imports-loader is being applied', () => {
-    const generatedCode = loader.call({ query: '?someVariable=>1' });
+    const generatedCode = ImportsLoader.call({ query: '?someVariable=>1' });
     expect(generatedCode.indexOf('/*** IMPORTS FROM imports-loader ***/\n')).toBe(0);
   });
 
