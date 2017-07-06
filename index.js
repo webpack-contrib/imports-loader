@@ -27,8 +27,7 @@ module.exports = function(content, sourceMap) {
 			if (value.indexOf('|') === -1 ) value = '|' + value;
 			// We always expect an array of 2 elements:
 			//
-			// function( value[0] ) {
-			// }).call( value[1] );
+			// (function( value[0] ){ ... })( value[1] );
 			value = value.split('|');
 
 			imports.push("(function(" + value[0] + ") {");
