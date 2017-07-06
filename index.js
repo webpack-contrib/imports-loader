@@ -32,7 +32,7 @@ module.exports = function(content, sourceMap) {
 			value = value.split('|');
 
 			imports.push("(function(" + value[0] + ") {");
-			postfixes.unshift("}.call(" + value[1] + "));");
+			postfixes.unshift("})(" + value[1] + ");");
 		} else if(name.indexOf(".") !== -1) {
 			name.split(".").reduce(function(previous, current, index, names) {
 				var expr = previous + current;
