@@ -23,8 +23,16 @@ module.exports = function(content, sourceMap) {
 			value = "require(" + JSON.stringify(mod) + ")";
 		}
 		if(name === "this") {
-			imports.push("(function() {");
-			postfixes.unshift("}.call(" + value + "));");
+			// Utility to get the next call always working
+			if (value.indexOf('|') === -1 ) value = '|' + value;
+			// We always expect an array of 2 elements:
+			//
+			// function( value[0] ) {
+			// }).call( value[1] );
+			value = value.split('|');
+
+			imports.push("(function(" + value[0] + ") {");
+			postfixes.unshift("}.call(" + value[1] + "));");
 		} else if(name.indexOf(".") !== -1) {
 			name.split(".").reduce(function(previous, current, index, names) {
 				var expr = previous + current;
