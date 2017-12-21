@@ -9,7 +9,7 @@
   },
   "dependencies": {
     "loader-utils": "^1.0.2",
-    "source-map": "^0.5.6"
+    "source-map": "^0.6.1"
   },
   "devDependencies": {
     "mocha": "^3.1.2",
