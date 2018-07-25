@@ -95,7 +95,7 @@ Then you can easily disable the AMD path by writing
 imports-loader?define=>false
 ```
 
-For further hints on compatibility issues, check out [Shimming Modules](http://webpack.github.io/docs/shimming-modules.html) of the official docs.
+For further hints on compatibility issues, check out [Shimming Modules](https://webpack.js.org/guides/shimming/) of the official docs.
 
 <h2 align="center">Maintainers</h2>
 
@@ -132,7 +132,7 @@ For further hints on compatibility issues, check out [Shimming Modules](http://w
 
 
 [npm]: https://img.shields.io/npm/v/imports-loader.svg
-[npm-url]: https://npmjs.com/package/imports-loader
+[npm-url]: https://www.npmjs.com/package/imports-loader
 
 [deps]: https://david-dm.org/webpack-contrib/imports-loader.svg
 [deps-url]: https://david-dm.org/webpack-contrib/imports-loader
