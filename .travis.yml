@@ -8,13 +8,16 @@ matrix:
   fast_finish: true
   include:
     - os: linux
+      node_js: 'node'
+      env: WEBPACK_VERSION="2.2.0" JOB_PART=test
+    - os: linux
+      node_js: '10'
+      env: WEBPACK_VERSION="2.2.0" JOB_PART=test
+    - os: linux
+      node_js: '8'
+      env: WEBPACK_VERSION="2.2.0" JOB_PART=test
+    - os: linux
       node_js: '6'
-      env: WEBPACK_VERSION="2.2.0" JOB_PART=test
-    - os: linux
-      node_js: '4.3'
-      env: WEBPACK_VERSION="2.2.0" JOB_PART=test
-    - os: linux
-      node_js: '7'
       env: WEBPACK_VERSION="2.2.0" JOB_PART=test
     # - os: linux
     #   node_js: '7'
