@@ -26,33 +26,33 @@ npm install imports-loader
 Given you have this file `example.js`
 
 ```javascript
-$("img").doSomeAwesomeJqueryPluginStuff();
+$('img').doSomeAwesomeJqueryPluginStuff();
 ```
 
 then you can inject the `$` variable into the module by configuring the imports-loader like this:
 
-``` javascript
-require("imports-loader?$=jquery!./example.js");
+```javascript
+require('imports-loader?$=jquery!./example.js');
 ```
 
 This simply prepends `var $ = require("jquery");` to `example.js`.
 
 ### Syntax
 
-Query value | Equals
-------------|-------
-`angular` | `var angular = require("angular");`
-`$=jquery` | `var $ = require("jquery");`
-`define=>false` | `var define = false;`
-`config=>{size:50}` | `var config = {size:50};`
-`this=>window` | `(function () { ... }).call(window);`
+| Query value         | Equals                                |
+| ------------------- | ------------------------------------- |
+| `angular`           |  `var angular = require("angular");`  |
+| `$=jquery`          | `var $ = require("jquery");`          |
+| `define=>false`     | `var define = false;`                 |
+| `config=>{size:50}` | `var config = {size:50};`             |
+| `this=>window`      | `(function () { ... }).call(window);` |
 
 ### Multiple values
 
 Multiple values are separated by comma `,`:
 
 ```javascript
-require("imports-loader?$=jquery,angular,config=>{size:50}!./file.js");
+require('imports-loader?$=jquery,angular,config=>{size:50}!./file.js');
 ```
 
 ### webpack.config.js
@@ -130,15 +130,11 @@ For further hints on compatibility issues, check out [Shimming Modules](http://w
   <tbody>
 </table>
 
-
 [npm]: https://img.shields.io/npm/v/imports-loader.svg
 [npm-url]: https://npmjs.com/package/imports-loader
-
 [deps]: https://david-dm.org/webpack-contrib/imports-loader.svg
 [deps-url]: https://david-dm.org/webpack-contrib/imports-loader
-
 [chat]: https://img.shields.io/badge/gitter-webpack%2Fwebpack-brightgreen.svg
 [chat-url]: https://gitter.im/webpack/webpack
-
 [test]: http://img.shields.io/travis/webpack-contrib/imports-loader.svg
 [test-url]: https://travis-ci.org/webpack-contrib/imports-loader

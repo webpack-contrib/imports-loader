@@ -1,0 +1,21 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`loader should set a variable: errors 1`] = `Array []`;
+
+exports[`loader should set a variable: result 1`] = `
+"/*** IMPORTS FROM imports-loader ***/
+var someVariable = 1;
+var anotherVariable = 2;
+var someVariable = (someVariable || {});
+someVariable.someProperty = someVariable.someProperty || {};
+someVariable.someProperty.someSubProperty = 1;
+
+var someCode = {
+  number: 123,
+  object: { existingSubProperty: 123 }
+};
+
+"
+`;
+
+exports[`loader should set a variable: warnings 1`] = `Array []`;
