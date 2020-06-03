@@ -1,5 +1,4 @@
 import compile from './compile';
-import getSourceMap from './getSourceMap';
 import getCompiler from './getCompiler';
 import getErrors from './getErrors';
 import getModuleSource from './getModuleSource';
@@ -10,7 +9,6 @@ import readsAssets from './readAssets';
 
 export {
   compile,
-  getSourceMap,
   getCompiler,
   getErrors,
   getModuleSource,
