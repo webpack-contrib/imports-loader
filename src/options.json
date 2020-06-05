@@ -1,5 +1,115 @@
 {
+  "definitions": {
+    "ObjectPattern": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "moduleName": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "boolean"
+            }
+          ]
+        },
+        "names": {
+          "anyOf": [
+            {
+              "type": "boolean"
+            },
+            {
+              "type": "string"
+            },
+            {
+              "type": "object",
+              "properties": {
+                "name": {
+                  "type": "string"
+                },
+                "alias": {
+                  "type": "string"
+                },
+                "nameSpace": {
+                  "type": "boolean"
+                },
+                "default": {
+                  "type": "boolean"
+                }
+              }
+            },
+            {
+              "type": "array",
+              "minItems": 1,
+              "items": {
+                "anyOf": [
+                  {
+                    "name": {
+                      "type": "string"
+                    }
+                  },
+                  {
+                    "type": "object",
+                    "properties": {
+                      "name": {
+                        "type": "string"
+                      },
+                      "alias": {
+                        "type": "string"
+                      },
+                      "nameSpace": {
+                        "type": "boolean"
+                      },
+                      "default": {
+                        "type": "boolean"
+                      }
+                    }
+                  }
+                ]
+              }
+            }
+          ]
+        }
+      }
+    },
+    "StringPattern": {
+      "type": "string",
+      "minLength": 1
+    }
+  },
   "type": "object",
-  "properties": {},
+  "properties": {
+    "import": {
+      "anyOf": [
+        {
+          "$ref": "#/definitions/StringPattern"
+        },
+        {
+          "$ref": "#/definitions/ObjectPattern"
+        },
+        {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "anyOf": [
+              {
+                "$ref": "#/definitions/StringPattern"
+              },
+              {
+                "$ref": "#/definitions/ObjectPattern"
+              }
+            ]
+          }
+        }
+      ]
+    },
+    "wrapper": {
+      "type": "string"
+    },
+    "additionalCode": {
+      "type": "string"
+    }
+  },
   "additionalProperties": false
 }

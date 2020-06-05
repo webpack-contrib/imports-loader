@@ -1,14 +1,12 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`loader should set a variable: errors 1`] = `Array []`;
+exports[`loader should require when import option is array: errors 1`] = `Array []`;
 
-exports[`loader should set a variable: result 1`] = `
+exports[`loader should require when import option is array: result 1`] = `
 "/*** IMPORTS FROM imports-loader ***/
-var someVariable = 1;
-var anotherVariable = 2;
-var someVariable = (someVariable || {});
-someVariable.someProperty = someVariable.someProperty || {};
-someVariable.someProperty.someSubProperty = 1;
+
+import lib_1 from \\"lib_1\\";
+import lib_2 from \\"lib_2\\";
 
 var someCode = {
   number: 123,
@@ -18,4 +16,146 @@ var someCode = {
 "
 `;
 
-exports[`loader should set a variable: warnings 1`] = `Array []`;
+exports[`loader should require when import option is array: warnings 1`] = `Array []`;
+
+exports[`loader should require when import option is filePath: errors 1`] = `Array []`;
+
+exports[`loader should require when import option is filePath: result 1`] = `
+"/*** IMPORTS FROM imports-loader ***/
+
+import $ from \\"./lib_1\\";
+
+var someCode = {
+  number: 123,
+  object: { existingSubProperty: 123 }
+};
+
+"
+`;
+
+exports[`loader should require when import option is filePath: warnings 1`] = `Array []`;
+
+exports[`loader should require when import option is object: errors 1`] = `Array []`;
+
+exports[`loader should require when import option is object: result 1`] = `
+"/*** IMPORTS FROM imports-loader ***/
+
+import $ from \\"./lib_1\\";
+
+var someCode = {
+  number: 123,
+  object: { existingSubProperty: 123 }
+};
+
+"
+`;
+
+exports[`loader should require when import option is object: warnings 1`] = `Array []`;
+
+exports[`loader should require when import option is string: errors 1`] = `Array []`;
+
+exports[`loader should require when import option is string: result 1`] = `
+"/*** IMPORTS FROM imports-loader ***/
+
+import lib_1 from \\"lib_1\\";
+
+var someCode = {
+  number: 123,
+  object: { existingSubProperty: 123 }
+};
+
+"
+`;
+
+exports[`loader should require when import option is string: warnings 1`] = `Array []`;
+
+exports[`loader should require when import-default: errors 1`] = `Array []`;
+
+exports[`loader should require when import-default: result 1`] = `
+"/*** IMPORTS FROM imports-loader ***/
+
+import lib_1 from \\"lib_1\\";
+import lib_2 from \\"./lib_2.js\\";
+import defaultExport , { lib_3_method as method } from \\"./lib_3.js\\";
+import lib_4 , * as lib_4_all from \\"./lib_4\\";
+
+var someCode = {
+  number: 123,
+  object: { existingSubProperty: 123 }
+};
+
+"
+`;
+
+exports[`loader should require when import-default: warnings 1`] = `Array []`;
+
+exports[`loader should require when import-side-effect: errors 1`] = `Array []`;
+
+exports[`loader should require when import-side-effect: result 1`] = `
+"/*** IMPORTS FROM imports-loader ***/
+
+import \\"./lib_1\\";
+
+var someCode = {
+  number: 123,
+  object: { existingSubProperty: 123 }
+};
+
+"
+`;
+
+exports[`loader should require when import-side-effect: warnings 1`] = `Array []`;
+
+exports[`loader should require when name-space-import: errors 1`] = `Array []`;
+
+exports[`loader should require when name-space-import: result 1`] = `
+"/*** IMPORTS FROM imports-loader ***/
+
+import * as lib_1_all from \\"./lib_1\\";
+
+var someCode = {
+  number: 123,
+  object: { existingSubProperty: 123 }
+};
+
+"
+`;
+
+exports[`loader should require when name-space-import: warnings 1`] = `Array []`;
+
+exports[`loader should require when named-imports: errors 1`] = `Array []`;
+
+exports[`loader should require when named-imports: result 1`] = `
+"/*** IMPORTS FROM imports-loader ***/
+
+import { lib1_method } from \\"./lib_1\\";
+import { lib2_method_1, lib2_method_2 as lib_2_method_2_short } from \\"./lib_2\\";
+
+var someCode = {
+  number: 123,
+  object: { existingSubProperty: 123 }
+};
+
+"
+`;
+
+exports[`loader should require when named-imports: warnings 1`] = `Array []`;
+
+exports[`loader should work wrapper and additionalCode option: errors 1`] = `Array []`;
+
+exports[`loader should work wrapper and additionalCode option: result 1`] = `
+"/*** IMPORTS FROM imports-loader ***/
+
+
+(function() {
+var someVariable = 1;
+
+var someCode = {
+  number: 123,
+  object: { existingSubProperty: 123 }
+};
+
+}.call(windows));"
+`;
+
+exports[`loader should work wrapper and additionalCode option: warnings 1`] = `Array []`;

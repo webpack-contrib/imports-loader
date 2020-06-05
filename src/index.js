@@ -4,66 +4,63 @@
 */
 
 import { getOptions, getCurrentRequest } from 'loader-utils';
-// import validateOptions from 'schema-utils';
-//
-// import schema from './options.json';
+import validateOptions from 'schema-utils';
+
+import schema from './options.json';
+
+import getImportString from './utils';
 
 const { SourceNode } = require('source-map');
 const { SourceMapConsumer } = require('source-map');
 
-const HEADER = '/*** IMPORTS FROM imports-loader ***/\n';
-
 export default function loader(content, sourceMap) {
   const options = getOptions(this) || {};
 
-  // validateOptions(schema, options, 'Loader');
+  validateOptions(schema, options, {
+    name: 'Imports loader',
+    baseDataPath: 'options',
+  });
+
+  const moduleImport = options.import;
+  const { wrapper, additionalCode } = options;
+
+  const HEADER = '/*** IMPORTS FROM imports-loader ***/\n';
+  const prefixes = [];
+  const postfixes = [];
+  const imports = [];
+
+  let moduleImports;
+
+  if (moduleImport) {
+    moduleImports = Array.isArray(moduleImport) ? moduleImport : [moduleImport];
+
+    moduleImports.forEach((importEntry) => {
+      imports.push(getImportString(importEntry));
+    });
+  }
+
+  if (wrapper) {
+    prefixes.push(`(function() {`);
+    postfixes.unshift(`}.call(${wrapper}));`);
+  }
+
+  if (additionalCode) {
+    prefixes.push(`${additionalCode}\n`);
+  }
+
+  const prefix = prefixes.join('\n');
+  const postfix = postfixes.join('\n');
+  const importString = imports.join('\n');
 
   const callback = this.async();
 
-  if (this.cacheable) this.cacheable();
-  const query = options;
-  const imports = [];
-  const postfixes = [];
-  Object.keys(query).forEach((name) => {
-    let value;
-    if (typeof query[name] === 'string' && query[name].substr(0, 1) === '>') {
-      value = query[name].substr(1);
-    } else {
-      let mod = name;
-      if (typeof query[name] === 'string') {
-        mod = query[name];
-      }
-      value = `require(${JSON.stringify(mod)})`;
-    }
-    if (name === 'this') {
-      imports.push('(function() {');
-      postfixes.unshift(`}.call(${value}));`);
-    } else if (name.indexOf('.') !== -1) {
-      name.split('.').reduce((previous, current, index, names) => {
-        const expr = previous + current;
-
-        if (previous.length === 0) {
-          imports.push(`var ${expr} = (${current} || {});`);
-        } else if (index < names.length - 1) {
-          imports.push(`${expr} = ${expr} || {};`);
-        } else {
-          imports.push(`${expr} = ${value};`);
-        }
-
-        return `${previous}${current}.`;
-      }, '');
-    } else {
-      imports.push(`var ${name} = ${value};`);
-    }
-  });
-  const prefix = `${HEADER}${imports.join('\n')}\n\n`;
-  const postfix = `\n${postfixes.join('\n')}`;
   if (sourceMap) {
     const node = SourceNode.fromStringWithSourceMap(
       content,
       new SourceMapConsumer(sourceMap)
     );
     node.prepend(prefix);
+    node.prepend(HEADER);
     node.add(postfix);
     const result = node.toStringWithSourceMap({
       file: getCurrentRequest(this),
@@ -72,5 +69,9 @@ export default function loader(content, sourceMap) {
     return;
   }
 
-  callback(null, `${prefix}${content}${postfix}`, sourceMap);
+  callback(
+    null,
+    `${HEADER}\n${importString}\n${prefix}\n${content}\n${postfix}`,
+    sourceMap
+  );
 }

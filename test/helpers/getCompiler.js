@@ -30,6 +30,14 @@ export default (fixture, loaderOptions = {}, config = {}) => {
       ],
     },
     plugins: [],
+    resolve: {
+      alias: {
+        lib_1: path.resolve(__dirname, '../', 'fixtures', 'lib_1'),
+        lib_2: path.resolve(__dirname, '../', 'fixtures', 'lib_2'),
+        lib_3: path.resolve(__dirname, '../', 'fixtures', 'lib_3'),
+        lib_4: path.resolve(__dirname, '../', 'fixtures', 'lib_4'),
+      },
+    },
     ...config,
   };
 
