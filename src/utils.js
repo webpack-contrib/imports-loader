@@ -1,7 +1,7 @@
 function getImportProfile(params) {
   const importEntry =
     typeof params === 'string'
-      ? { moduleName: params, names: { name: params, default: true } }
+      ? { moduleName: params, list: { name: params, nameType: 'default' } }
       : { ...params };
 
   const result = {
@@ -16,15 +16,15 @@ function getImportProfile(params) {
     type: {
       default: false,
       sideEffect: false,
-      nameSpaceImport: false,
+      namespaceImport: false,
       namedImports: false,
     },
     moduleName: importEntry.moduleName,
     importDefault: {
       // name: "defaultExport"
     },
-    nameSpaceImport: {
-      // alias: "ns"
+    namespaceImport: {
+      // name: "ns"
     },
     namedImports: [
       // {
@@ -33,65 +33,71 @@ function getImportProfile(params) {
       // }
     ],
   };
-  let { names } = importEntry;
+  let { list } = importEntry;
 
-  if (names === false) {
+  if (list === false) {
     result.type.sideEffect = true;
     return result;
   }
 
-  names = Array.isArray(names)
-    ? names
-    : typeof names === 'string'
-    ? [{ name: names, default: true }]
-    : [names];
+  list = Array.isArray(list)
+    ? list
+    : typeof list === 'string'
+    ? [{ name: list, nameType: 'default' }]
+    : [list];
 
-  names.forEach((entry) => {
+  list.forEach((entry) => {
     const entryNormalized =
       typeof entry === 'string' ? { name: entry, alias: entry } : entry;
 
-    if (entryNormalized.default) {
+    if (entryNormalized.nameType === 'default' && entryNormalized.name) {
       result.type.default = true;
       result.importDefault.name = entryNormalized.name;
       return;
     }
 
-    if (entryNormalized.nameSpace) {
-      result.type.nameSpace = true;
-      result.nameSpaceImport.alias = entryNormalized.alias;
+    if (entryNormalized.nameType === 'namespace' && entryNormalized.name) {
+      result.type.namespace = true;
+      result.namespaceImport.name = entryNormalized.name;
       return;
     }
 
-    result.type.namedImports = true;
-    result.namedImports.push({
-      name: entryNormalized.name,
-      alias: entryNormalized.alias,
-    });
+    if (entryNormalized.name) {
+      result.type.namedImports = true;
+      result.namedImports.push({
+        name: entryNormalized.name,
+        alias: entryNormalized.alias,
+      });
+    }
   });
 
   return result;
 }
 
-function getImportString(importEntry) {
+function renderImport(importEntry) {
   const importProfile = getImportProfile(importEntry);
 
-  const result = ['import'];
+  let result = 'import';
 
   const quantityImportsType = Object.keys(importProfile.type).filter(
     (key) => importProfile.type[key]
   ).length;
 
+  if (quantityImportsType === 0) {
+    throw new Error('No valid data for import');
+  }
+
   if (importProfile.type.sideEffect) {
-    result.push(`"${importProfile.moduleName}";`);
-    return result.join(' ');
+    result += ` "${importProfile.moduleName}";`;
+    return result;
   }
 
   if (importProfile.type.default) {
-    result.push(importProfile.importDefault.name);
+    result += ` ${importProfile.importDefault.name}`;
   }
 
   if (quantityImportsType > 1) {
-    result.push(',');
+    result += ', ';
   }
 
   if (importProfile.type.namedImports) {
@@ -103,16 +109,16 @@ function getImportString(importEntry) {
       return entry.name;
     });
 
-    result.push(`{ ${namedImportString.join(', ')} }`);
+    result += ` { ${namedImportString.join(', ')} }`;
   }
 
-  if (importProfile.type.nameSpace) {
-    result.push(`* as ${importProfile.nameSpaceImport.alias}`);
+  if (importProfile.type.namespace) {
+    result += ` * as ${importProfile.namespaceImport.name}`;
   }
 
-  result.push(`from "${importProfile.moduleName}";`);
+  result += ` from "${importProfile.moduleName}";`;
 
-  return result.join(' ');
+  return result;
 }
 
-export default getImportString;
+export default renderImport;

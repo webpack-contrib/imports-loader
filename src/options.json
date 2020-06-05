@@ -1,5 +1,19 @@
 {
   "definitions": {
+    "NamesObjectPattern": {
+      "type": "object",
+      "properties": {
+        "name": {
+          "type": "string"
+        },
+        "alias": {
+          "type": "string"
+        },
+        "nameType": {
+          "enum": ["namespace", "default"]
+        }
+      }
+    },
     "ObjectPattern": {
       "type": "object",
       "additionalProperties": false,
@@ -8,13 +22,10 @@
           "anyOf": [
             {
               "type": "string"
-            },
-            {
-              "type": "boolean"
             }
           ]
         },
-        "names": {
+        "list": {
           "anyOf": [
             {
               "type": "boolean"
@@ -23,21 +34,7 @@
               "type": "string"
             },
             {
-              "type": "object",
-              "properties": {
-                "name": {
-                  "type": "string"
-                },
-                "alias": {
-                  "type": "string"
-                },
-                "nameSpace": {
-                  "type": "boolean"
-                },
-                "default": {
-                  "type": "boolean"
-                }
-              }
+              "$ref": "#/definitions/NamesObjectPattern"
             },
             {
               "type": "array",
@@ -45,26 +42,7 @@
               "items": {
                 "anyOf": [
                   {
-                    "name": {
-                      "type": "string"
-                    }
-                  },
-                  {
-                    "type": "object",
-                    "properties": {
-                      "name": {
-                        "type": "string"
-                      },
-                      "alias": {
-                        "type": "string"
-                      },
-                      "nameSpace": {
-                        "type": "boolean"
-                      },
-                      "default": {
-                        "type": "boolean"
-                      }
-                    }
+                    "$ref": "#/definitions/NamesObjectPattern"
                   }
                 ]
               }

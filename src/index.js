@@ -21,6 +21,7 @@ export default function loader(content, sourceMap) {
     baseDataPath: 'options',
   });
 
+  const callback = this.async();
   const moduleImport = options.import;
   const { wrapper, additionalCode } = options;
 
@@ -34,9 +35,16 @@ export default function loader(content, sourceMap) {
   if (moduleImport) {
     moduleImports = Array.isArray(moduleImport) ? moduleImport : [moduleImport];
 
-    moduleImports.forEach((importEntry) => {
-      imports.push(getImportString(importEntry));
-    });
+    try {
+      moduleImports.forEach((importEntry) => {
+        imports.push(getImportString(importEntry));
+      });
+    } catch (error) {
+      this.emitError(error);
+
+      callback(null, content, sourceMap);
+      return;
+    }
   }
 
   if (wrapper) {
@@ -52,15 +60,12 @@ export default function loader(content, sourceMap) {
   const postfix = postfixes.join('\n');
   const importString = imports.join('\n');
 
-  const callback = this.async();
-
   if (sourceMap) {
     const node = SourceNode.fromStringWithSourceMap(
       content,
       new SourceMapConsumer(sourceMap)
     );
-    node.prepend(prefix);
-    node.prepend(HEADER);
+    node.prepend(`${HEADER}\\n${importString}\\n${prefix}`);
     node.add(postfix);
     const result = node.toStringWithSourceMap({
       file: getCurrentRequest(this),

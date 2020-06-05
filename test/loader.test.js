@@ -24,7 +24,7 @@ describe('loader', () => {
     const compiler = getCompiler('some-library.js', {
       import: {
         moduleName: './lib_1',
-        names: '$',
+        list: '$',
       },
     });
     const stats = await compile(compiler);
@@ -40,7 +40,7 @@ describe('loader', () => {
     const compiler = getCompiler('some-library.js', {
       import: {
         moduleName: './lib_1',
-        names: '$',
+        list: '$',
       },
     });
     const stats = await compile(compiler);
@@ -71,17 +71,17 @@ describe('loader', () => {
         'lib_1',
         {
           moduleName: './lib_2.js',
-          names: {
+          list: {
             name: 'lib_2',
-            default: true,
+            nameType: 'default',
           },
         },
         {
           moduleName: './lib_3.js',
-          names: [
+          list: [
             {
               name: 'defaultExport',
-              default: true,
+              nameType: 'default',
             },
             {
               name: 'lib_3_method',
@@ -91,14 +91,14 @@ describe('loader', () => {
         },
         {
           moduleName: './lib_4',
-          names: [
+          list: [
             {
               name: 'lib_4',
-              default: true,
+              nameType: 'default',
             },
             {
-              alias: 'lib_4_all',
-              nameSpace: true,
+              name: 'lib_4_all',
+              nameType: 'namespace',
             },
           ],
         },
@@ -118,10 +118,10 @@ describe('loader', () => {
       import: [
         {
           moduleName: './lib_1',
-          names: [
+          list: [
             {
-              alias: 'lib_1_all',
-              nameSpace: true,
+              name: 'lib_1_all',
+              nameType: 'namespace',
             },
           ],
         },
@@ -141,7 +141,7 @@ describe('loader', () => {
       import: [
         {
           moduleName: './lib_1',
-          names: [
+          list: [
             {
               name: 'lib1_method',
             },
@@ -149,7 +149,7 @@ describe('loader', () => {
         },
         {
           moduleName: './lib_2',
-          names: [
+          list: [
             {
               name: 'lib2_method_1',
             },
@@ -174,7 +174,7 @@ describe('loader', () => {
     const compiler = getCompiler('some-library.js', {
       import: {
         moduleName: './lib_1',
-        names: false,
+        list: false,
       },
     });
     const stats = await compile(compiler);
@@ -186,9 +186,21 @@ describe('loader', () => {
     expect(getWarnings(stats)).toMatchSnapshot('warnings');
   });
 
-  it('should work wrapper and additionalCode option', async () => {
+  it('should work wrapper', async () => {
     const compiler = getCompiler('some-library.js', {
-      wrapper: 'windows',
+      wrapper: 'window',
+    });
+    const stats = await compile(compiler);
+
+    expect(getModuleSource('./some-library.js', stats)).toMatchSnapshot(
+      'result'
+    );
+    expect(getErrors(stats)).toMatchSnapshot('errors');
+    expect(getWarnings(stats)).toMatchSnapshot('warnings');
+  });
+
+  it('should work additionalCode option', async () => {
+    const compiler = getCompiler('some-library.js', {
       additionalCode: 'var someVariable = 1;',
     });
     const stats = await compile(compiler);
@@ -196,7 +208,25 @@ describe('loader', () => {
     expect(getModuleSource('./some-library.js', stats)).toMatchSnapshot(
       'result'
     );
-    expect(stats.compilation.errors).toMatchSnapshot('errors');
+    expect(getErrors(stats)).toMatchSnapshot('errors');
+    expect(getWarnings(stats)).toMatchSnapshot('warnings');
+  });
+
+  it('should work import, wrapper and additionalCode option', async () => {
+    const compiler = getCompiler('some-library.js', {
+      import: {
+        moduleName: './lib_1',
+        list: false,
+      },
+      wrapper: 'window',
+      additionalCode: 'var someVariable = 1;',
+    });
+    const stats = await compile(compiler);
+
+    expect(getModuleSource('./some-library.js', stats)).toMatchSnapshot(
+      'result'
+    );
+    expect(getErrors(stats)).toMatchSnapshot('errors');
     expect(getWarnings(stats)).toMatchSnapshot('warnings');
   });
 });

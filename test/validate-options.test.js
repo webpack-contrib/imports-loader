@@ -9,11 +9,12 @@ describe('validate options', () => {
         ['globalObject1'],
         ['globalObject1.foo'],
         {
-          names: false,
+          moduleName: 'jQuery',
+          list: false,
         },
         {
-          names: [
-            'lib',
+          moduleName: 'jQuery',
+          list: [
             {
               name: 'lib',
             },
@@ -23,30 +24,12 @@ describe('validate options', () => {
             },
             {
               name: 'lib',
-              default: true,
+              nameType: 'default',
             },
             {
               alias: 'lib',
-              nameSpace: true,
+              nameType: 'namespace',
             },
-            [
-              'lib',
-              {
-                name: 'lib',
-              },
-              {
-                name: 'lib',
-                alias: 'lib',
-              },
-              {
-                name: 'lib',
-                default: true,
-              },
-              {
-                alias: 'lib',
-                nameSpace: true,
-              },
-            ],
           ],
         },
       ],
