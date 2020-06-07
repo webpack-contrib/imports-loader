@@ -119,11 +119,25 @@ function renderImportModule(importProfile) {
 }
 
 function renderImportCommonjs(importProfile) {
-  if (!importProfile.type.default) {
-    throw new Error('Not enough data to commonjs import');
+  if (importProfile.type.default) {
+    return `var ${importProfile.importDefault.name} = require("${importProfile.moduleName}");`;
   }
 
-  return `var ${importProfile.importDefault.name} = require("${importProfile.moduleName}");`;
+  if (importProfile.type.namedImports) {
+    const namedImportString = importProfile.namedImports.map((entry) => {
+      if (entry.alias) {
+        return `${entry.name}: ${entry.alias}`;
+      }
+
+      return entry.name;
+    });
+
+    return `var { ${namedImportString.join(', ')} } = require("${
+      importProfile.moduleName
+    }");`;
+  }
+
+  throw new Error('Not enough data to commonjs import');
 }
 
 function renderImport(importEntry) {

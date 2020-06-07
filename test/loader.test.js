@@ -247,6 +247,65 @@ describe('loader', () => {
     expect(getWarnings(stats)).toMatchSnapshot('warnings');
   });
 
+  it('should work destructuring require', async () => {
+    const compiler = getCompiler('some-library.js', {
+      import: [
+        {
+          type: 'commonjs',
+          moduleName: './lib_2',
+          list: [
+            {
+              name: 'lib2_method_1',
+            },
+            {
+              name: 'lib2_method_2',
+              alias: 'lib_2_method_2_short',
+            },
+          ],
+        },
+      ],
+    });
+    const stats = await compile(compiler);
+
+    expect(getModuleSource('./some-library.js', stats)).toMatchSnapshot(
+      'result'
+    );
+    expect(getErrors(stats)).toMatchSnapshot('errors');
+    expect(getWarnings(stats)).toMatchSnapshot('warnings');
+  });
+
+  it('should work few require', async () => {
+    const compiler = getCompiler('some-library.js', {
+      import: [
+        {
+          type: 'commonjs',
+          moduleName: './lib_1',
+          list: '$',
+        },
+        {
+          type: 'commonjs',
+          moduleName: './lib_2',
+          list: [
+            {
+              name: 'lib2_method_1',
+            },
+            {
+              name: 'lib2_method_2',
+              alias: 'lib_2_method_2_short',
+            },
+          ],
+        },
+      ],
+    });
+    const stats = await compile(compiler);
+
+    expect(getModuleSource('./some-library.js', stats)).toMatchSnapshot(
+      'result'
+    );
+    expect(getErrors(stats)).toMatchSnapshot('errors');
+    expect(getWarnings(stats)).toMatchSnapshot('warnings');
+  });
+
   it('should emit error when invalid arguments for import commonjs', async () => {
     const compiler = getCompiler('some-library.js', {
       import: {
