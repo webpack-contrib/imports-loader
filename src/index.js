@@ -8,7 +8,7 @@ import validateOptions from 'schema-utils';
 
 import schema from './options.json';
 
-import getImportString from './utils';
+import renderImport from './utils';
 
 const { SourceNode } = require('source-map');
 const { SourceMapConsumer } = require('source-map');
@@ -23,21 +23,17 @@ export default function loader(content, sourceMap) {
 
   const callback = this.async();
 
-  const HEADER = '/*** IMPORTS FROM imports-loader ***/\n';
-  const prefixes = [];
-  const postfixes = [];
-  const imports = [];
+  const moduleImport = options.imports;
 
   let moduleImports;
-
-  const moduleImport = options.import;
+  const imports = [];
 
   if (moduleImport) {
     moduleImports = Array.isArray(moduleImport) ? moduleImport : [moduleImport];
 
     try {
       moduleImports.forEach((importEntry) => {
-        imports.push(getImportString(importEntry));
+        imports.push(renderImport(importEntry));
       });
     } catch (error) {
       callback(error, content, sourceMap);
@@ -45,34 +41,36 @@ export default function loader(content, sourceMap) {
     }
   }
 
+  let prefix = '';
+  let postfix = '';
   const { wrapper } = options;
 
   if (wrapper && wrapper.IIFE) {
-    prefixes.push(`(function() {`);
-    postfixes.unshift(`}(${wrapper.IIFE}));`);
+    prefix += '\n(function() {';
+    postfix += `\n}(${wrapper.IIFE}));`;
   }
 
   if (wrapper && wrapper.call) {
-    prefixes.push(`(function() {`);
-    postfixes.unshift(`}.call(${wrapper.call}));`);
+    prefix += '\n(function() {';
+    postfix += `\n}.call(${wrapper.call}));`;
   }
+
+  let importString = `/*** IMPORTS FROM imports-loader ***/\n${imports.join(
+    '\n'
+  )}`;
 
   const { additionalCode } = options;
 
   if (additionalCode) {
-    prefixes.push(`${additionalCode}\n`);
+    importString += `\n${additionalCode}`;
   }
-
-  const prefix = prefixes.join('\n');
-  const postfix = postfixes.join('\n');
-  const importString = imports.join('\n');
 
   if (sourceMap) {
     const node = SourceNode.fromStringWithSourceMap(
       content,
       new SourceMapConsumer(sourceMap)
     );
-    node.prepend(`${HEADER}\n${importString}\n${prefix}`);
+    node.prepend(`${importString}${prefix}`);
     node.add(postfix);
     const result = node.toStringWithSourceMap({
       file: getCurrentRequest(this),
@@ -81,9 +79,5 @@ export default function loader(content, sourceMap) {
     return;
   }
 
-  callback(
-    null,
-    `${HEADER}\n${importString}\n${prefix}\n${content}\n${postfix}`,
-    sourceMap
-  );
+  callback(null, `${importString}${prefix}\n${content}${postfix}`, sourceMap);
 }

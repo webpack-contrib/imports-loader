@@ -9,7 +9,7 @@
         "alias": {
           "$ref": "#/definitions/StringPattern"
         },
-        "nameType": {
+        "type": {
           "enum": ["namespace", "default"]
         }
       }
@@ -22,11 +22,7 @@
           "enum": ["module", "commonjs"]
         },
         "moduleName": {
-          "anyOf": [
-            {
-              "$ref": "#/definitions/StringPattern"
-            }
-          ]
+          "$ref": "#/definitions/StringPattern"
         },
         "list": {
           "anyOf": [
@@ -43,11 +39,7 @@
               "type": "array",
               "minItems": 1,
               "items": {
-                "anyOf": [
-                  {
-                    "$ref": "#/definitions/NamesObjectPattern"
-                  }
-                ]
+                "$ref": "#/definitions/NamesObjectPattern"
               }
             }
           ]
@@ -61,7 +53,7 @@
   },
   "type": "object",
   "properties": {
-    "import": {
+    "imports": {
       "anyOf": [
         {
           "$ref": "#/definitions/StringPattern"

@@ -1,7 +1,7 @@
 function getImportProfile(params) {
   const importEntry =
     typeof params === 'string'
-      ? { moduleName: params, list: { name: params, nameType: 'default' } }
+      ? { moduleName: params, list: { name: params, type: 'default' } }
       : { ...params };
 
   const result = {
@@ -45,17 +45,17 @@ function getImportProfile(params) {
   list = Array.isArray(list)
     ? list
     : typeof list === 'string'
-    ? [{ name: list, nameType: 'default' }]
+    ? [{ name: list, type: 'default' }]
     : [list];
 
   list.forEach((entry) => {
-    if (entry.nameType === 'default' && entry.name) {
+    if (entry.type === 'default' && entry.name) {
       result.type.default = true;
       result.importDefault.name = entry.name;
       return;
     }
 
-    if (entry.nameType === 'namespace' && entry.name) {
+    if (entry.type === 'namespace' && entry.name) {
       result.type.namespace = true;
       result.namespaceImport.name = entry.name;
       return;

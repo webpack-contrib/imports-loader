@@ -7,7 +7,7 @@ Error: Not enough data to commonjs import",
 ]
 `;
 
-exports[`loader should emit error when invalid arguments for import commonjs: result 1`] = `"throw new Error(\\"Module build failed (from /media/veracrypt1/OS/imports-loader/src/index.js):\\\\nError: Not enough data to commonjs import\\\\n    at renderImportCommonjs (/media/veracrypt1/OS/imports-loader/src/utils.js:140:9)\\\\n    at renderImport (/media/veracrypt1/OS/imports-loader/src/utils.js:150:10)\\\\n    at forEach (/media/veracrypt1/OS/imports-loader/src/index.js:40:22)\\\\n    at Array.forEach (<anonymous>)\\\\n    at Object.loader (/media/veracrypt1/OS/imports-loader/src/index.js:39:21)\\");"`;
+exports[`loader should emit error when invalid arguments for import commonjs: result 1`] = `"throw new Error(\\"Module build failed (from /media/veracrypt1/OS/imports-loader/src/index.js):\\\\nError: Not enough data to commonjs import\\\\n    at renderImportCommonjs (/media/veracrypt1/OS/imports-loader/src/utils.js:140:9)\\\\n    at renderImport (/media/veracrypt1/OS/imports-loader/src/utils.js:150:10)\\\\n    at forEach (/media/veracrypt1/OS/imports-loader/src/index.js:36:22)\\\\n    at Array.forEach (<anonymous>)\\\\n    at Object.loader (/media/veracrypt1/OS/imports-loader/src/index.js:35:21)\\");"`;
 
 exports[`loader should emit error when invalid arguments for import commonjs: warnings 1`] = `Array []`;
 
@@ -18,7 +18,7 @@ Error: Not enough data to import",
 ]
 `;
 
-exports[`loader should emit error when invalid arguments for import: result 1`] = `"throw new Error(\\"Module build failed (from /media/veracrypt1/OS/imports-loader/src/index.js):\\\\nError: Not enough data to import\\\\n    at getImportProfile (/media/veracrypt1/OS/imports-loader/src/utils.js:78:11)\\\\n    at renderImport (/media/veracrypt1/OS/imports-loader/src/utils.js:144:25)\\\\n    at forEach (/media/veracrypt1/OS/imports-loader/src/index.js:40:22)\\\\n    at Array.forEach (<anonymous>)\\\\n    at Object.loader (/media/veracrypt1/OS/imports-loader/src/index.js:39:21)\\");"`;
+exports[`loader should emit error when invalid arguments for import: result 1`] = `"throw new Error(\\"Module build failed (from /media/veracrypt1/OS/imports-loader/src/index.js):\\\\nError: Not enough data to import\\\\n    at getImportProfile (/media/veracrypt1/OS/imports-loader/src/utils.js:78:11)\\\\n    at renderImport (/media/veracrypt1/OS/imports-loader/src/utils.js:144:25)\\\\n    at forEach (/media/veracrypt1/OS/imports-loader/src/index.js:36:22)\\\\n    at Array.forEach (<anonymous>)\\\\n    at Object.loader (/media/veracrypt1/OS/imports-loader/src/index.js:35:21)\\");"`;
 
 exports[`loader should emit error when invalid arguments for import: warnings 1`] = `Array []`;
 
@@ -26,15 +26,12 @@ exports[`loader should require when import option is array: errors 1`] = `Array 
 
 exports[`loader should require when import option is array: result 1`] = `
 "/*** IMPORTS FROM imports-loader ***/
-
 import lib_1 from \\"lib_1\\";
 import lib_2 from \\"lib_2\\";
-
 var someCode = {
   number: 123,
   object: { existingSubProperty: 123 }
 };
-
 "
 `;
 
@@ -44,14 +41,11 @@ exports[`loader should require when import option is filePath: errors 1`] = `Arr
 
 exports[`loader should require when import option is filePath: result 1`] = `
 "/*** IMPORTS FROM imports-loader ***/
-
 import $ from \\"./lib_1\\";
-
 var someCode = {
   number: 123,
   object: { existingSubProperty: 123 }
 };
-
 "
 `;
 
@@ -61,14 +55,11 @@ exports[`loader should require when import option is object: errors 1`] = `Array
 
 exports[`loader should require when import option is object: result 1`] = `
 "/*** IMPORTS FROM imports-loader ***/
-
 import $ from \\"./lib_1\\";
-
 var someCode = {
   number: 123,
   object: { existingSubProperty: 123 }
 };
-
 "
 `;
 
@@ -78,14 +69,11 @@ exports[`loader should require when import option is string: errors 1`] = `Array
 
 exports[`loader should require when import option is string: result 1`] = `
 "/*** IMPORTS FROM imports-loader ***/
-
 import lib_1 from \\"lib_1\\";
-
 var someCode = {
   number: 123,
   object: { existingSubProperty: 123 }
 };
-
 "
 `;
 
@@ -95,17 +83,14 @@ exports[`loader should require when import-default: errors 1`] = `Array []`;
 
 exports[`loader should require when import-default: result 1`] = `
 "/*** IMPORTS FROM imports-loader ***/
-
 import lib_1 from \\"lib_1\\";
 import lib_2 from \\"./lib_2.js\\";
 import defaultExport,  { lib_3_method as method } from \\"./lib_3.js\\";
 import lib_4,  * as lib_4_all from \\"./lib_4\\";
-
 var someCode = {
   number: 123,
   object: { existingSubProperty: 123 }
 };
-
 "
 `;
 
@@ -115,14 +100,11 @@ exports[`loader should require when import-side-effect: errors 1`] = `Array []`;
 
 exports[`loader should require when import-side-effect: result 1`] = `
 "/*** IMPORTS FROM imports-loader ***/
-
 import \\"./lib_1\\";
-
 var someCode = {
   number: 123,
   object: { existingSubProperty: 123 }
 };
-
 "
 `;
 
@@ -132,14 +114,11 @@ exports[`loader should require when name-space-import: errors 1`] = `Array []`;
 
 exports[`loader should require when name-space-import: result 1`] = `
 "/*** IMPORTS FROM imports-loader ***/
-
 import * as lib_1_all from \\"./lib_1\\";
-
 var someCode = {
   number: 123,
   object: { existingSubProperty: 123 }
 };
-
 "
 `;
 
@@ -149,15 +128,12 @@ exports[`loader should require when named-imports: errors 1`] = `Array []`;
 
 exports[`loader should require when named-imports: result 1`] = `
 "/*** IMPORTS FROM imports-loader ***/
-
 import { lib1_method } from \\"./lib_1\\";
 import { lib2_method_1, lib2_method_2 as lib_2_method_2_short } from \\"./lib_2\\";
-
 var someCode = {
   number: 123,
   object: { existingSubProperty: 123 }
 };
-
 "
 `;
 
@@ -167,7 +143,6 @@ exports[`loader should work IIFE: errors 1`] = `Array []`;
 
 exports[`loader should work IIFE: result 1`] = `
 "/*** IMPORTS FROM imports-loader ***/
-
 
 (function() {
 var someCode = {
@@ -185,14 +160,11 @@ exports[`loader should work additionalCode option: errors 1`] = `Array []`;
 exports[`loader should work additionalCode option: result 1`] = `
 "/*** IMPORTS FROM imports-loader ***/
 
-
 var someVariable = 1;
-
 var someCode = {
   number: 123,
   object: { existingSubProperty: 123 }
 };
-
 "
 `;
 
@@ -202,14 +174,11 @@ exports[`loader should work destructuring require: errors 1`] = `Array []`;
 
 exports[`loader should work destructuring require: result 1`] = `
 "/*** IMPORTS FROM imports-loader ***/
-
 var { lib2_method_1, lib2_method_2: lib_2_method_2_short } = require(\\"./lib_2\\");
-
 var someCode = {
   number: 123,
   object: { existingSubProperty: 123 }
 };
-
 "
 `;
 
@@ -219,15 +188,12 @@ exports[`loader should work few require: errors 1`] = `Array []`;
 
 exports[`loader should work few require: result 1`] = `
 "/*** IMPORTS FROM imports-loader ***/
-
 var $ = require(\\"./lib_1\\");
 var { lib2_method_1, lib2_method_2: lib_2_method_2_short } = require(\\"./lib_2\\");
-
 var someCode = {
   number: 123,
   object: { existingSubProperty: 123 }
 };
-
 "
 `;
 
@@ -237,11 +203,9 @@ exports[`loader should work import, wrapper and additionalCode option: errors 1`
 
 exports[`loader should work import, wrapper and additionalCode option: result 1`] = `
 "/*** IMPORTS FROM imports-loader ***/
-
 import \\"./lib_1\\";
-(function() {
 var someVariable = 1;
-
+(function() {
 var someCode = {
   number: 123,
   object: { existingSubProperty: 123 }
@@ -256,14 +220,11 @@ exports[`loader should work require: errors 1`] = `Array []`;
 
 exports[`loader should work require: result 1`] = `
 "/*** IMPORTS FROM imports-loader ***/
-
 var $ = require(\\"./lib_1\\");
-
 var someCode = {
   number: 123,
   object: { existingSubProperty: 123 }
 };
-
 "
 `;
 
@@ -273,7 +234,6 @@ exports[`loader should work wrapper: errors 1`] = `Array []`;
 
 exports[`loader should work wrapper: result 1`] = `
 "/*** IMPORTS FROM imports-loader ***/
-
 
 (function() {
 var someCode = {

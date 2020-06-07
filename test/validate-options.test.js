@@ -2,7 +2,7 @@ import { getCompiler, compile } from './helpers';
 
 describe('validate options', () => {
   const tests = {
-    import: {
+    imports: {
       success: [
         'lib_1',
         'globalObject1.foo',
@@ -26,11 +26,11 @@ describe('validate options', () => {
             },
             {
               name: 'lib',
-              nameType: 'default',
+              type: 'default',
             },
             {
               alias: 'lib',
-              nameType: 'namespace',
+              type: 'namespace',
             },
           ],
         },

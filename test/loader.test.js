@@ -9,7 +9,7 @@ import {
 describe('loader', () => {
   it('should require when import option is string', async () => {
     const compiler = getCompiler('some-library.js', {
-      import: 'lib_1',
+      imports: 'lib_1',
     });
     const stats = await compile(compiler);
 
@@ -22,7 +22,7 @@ describe('loader', () => {
 
   it('should require when import option is object', async () => {
     const compiler = getCompiler('some-library.js', {
-      import: {
+      imports: {
         moduleName: './lib_1',
         list: '$',
       },
@@ -38,7 +38,7 @@ describe('loader', () => {
 
   it('should require when import option is filePath', async () => {
     const compiler = getCompiler('some-library.js', {
-      import: {
+      imports: {
         moduleName: './lib_1',
         list: '$',
       },
@@ -54,7 +54,7 @@ describe('loader', () => {
 
   it('should require when import option is array', async () => {
     const compiler = getCompiler('some-library.js', {
-      import: ['lib_1', 'lib_2'],
+      imports: ['lib_1', 'lib_2'],
     });
     const stats = await compile(compiler);
 
@@ -67,13 +67,13 @@ describe('loader', () => {
 
   it('should require when import-default', async () => {
     const compiler = getCompiler('some-library.js', {
-      import: [
+      imports: [
         'lib_1',
         {
           moduleName: './lib_2.js',
           list: {
             name: 'lib_2',
-            nameType: 'default',
+            type: 'default',
           },
         },
         {
@@ -81,7 +81,7 @@ describe('loader', () => {
           list: [
             {
               name: 'defaultExport',
-              nameType: 'default',
+              type: 'default',
             },
             {
               name: 'lib_3_method',
@@ -94,11 +94,11 @@ describe('loader', () => {
           list: [
             {
               name: 'lib_4',
-              nameType: 'default',
+              type: 'default',
             },
             {
               name: 'lib_4_all',
-              nameType: 'namespace',
+              type: 'namespace',
             },
           ],
         },
@@ -115,13 +115,13 @@ describe('loader', () => {
 
   it('should require when name-space-import', async () => {
     const compiler = getCompiler('some-library.js', {
-      import: [
+      imports: [
         {
           moduleName: './lib_1',
           list: [
             {
               name: 'lib_1_all',
-              nameType: 'namespace',
+              type: 'namespace',
             },
           ],
         },
@@ -138,7 +138,7 @@ describe('loader', () => {
 
   it('should require when named-imports', async () => {
     const compiler = getCompiler('some-library.js', {
-      import: [
+      imports: [
         {
           moduleName: './lib_1',
           list: [
@@ -172,7 +172,7 @@ describe('loader', () => {
 
   it('should require when import-side-effect', async () => {
     const compiler = getCompiler('some-library.js', {
-      import: {
+      imports: {
         moduleName: './lib_1',
         list: false,
       },
@@ -231,7 +231,7 @@ describe('loader', () => {
 
   it('should work import, wrapper and additionalCode option', async () => {
     const compiler = getCompiler('some-library.js', {
-      import: {
+      imports: {
         moduleName: './lib_1',
         list: false,
       },
@@ -251,7 +251,7 @@ describe('loader', () => {
 
   it('should work require', async () => {
     const compiler = getCompiler('some-library.js', {
-      import: {
+      imports: {
         type: 'commonjs',
         moduleName: './lib_1',
         list: '$',
@@ -268,7 +268,7 @@ describe('loader', () => {
 
   it('should work destructuring require', async () => {
     const compiler = getCompiler('some-library.js', {
-      import: [
+      imports: [
         {
           type: 'commonjs',
           moduleName: './lib_2',
@@ -295,7 +295,7 @@ describe('loader', () => {
 
   it('should work few require', async () => {
     const compiler = getCompiler('some-library.js', {
-      import: [
+      imports: [
         {
           type: 'commonjs',
           moduleName: './lib_1',
@@ -327,7 +327,7 @@ describe('loader', () => {
 
   it('should emit error when invalid arguments for import commonjs', async () => {
     const compiler = getCompiler('some-library.js', {
-      import: {
+      imports: {
         type: 'commonjs',
         moduleName: './lib_1',
         list: false,
@@ -344,7 +344,7 @@ describe('loader', () => {
 
   it('should emit error when invalid arguments for import', async () => {
     const compiler = getCompiler('some-library.js', {
-      import: [
+      imports: [
         {
           moduleName: './lib_2',
           list: [
