@@ -186,23 +186,11 @@ describe('loader', () => {
     expect(getWarnings(stats)).toMatchSnapshot('warnings');
   });
 
-  it('should work IIFE if string', async () => {
+  it('should work IIFE', async () => {
     const compiler = getCompiler('some-library.js', {
-      IIFE: 'window',
-    });
-    const stats = await compile(compiler);
-
-    expect(getModuleSource('./some-library.js', stats)).toMatchSnapshot(
-      'result'
-    );
-    expect(getErrors(stats)).toMatchSnapshot('errors');
-    expect(getWarnings(stats)).toMatchSnapshot('warnings');
-  });
-
-  it('should work IIFE and additionalCode option', async () => {
-    const compiler = getCompiler('some-library.js', {
-      IIFE: 'window, document',
-      additionalCode: 'const [ window, document ] = [...arguments];',
+      wrapper: {
+        IIFE: 'window',
+      },
     });
     const stats = await compile(compiler);
 
@@ -215,7 +203,9 @@ describe('loader', () => {
 
   it('should work wrapper', async () => {
     const compiler = getCompiler('some-library.js', {
-      wrapper: 'window',
+      wrapper: {
+        call: 'window',
+      },
     });
     const stats = await compile(compiler);
 
@@ -245,7 +235,9 @@ describe('loader', () => {
         moduleName: './lib_1',
         list: false,
       },
-      wrapper: 'window',
+      wrapper: {
+        call: 'window',
+      },
       additionalCode: 'var someVariable = 1;',
     });
     const stats = await compile(compiler);

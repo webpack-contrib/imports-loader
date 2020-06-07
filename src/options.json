@@ -4,10 +4,10 @@
       "type": "object",
       "properties": {
         "name": {
-          "type": "string"
+          "$ref": "#/definitions/StringPattern"
         },
         "alias": {
-          "type": "string"
+          "$ref": "#/definitions/StringPattern"
         },
         "nameType": {
           "enum": ["namespace", "default"]
@@ -24,7 +24,7 @@
         "moduleName": {
           "anyOf": [
             {
-              "type": "string"
+              "$ref": "#/definitions/StringPattern"
             }
           ]
         },
@@ -34,7 +34,7 @@
               "type": "boolean"
             },
             {
-              "type": "string"
+              "$ref": "#/definitions/StringPattern"
             },
             {
               "$ref": "#/definitions/NamesObjectPattern"
@@ -86,17 +86,18 @@
       ]
     },
     "wrapper": {
-      "type": "string"
+      "type": "object",
+      "properties": {
+        "call": {
+          "$ref": "#/definitions/StringPattern"
+        },
+        "IIFE": {
+          "$ref": "#/definitions/StringPattern"
+        }
+      }
     },
     "additionalCode": {
-      "type": "string"
-    },
-    "IIFE": {
-      "anyOf": [
-        {
-          "type": "string"
-        }
-      ]
+      "$ref": "#/definitions/StringPattern"
     }
   },
   "additionalProperties": false

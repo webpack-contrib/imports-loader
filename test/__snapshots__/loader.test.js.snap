@@ -2,35 +2,23 @@
 
 exports[`loader should emit error when invalid arguments for import commonjs: errors 1`] = `
 Array [
-  "ModuleError: Module Error (from \`replaced original path\`):
-Not enough data to commonjs import",
+  "ModuleBuildError: Module build failed (from \`replaced original path\`):
+Error: Not enough data to commonjs import",
 ]
 `;
 
-exports[`loader should emit error when invalid arguments for import commonjs: result 1`] = `
-"var someCode = {
-  number: 123,
-  object: { existingSubProperty: 123 }
-};
-"
-`;
+exports[`loader should emit error when invalid arguments for import commonjs: result 1`] = `"throw new Error(\\"Module build failed (from /media/veracrypt1/OS/imports-loader/src/index.js):\\\\nError: Not enough data to commonjs import\\\\n    at renderImportCommonjs (/media/veracrypt1/OS/imports-loader/src/utils.js:140:9)\\\\n    at renderImport (/media/veracrypt1/OS/imports-loader/src/utils.js:150:10)\\\\n    at forEach (/media/veracrypt1/OS/imports-loader/src/index.js:40:22)\\\\n    at Array.forEach (<anonymous>)\\\\n    at Object.loader (/media/veracrypt1/OS/imports-loader/src/index.js:39:21)\\");"`;
 
 exports[`loader should emit error when invalid arguments for import commonjs: warnings 1`] = `Array []`;
 
 exports[`loader should emit error when invalid arguments for import: errors 1`] = `
 Array [
-  "ModuleError: Module Error (from \`replaced original path\`):
-Not enough data to import",
+  "ModuleBuildError: Module build failed (from \`replaced original path\`):
+Error: Not enough data to import",
 ]
 `;
 
-exports[`loader should emit error when invalid arguments for import: result 1`] = `
-"var someCode = {
-  number: 123,
-  object: { existingSubProperty: 123 }
-};
-"
-`;
+exports[`loader should emit error when invalid arguments for import: result 1`] = `"throw new Error(\\"Module build failed (from /media/veracrypt1/OS/imports-loader/src/index.js):\\\\nError: Not enough data to import\\\\n    at getImportProfile (/media/veracrypt1/OS/imports-loader/src/utils.js:78:11)\\\\n    at renderImport (/media/veracrypt1/OS/imports-loader/src/utils.js:144:25)\\\\n    at forEach (/media/veracrypt1/OS/imports-loader/src/index.js:40:22)\\\\n    at Array.forEach (<anonymous>)\\\\n    at Object.loader (/media/veracrypt1/OS/imports-loader/src/index.js:39:21)\\");"`;
 
 exports[`loader should emit error when invalid arguments for import: warnings 1`] = `Array []`;
 
@@ -175,28 +163,9 @@ var someCode = {
 
 exports[`loader should require when named-imports: warnings 1`] = `Array []`;
 
-exports[`loader should work IIFE and additionalCode option: errors 1`] = `Array []`;
+exports[`loader should work IIFE: errors 1`] = `Array []`;
 
-exports[`loader should work IIFE and additionalCode option: result 1`] = `
-"/*** IMPORTS FROM imports-loader ***/
-
-
-(function() {
-const [ window, document ] = [...arguments];
-
-var someCode = {
-  number: 123,
-  object: { existingSubProperty: 123 }
-};
-
-}(window, document));"
-`;
-
-exports[`loader should work IIFE and additionalCode option: warnings 1`] = `Array []`;
-
-exports[`loader should work IIFE if string: errors 1`] = `Array []`;
-
-exports[`loader should work IIFE if string: result 1`] = `
+exports[`loader should work IIFE: result 1`] = `
 "/*** IMPORTS FROM imports-loader ***/
 
 
@@ -209,7 +178,7 @@ var someCode = {
 }(window));"
 `;
 
-exports[`loader should work IIFE if string: warnings 1`] = `Array []`;
+exports[`loader should work IIFE: warnings 1`] = `Array []`;
 
 exports[`loader should work additionalCode option: errors 1`] = `Array []`;
 

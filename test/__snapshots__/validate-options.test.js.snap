@@ -1,63 +1,33 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`validate options should throw an error on the "IIFE" option with "/test/" value 1`] = `
-"Invalid options object. Imports loader has been initialized using an options object that does not match the API schema.
- - options.IIFE should be a string."
-`;
-
-exports[`validate options should throw an error on the "IIFE" option with "[""]" value 1`] = `
-"Invalid options object. Imports loader has been initialized using an options object that does not match the API schema.
- - options.IIFE should be a string."
-`;
-
-exports[`validate options should throw an error on the "IIFE" option with "[]" value 1`] = `
-"Invalid options object. Imports loader has been initialized using an options object that does not match the API schema.
- - options.IIFE should be a string."
-`;
-
-exports[`validate options should throw an error on the "IIFE" option with "{}" value 1`] = `
-"Invalid options object. Imports loader has been initialized using an options object that does not match the API schema.
- - options.IIFE should be a string."
-`;
-
-exports[`validate options should throw an error on the "IIFE" option with "false" value 1`] = `
-"Invalid options object. Imports loader has been initialized using an options object that does not match the API schema.
- - options.IIFE should be a string."
-`;
-
-exports[`validate options should throw an error on the "IIFE" option with "true" value 1`] = `
-"Invalid options object. Imports loader has been initialized using an options object that does not match the API schema.
- - options.IIFE should be a string."
-`;
-
 exports[`validate options should throw an error on the "additionalCode" option with "/test/" value 1`] = `
 "Invalid options object. Imports loader has been initialized using an options object that does not match the API schema.
- - options.additionalCode should be a string."
+ - options.additionalCode should be a non-empty string."
 `;
 
 exports[`validate options should throw an error on the "additionalCode" option with "[""]" value 1`] = `
 "Invalid options object. Imports loader has been initialized using an options object that does not match the API schema.
- - options.additionalCode should be a string."
+ - options.additionalCode should be a non-empty string."
 `;
 
 exports[`validate options should throw an error on the "additionalCode" option with "[]" value 1`] = `
 "Invalid options object. Imports loader has been initialized using an options object that does not match the API schema.
- - options.additionalCode should be a string."
+ - options.additionalCode should be a non-empty string."
 `;
 
 exports[`validate options should throw an error on the "additionalCode" option with "{}" value 1`] = `
 "Invalid options object. Imports loader has been initialized using an options object that does not match the API schema.
- - options.additionalCode should be a string."
+ - options.additionalCode should be a non-empty string."
 `;
 
 exports[`validate options should throw an error on the "additionalCode" option with "false" value 1`] = `
 "Invalid options object. Imports loader has been initialized using an options object that does not match the API schema.
- - options.additionalCode should be a string."
+ - options.additionalCode should be a non-empty string."
 `;
 
 exports[`validate options should throw an error on the "additionalCode" option with "true" value 1`] = `
 "Invalid options object. Imports loader has been initialized using an options object that does not match the API schema.
- - options.additionalCode should be a string."
+ - options.additionalCode should be a non-empty string."
 `;
 
 exports[`validate options should throw an error on the "import" option with "" value 1`] = `
@@ -112,77 +82,71 @@ exports[`validate options should throw an error on the "import" option with "tru
 exports[`validate options should throw an error on the "unknown" option with "/test/" value 1`] = `
 "Invalid options object. Imports loader has been initialized using an options object that does not match the API schema.
  - options has an unknown property 'unknown'. These properties are valid:
-   object { import?, wrapper?, additionalCode?, IIFE? }"
+   object { import?, wrapper?, additionalCode? }"
 `;
 
 exports[`validate options should throw an error on the "unknown" option with "[]" value 1`] = `
 "Invalid options object. Imports loader has been initialized using an options object that does not match the API schema.
  - options has an unknown property 'unknown'. These properties are valid:
-   object { import?, wrapper?, additionalCode?, IIFE? }"
+   object { import?, wrapper?, additionalCode? }"
 `;
 
 exports[`validate options should throw an error on the "unknown" option with "{"foo":"bar"}" value 1`] = `
 "Invalid options object. Imports loader has been initialized using an options object that does not match the API schema.
  - options has an unknown property 'unknown'. These properties are valid:
-   object { import?, wrapper?, additionalCode?, IIFE? }"
+   object { import?, wrapper?, additionalCode? }"
 `;
 
 exports[`validate options should throw an error on the "unknown" option with "{}" value 1`] = `
 "Invalid options object. Imports loader has been initialized using an options object that does not match the API schema.
  - options has an unknown property 'unknown'. These properties are valid:
-   object { import?, wrapper?, additionalCode?, IIFE? }"
+   object { import?, wrapper?, additionalCode? }"
 `;
 
 exports[`validate options should throw an error on the "unknown" option with "1" value 1`] = `
 "Invalid options object. Imports loader has been initialized using an options object that does not match the API schema.
  - options has an unknown property 'unknown'. These properties are valid:
-   object { import?, wrapper?, additionalCode?, IIFE? }"
+   object { import?, wrapper?, additionalCode? }"
 `;
 
 exports[`validate options should throw an error on the "unknown" option with "false" value 1`] = `
 "Invalid options object. Imports loader has been initialized using an options object that does not match the API schema.
  - options has an unknown property 'unknown'. These properties are valid:
-   object { import?, wrapper?, additionalCode?, IIFE? }"
+   object { import?, wrapper?, additionalCode? }"
 `;
 
 exports[`validate options should throw an error on the "unknown" option with "test" value 1`] = `
 "Invalid options object. Imports loader has been initialized using an options object that does not match the API schema.
  - options has an unknown property 'unknown'. These properties are valid:
-   object { import?, wrapper?, additionalCode?, IIFE? }"
+   object { import?, wrapper?, additionalCode? }"
 `;
 
 exports[`validate options should throw an error on the "unknown" option with "true" value 1`] = `
 "Invalid options object. Imports loader has been initialized using an options object that does not match the API schema.
  - options has an unknown property 'unknown'. These properties are valid:
-   object { import?, wrapper?, additionalCode?, IIFE? }"
-`;
-
-exports[`validate options should throw an error on the "wrapper" option with "/test/" value 1`] = `
-"Invalid options object. Imports loader has been initialized using an options object that does not match the API schema.
- - options.wrapper should be a string."
+   object { import?, wrapper?, additionalCode? }"
 `;
 
 exports[`validate options should throw an error on the "wrapper" option with "[""]" value 1`] = `
 "Invalid options object. Imports loader has been initialized using an options object that does not match the API schema.
- - options.wrapper should be a string."
+ - options.wrapper should be an object:
+   object { call?, IIFE?, … }"
 `;
 
 exports[`validate options should throw an error on the "wrapper" option with "[]" value 1`] = `
 "Invalid options object. Imports loader has been initialized using an options object that does not match the API schema.
- - options.wrapper should be a string."
-`;
-
-exports[`validate options should throw an error on the "wrapper" option with "{}" value 1`] = `
-"Invalid options object. Imports loader has been initialized using an options object that does not match the API schema.
- - options.wrapper should be a string."
+ - options.wrapper should be an object:
+   object { call?, IIFE?, … }"
 `;
 
 exports[`validate options should throw an error on the "wrapper" option with "false" value 1`] = `
 "Invalid options object. Imports loader has been initialized using an options object that does not match the API schema.
- - options.wrapper should be a string."
+ - options.wrapper should be an object:
+   object { call?, IIFE?, … }"
 `;
 
 exports[`validate options should throw an error on the "wrapper" option with "true" value 1`] = `
 "Invalid options object. Imports loader has been initialized using an options object that does not match the API schema.
- - options.wrapper should be a string."
+ - options.wrapper should be an object:
+   object { call?, IIFE?, … }"
 `;

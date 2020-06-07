@@ -22,8 +22,6 @@ export default function loader(content, sourceMap) {
   });
 
   const callback = this.async();
-  const moduleImport = options.import;
-  const { wrapper, additionalCode, IIFE } = options;
 
   const HEADER = '/*** IMPORTS FROM imports-loader ***/\n';
   const prefixes = [];
@@ -31,6 +29,8 @@ export default function loader(content, sourceMap) {
   const imports = [];
 
   let moduleImports;
+
+  const moduleImport = options.import;
 
   if (moduleImport) {
     moduleImports = Array.isArray(moduleImport) ? moduleImport : [moduleImport];
@@ -40,22 +40,24 @@ export default function loader(content, sourceMap) {
         imports.push(getImportString(importEntry));
       });
     } catch (error) {
-      this.emitError(error);
-
-      callback(null, content, sourceMap);
+      callback(error, content, sourceMap);
       return;
     }
   }
 
-  if (IIFE) {
+  const { wrapper } = options;
+
+  if (wrapper && wrapper.IIFE) {
     prefixes.push(`(function() {`);
-    postfixes.unshift(`}(${IIFE}));`);
+    postfixes.unshift(`}(${wrapper.IIFE}));`);
   }
 
-  if (wrapper) {
+  if (wrapper && wrapper.call) {
     prefixes.push(`(function() {`);
-    postfixes.unshift(`}.call(${wrapper}));`);
+    postfixes.unshift(`}.call(${wrapper.call}));`);
   }
+
+  const { additionalCode } = options;
 
   if (additionalCode) {
     prefixes.push(`${additionalCode}\n`);
@@ -70,7 +72,7 @@ export default function loader(content, sourceMap) {
       content,
       new SourceMapConsumer(sourceMap)
     );
-    node.prepend(`${HEADER}\\n${importString}\\n${prefix}`);
+    node.prepend(`${HEADER}\n${importString}\n${prefix}`);
     node.add(postfix);
     const result = node.toStringWithSourceMap({
       file: getCurrentRequest(this),
