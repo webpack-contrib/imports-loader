@@ -47,30 +47,36 @@ exports[`validate options should throw an error on the "import" option with "[]"
  - options.import should be an non-empty array."
 `;
 
+exports[`validate options should throw an error on the "import" option with "{"type":"string","moduleName":"jQuery","list":false}" value 1`] = `
+"Invalid options object. Imports loader has been initialized using an options object that does not match the API schema.
+ - options.import.type should be one of these:
+   \\"module\\" | \\"commonjs\\""
+`;
+
 exports[`validate options should throw an error on the "import" option with "{}" value 1`] = `"Cannot read property 'nameType' of undefined"`;
 
 exports[`validate options should throw an error on the "import" option with "false" value 1`] = `
 "Invalid options object. Imports loader has been initialized using an options object that does not match the API schema.
  - options.import should be one of these:
-   non-empty string | object { moduleName?, list? } | [non-empty string | object { moduleName?, list? }, ...] (should not have fewer than 1 item)
+   non-empty string | object { type?, moduleName?, list? } | [non-empty string | object { type?, moduleName?, list? }, ...] (should not have fewer than 1 item)
    Details:
     * options.import should be a non-empty string.
     * options.import should be an object:
-      object { moduleName?, list? }
+      object { type?, moduleName?, list? }
     * options.import should be an array:
-      [non-empty string | object { moduleName?, list? }, ...] (should not have fewer than 1 item)"
+      [non-empty string | object { type?, moduleName?, list? }, ...] (should not have fewer than 1 item)"
 `;
 
 exports[`validate options should throw an error on the "import" option with "true" value 1`] = `
 "Invalid options object. Imports loader has been initialized using an options object that does not match the API schema.
  - options.import should be one of these:
-   non-empty string | object { moduleName?, list? } | [non-empty string | object { moduleName?, list? }, ...] (should not have fewer than 1 item)
+   non-empty string | object { type?, moduleName?, list? } | [non-empty string | object { type?, moduleName?, list? }, ...] (should not have fewer than 1 item)
    Details:
     * options.import should be a non-empty string.
     * options.import should be an object:
-      object { moduleName?, list? }
+      object { type?, moduleName?, list? }
     * options.import should be an array:
-      [non-empty string | object { moduleName?, list? }, ...] (should not have fewer than 1 item)"
+      [non-empty string | object { type?, moduleName?, list? }, ...] (should not have fewer than 1 item)"
 `;
 
 exports[`validate options should throw an error on the "unknown" option with "/test/" value 1`] = `

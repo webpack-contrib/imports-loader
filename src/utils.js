@@ -13,6 +13,8 @@ function getImportProfile(params) {
     import-default , name-space-import
     import-default , named-imports
     */
+    quantityImportsType: 0,
+    moduleType: params.type || 'module',
     type: {
       default: false,
       sideEffect: false,
@@ -47,45 +49,40 @@ function getImportProfile(params) {
     : [list];
 
   list.forEach((entry) => {
-    const entryNormalized =
-      typeof entry === 'string' ? { name: entry, alias: entry } : entry;
-
-    if (entryNormalized.nameType === 'default' && entryNormalized.name) {
+    if (entry.nameType === 'default' && entry.name) {
       result.type.default = true;
-      result.importDefault.name = entryNormalized.name;
+      result.importDefault.name = entry.name;
       return;
     }
 
-    if (entryNormalized.nameType === 'namespace' && entryNormalized.name) {
+    if (entry.nameType === 'namespace' && entry.name) {
       result.type.namespace = true;
-      result.namespaceImport.name = entryNormalized.name;
+      result.namespaceImport.name = entry.name;
       return;
     }
 
-    if (entryNormalized.name) {
+    if (entry.name) {
       result.type.namedImports = true;
       result.namedImports.push({
-        name: entryNormalized.name,
-        alias: entryNormalized.alias,
+        name: entry.name,
+        alias: entry.alias,
       });
     }
   });
 
+  result.quantityImportsType = Object.keys(result.type).filter(
+    (key) => result.type[key]
+  ).length;
+
+  if (result.quantityImportsType === 0) {
+    throw new Error('Not enough data to import');
+  }
+
   return result;
 }
 
-function renderImport(importEntry) {
-  const importProfile = getImportProfile(importEntry);
-
+function renderImportModule(importProfile) {
   let result = 'import';
-
-  const quantityImportsType = Object.keys(importProfile.type).filter(
-    (key) => importProfile.type[key]
-  ).length;
-
-  if (quantityImportsType === 0) {
-    throw new Error('No valid data for import');
-  }
 
   if (importProfile.type.sideEffect) {
     result += ` "${importProfile.moduleName}";`;
@@ -96,7 +93,7 @@ function renderImport(importEntry) {
     result += ` ${importProfile.importDefault.name}`;
   }
 
-  if (quantityImportsType > 1) {
+  if (importProfile.quantityImportsType > 1) {
     result += ', ';
   }
 
@@ -119,6 +116,24 @@ function renderImport(importEntry) {
   result += ` from "${importProfile.moduleName}";`;
 
   return result;
+}
+
+function renderImportCommonjs(importProfile) {
+  if (!importProfile.type.default) {
+    throw new Error('Not enough data to commonjs import');
+  }
+
+  return `var ${importProfile.importDefault.name} = require("${importProfile.moduleName}");`;
+}
+
+function renderImport(importEntry) {
+  const importProfile = getImportProfile(importEntry);
+
+  if (importProfile.moduleType === 'module') {
+    return renderImportModule(importProfile);
+  }
+
+  return renderImportCommonjs(importProfile);
 }
 
 export default renderImport;

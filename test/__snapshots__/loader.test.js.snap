@@ -1,5 +1,39 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
+exports[`loader should emit error when invalid arguments for import commonjs: errors 1`] = `
+Array [
+  "ModuleError: Module Error (from \`replaced original path\`):
+Not enough data to commonjs import",
+]
+`;
+
+exports[`loader should emit error when invalid arguments for import commonjs: result 1`] = `
+"var someCode = {
+  number: 123,
+  object: { existingSubProperty: 123 }
+};
+"
+`;
+
+exports[`loader should emit error when invalid arguments for import commonjs: warnings 1`] = `Array []`;
+
+exports[`loader should emit error when invalid arguments for import: errors 1`] = `
+Array [
+  "ModuleError: Module Error (from \`replaced original path\`):
+Not enough data to import",
+]
+`;
+
+exports[`loader should emit error when invalid arguments for import: result 1`] = `
+"var someCode = {
+  number: 123,
+  object: { existingSubProperty: 123 }
+};
+"
+`;
+
+exports[`loader should emit error when invalid arguments for import: warnings 1`] = `Array []`;
+
 exports[`loader should require when import option is array: errors 1`] = `Array []`;
 
 exports[`loader should require when import option is array: result 1`] = `
@@ -177,6 +211,23 @@ var someCode = {
 `;
 
 exports[`loader should work import, wrapper and additionalCode option: warnings 1`] = `Array []`;
+
+exports[`loader should work require: errors 1`] = `Array []`;
+
+exports[`loader should work require: result 1`] = `
+"/*** IMPORTS FROM imports-loader ***/
+
+var $ = require(\\"./lib_1\\");
+
+var someCode = {
+  number: 123,
+  object: { existingSubProperty: 123 }
+};
+
+"
+`;
+
+exports[`loader should work require: warnings 1`] = `Array []`;
 
 exports[`loader should work wrapper: errors 1`] = `Array []`;
 

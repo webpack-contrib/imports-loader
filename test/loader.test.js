@@ -229,4 +229,60 @@ describe('loader', () => {
     expect(getErrors(stats)).toMatchSnapshot('errors');
     expect(getWarnings(stats)).toMatchSnapshot('warnings');
   });
+
+  it('should work require', async () => {
+    const compiler = getCompiler('some-library.js', {
+      import: {
+        type: 'commonjs',
+        moduleName: './lib_1',
+        list: '$',
+      },
+    });
+    const stats = await compile(compiler);
+
+    expect(getModuleSource('./some-library.js', stats)).toMatchSnapshot(
+      'result'
+    );
+    expect(getErrors(stats)).toMatchSnapshot('errors');
+    expect(getWarnings(stats)).toMatchSnapshot('warnings');
+  });
+
+  it('should emit error when invalid arguments for import commonjs', async () => {
+    const compiler = getCompiler('some-library.js', {
+      import: {
+        type: 'commonjs',
+        moduleName: './lib_1',
+        list: false,
+      },
+    });
+    const stats = await compile(compiler);
+
+    expect(getModuleSource('./some-library.js', stats)).toMatchSnapshot(
+      'result'
+    );
+    expect(getErrors(stats)).toMatchSnapshot('errors');
+    expect(getWarnings(stats)).toMatchSnapshot('warnings');
+  });
+
+  it('should emit error when invalid arguments for import', async () => {
+    const compiler = getCompiler('some-library.js', {
+      import: [
+        {
+          moduleName: './lib_2',
+          list: [
+            {
+              alias: 'lib_2_method_2_short',
+            },
+          ],
+        },
+      ],
+    });
+    const stats = await compile(compiler);
+
+    expect(getModuleSource('./some-library.js', stats)).toMatchSnapshot(
+      'result'
+    );
+    expect(getErrors(stats)).toMatchSnapshot('errors');
+    expect(getWarnings(stats)).toMatchSnapshot('warnings');
+  });
 });

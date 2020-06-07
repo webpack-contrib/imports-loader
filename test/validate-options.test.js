@@ -9,10 +9,12 @@ describe('validate options', () => {
         ['globalObject1'],
         ['globalObject1.foo'],
         {
+          type: 'commonjs',
           moduleName: 'jQuery',
-          list: false,
+          list: '$',
         },
         {
+          type: 'module',
           moduleName: 'jQuery',
           list: [
             {
@@ -33,7 +35,20 @@ describe('validate options', () => {
           ],
         },
       ],
-      failure: [false, true, /test/, '', [], [''], {}],
+      failure: [
+        false,
+        true,
+        /test/,
+        '',
+        [],
+        [''],
+        {},
+        {
+          type: 'string',
+          moduleName: 'jQuery',
+          list: false,
+        },
+      ],
     },
     wrapper: {
       success: ['windows'],
