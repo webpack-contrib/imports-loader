@@ -90,6 +90,13 @@
     },
     "additionalCode": {
       "type": "string"
+    },
+    "IIFE": {
+      "anyOf": [
+        {
+          "type": "string"
+        }
+      ]
     }
   },
   "additionalProperties": false

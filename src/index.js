@@ -23,7 +23,7 @@ export default function loader(content, sourceMap) {
 
   const callback = this.async();
   const moduleImport = options.import;
-  const { wrapper, additionalCode } = options;
+  const { wrapper, additionalCode, IIFE } = options;
 
   const HEADER = '/*** IMPORTS FROM imports-loader ***/\n';
   const prefixes = [];
@@ -45,6 +45,11 @@ export default function loader(content, sourceMap) {
       callback(null, content, sourceMap);
       return;
     }
+  }
+
+  if (IIFE) {
+    prefixes.push(`(function() {`);
+    postfixes.unshift(`}(${IIFE}));`);
   }
 
   if (wrapper) {

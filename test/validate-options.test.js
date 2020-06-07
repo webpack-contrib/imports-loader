@@ -54,6 +54,10 @@ describe('validate options', () => {
       success: ['windows'],
       failure: [false, true, /test/, [], [''], {}],
     },
+    IIFE: {
+      success: ['windows'],
+      failure: [false, true, /test/, [], [''], {}],
+    },
     additionalCode: {
       success: ['var x = 2;'],
       failure: [false, true, /test/, [], [''], {}],

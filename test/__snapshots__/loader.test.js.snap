@@ -175,6 +175,42 @@ var someCode = {
 
 exports[`loader should require when named-imports: warnings 1`] = `Array []`;
 
+exports[`loader should work IIFE and additionalCode option: errors 1`] = `Array []`;
+
+exports[`loader should work IIFE and additionalCode option: result 1`] = `
+"/*** IMPORTS FROM imports-loader ***/
+
+
+(function() {
+const [ window, document ] = [...arguments];
+
+var someCode = {
+  number: 123,
+  object: { existingSubProperty: 123 }
+};
+
+}(window, document));"
+`;
+
+exports[`loader should work IIFE and additionalCode option: warnings 1`] = `Array []`;
+
+exports[`loader should work IIFE if string: errors 1`] = `Array []`;
+
+exports[`loader should work IIFE if string: result 1`] = `
+"/*** IMPORTS FROM imports-loader ***/
+
+
+(function() {
+var someCode = {
+  number: 123,
+  object: { existingSubProperty: 123 }
+};
+
+}(window));"
+`;
+
+exports[`loader should work IIFE if string: warnings 1`] = `Array []`;
+
 exports[`loader should work additionalCode option: errors 1`] = `Array []`;
 
 exports[`loader should work additionalCode option: result 1`] = `
