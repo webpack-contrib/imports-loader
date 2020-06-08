@@ -20,7 +20,7 @@ export default (fixture, loaderOptions = {}, config = {}) => {
       rules: [
         {
           test: path.resolve(__dirname, '../fixtures', fixture),
-          rules: [
+          use: [
             {
               loader: path.resolve(__dirname, '../../src'),
               options: loaderOptions || {},

@@ -7,15 +7,12 @@ function renderImport(params) {
       : { ...params };
 
   let { list } = importEntry;
+
   const { moduleName } = importEntry;
 
   // 1. Import-side-effect
   if (list === false) {
-    if (isCommonJs) {
-      throw new Error('Not enough data to commonjs import');
-    }
-
-    return `import "${moduleName}";`;
+    return isCommonJs ? `require("${moduleName}");` : `import "${moduleName}";`;
   }
 
   list = Array.isArray(list) ? list : [list];
@@ -31,6 +28,7 @@ function renderImport(params) {
     // 2. Default import
     if (normalizedEntry.type === 'default' && normalizedEntry.name) {
       defaultImport += `${normalizedEntry.name}`;
+
       return;
     }
 
@@ -39,7 +37,9 @@ function renderImport(params) {
       if (isCommonJs) {
         throw new Error('Commonjs not support namespace import');
       }
+
       namespaceImport += `* as ${normalizedEntry.name}`;
+
       return;
     }
 
@@ -61,7 +61,7 @@ function renderImport(params) {
   }
 
   if (!defaultImport && !notDefaultImport) {
-    throw new Error('Not enough data to import');
+    throw new Error(`Not enough data to import \n${importEntry}`);
   }
 
   if (!isCommonJs) {

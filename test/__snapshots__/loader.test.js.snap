@@ -1,52 +1,19 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`loader should emit error when invalid arguments for import commonjs: errors 1`] = `
-Array [
-  "ModuleError: Module Error (from \`replaced original path\`):
-Not enough data to commonjs import",
-]
-`;
-
-exports[`loader should emit error when invalid arguments for import commonjs: result 1`] = `
-"var someCode = {
-  number: 123,
-  object: { existingSubProperty: 123 }
-};
-"
-`;
-
-exports[`loader should emit error when invalid arguments for import commonjs: warnings 1`] = `Array []`;
-
 exports[`loader should emit error when invalid arguments for import: errors 1`] = `
 Array [
-  "ModuleError: Module Error (from \`replaced original path\`):
-Not enough data to import",
+  "ModuleBuildError: Module build failed (from \`replaced original path\`):
+Error: Not enough data to import ",
 ]
-`;
-
-exports[`loader should emit error when invalid arguments for import: result 1`] = `
-"var someCode = {
-  number: 123,
-  object: { existingSubProperty: 123 }
-};
-"
 `;
 
 exports[`loader should emit error when invalid arguments for import: warnings 1`] = `Array []`;
 
 exports[`loader should emit error when try namespace import to commonjs: errors 1`] = `
 Array [
-  "ModuleError: Module Error (from \`replaced original path\`):
-Commonjs not support namespace import",
+  "ModuleBuildError: Module build failed (from \`replaced original path\`):
+Error: Commonjs not support namespace import",
 ]
-`;
-
-exports[`loader should emit error when try namespace import to commonjs: result 1`] = `
-"var someCode = {
-  number: 123,
-  object: { existingSubProperty: 123 }
-};
-"
 `;
 
 exports[`loader should emit error when try namespace import to commonjs: warnings 1`] = `Array []`;
@@ -158,7 +125,7 @@ exports[`loader should require when named-imports: errors 1`] = `Array []`;
 exports[`loader should require when named-imports: result 1`] = `
 "/*** IMPORTS FROM imports-loader ***/
 import { lib1_method } from \\"./lib_1\\";
-import { lib2_method_1, lib2_method_2 as lib_2_method_2_short } from \\"./lib_2\\";
+import lib2_default, { lib2_method_1, lib2_method_2 as lib_2_method_2_short } from \\"./lib_2\\";
 var someCode = {
   number: 123,
   object: { existingSubProperty: 123 }
@@ -167,22 +134,6 @@ var someCode = {
 `;
 
 exports[`loader should require when named-imports: warnings 1`] = `Array []`;
-
-exports[`loader should work IIFE: errors 1`] = `Array []`;
-
-exports[`loader should work IIFE: result 1`] = `
-"/*** IMPORTS FROM imports-loader ***/
-
-(function() {
-var someCode = {
-  number: 123,
-  object: { existingSubProperty: 123 }
-};
-
-}(window));"
-`;
-
-exports[`loader should work IIFE: warnings 1`] = `Array []`;
 
 exports[`loader should work additionalCode option: errors 1`] = `Array []`;
 
@@ -245,6 +196,20 @@ var someCode = {
 
 exports[`loader should work import, wrapper and additionalCode option: warnings 1`] = `Array []`;
 
+exports[`loader should work pure require: errors 1`] = `Array []`;
+
+exports[`loader should work pure require: result 1`] = `
+"/*** IMPORTS FROM imports-loader ***/
+require(\\"./lib_1\\");
+var someCode = {
+  number: 123,
+  object: { existingSubProperty: 123 }
+};
+"
+`;
+
+exports[`loader should work pure require: warnings 1`] = `Array []`;
+
 exports[`loader should work require default: errors 1`] = `Array []`;
 
 exports[`loader should work require default: result 1`] = `
@@ -272,6 +237,22 @@ var someCode = {
 `;
 
 exports[`loader should work require: warnings 1`] = `Array []`;
+
+exports[`loader should work wrapper array: errors 1`] = `Array []`;
+
+exports[`loader should work wrapper array: result 1`] = `
+"/*** IMPORTS FROM imports-loader ***/
+
+(function() {
+var someCode = {
+  number: 123,
+  object: { existingSubProperty: 123 }
+};
+
+}.call(window,document));"
+`;
+
+exports[`loader should work wrapper array: warnings 1`] = `Array []`;
 
 exports[`loader should work wrapper: errors 1`] = `Array []`;
 

@@ -129,24 +129,30 @@ exports[`validate options should throw an error on the "unknown" option with "tr
 
 exports[`validate options should throw an error on the "wrapper" option with "[""]" value 1`] = `
 "Invalid options object. Imports loader has been initialized using an options object that does not match the API schema.
- - options.wrapper should be an object:
-   object { call?, IIFE?, … }"
+ - options.wrapper[0] should be an non-empty string."
 `;
 
 exports[`validate options should throw an error on the "wrapper" option with "[]" value 1`] = `
 "Invalid options object. Imports loader has been initialized using an options object that does not match the API schema.
- - options.wrapper should be an object:
-   object { call?, IIFE?, … }"
+ - options.wrapper should be an non-empty array."
 `;
 
 exports[`validate options should throw an error on the "wrapper" option with "false" value 1`] = `
 "Invalid options object. Imports loader has been initialized using an options object that does not match the API schema.
- - options.wrapper should be an object:
-   object { call?, IIFE?, … }"
+ - options.wrapper should be one of these:
+   non-empty string | [non-empty string, ...] (should not have fewer than 1 item)
+   Details:
+    * options.wrapper should be a non-empty string.
+    * options.wrapper should be an array:
+      [non-empty string, ...] (should not have fewer than 1 item)"
 `;
 
 exports[`validate options should throw an error on the "wrapper" option with "true" value 1`] = `
 "Invalid options object. Imports loader has been initialized using an options object that does not match the API schema.
- - options.wrapper should be an object:
-   object { call?, IIFE?, … }"
+ - options.wrapper should be one of these:
+   non-empty string | [non-empty string, ...] (should not have fewer than 1 item)
+   Details:
+    * options.wrapper should be a non-empty string.
+    * options.wrapper should be an array:
+      [non-empty string, ...] (should not have fewer than 1 item)"
 `;

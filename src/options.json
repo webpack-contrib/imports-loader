@@ -39,7 +39,14 @@
               "type": "array",
               "minItems": 1,
               "items": {
-                "$ref": "#/definitions/NamesObjectPattern"
+                "anyOf": [
+                  {
+                    "$ref": "#/definitions/StringPattern"
+                  },
+                  {
+                    "$ref": "#/definitions/NamesObjectPattern"
+                  }
+                ]
               }
             }
           ]
@@ -78,15 +85,18 @@
       ]
     },
     "wrapper": {
-      "type": "object",
-      "properties": {
-        "call": {
+      "anyOf": [
+        {
           "$ref": "#/definitions/StringPattern"
         },
-        "IIFE": {
-          "$ref": "#/definitions/StringPattern"
+        {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "$ref": "#/definitions/StringPattern"
+          }
         }
-      }
+      ]
     },
     "additionalCode": {
       "$ref": "#/definitions/StringPattern"

@@ -3,15 +3,13 @@
 	Author Tobias Koppers @sokra
 */
 
+import { SourceNode, SourceMapConsumer } from 'source-map';
 import { getOptions, getCurrentRequest } from 'loader-utils';
 import validateOptions from 'schema-utils';
 
 import schema from './options.json';
 
 import renderImport from './utils';
-
-const { SourceNode } = require('source-map');
-const { SourceMapConsumer } = require('source-map');
 
 export default function loader(content, sourceMap) {
   const options = getOptions(this) || {};
@@ -26,6 +24,7 @@ export default function loader(content, sourceMap) {
   const moduleImport = options.imports;
 
   let moduleImports;
+
   const imports = [];
 
   if (moduleImport) {
@@ -36,25 +35,20 @@ export default function loader(content, sourceMap) {
         imports.push(renderImport(importEntry));
       });
     } catch (error) {
-      this.emitError(error);
+      callback(error, content, sourceMap);
 
-      callback(null, content, sourceMap);
       return;
     }
   }
 
   let prefix = '';
   let postfix = '';
+
   const { wrapper } = options;
 
-  if (wrapper && wrapper.IIFE) {
+  if (wrapper) {
     prefix += '\n(function() {';
-    postfix += `\n}(${wrapper.IIFE}));`;
-  }
-
-  if (wrapper && wrapper.call) {
-    prefix += '\n(function() {';
-    postfix += `\n}.call(${wrapper.call}));`;
+    postfix += `\n}.call(${wrapper.toString()}));`;
   }
 
   let importString = `/*** IMPORTS FROM imports-loader ***/\n${imports.join(
@@ -67,17 +61,21 @@ export default function loader(content, sourceMap) {
     importString += `\n${additionalCode}`;
   }
 
-  if (sourceMap) {
+  if (this.sourceMap && sourceMap) {
     const node = SourceNode.fromStringWithSourceMap(
       content,
       new SourceMapConsumer(sourceMap)
     );
+
     node.prepend(`${importString}${prefix}\n`);
     node.add(postfix);
+
     const result = node.toStringWithSourceMap({
       file: getCurrentRequest(this),
     });
+
     callback(null, result.code, result.map.toJSON());
+
     return;
   }
 

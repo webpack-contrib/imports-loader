@@ -150,6 +150,7 @@ describe('loader', () => {
         {
           moduleName: './lib_2',
           list: [
+            'lib2_default',
             {
               name: 'lib2_method_1',
             },
@@ -186,11 +187,9 @@ describe('loader', () => {
     expect(getWarnings(stats)).toMatchSnapshot('warnings');
   });
 
-  it('should work IIFE', async () => {
+  it('should work wrapper', async () => {
     const compiler = getCompiler('some-library.js', {
-      wrapper: {
-        IIFE: 'window',
-      },
+      wrapper: 'window',
     });
     const stats = await compile(compiler);
 
@@ -201,11 +200,9 @@ describe('loader', () => {
     expect(getWarnings(stats)).toMatchSnapshot('warnings');
   });
 
-  it('should work wrapper', async () => {
+  it('should work wrapper array', async () => {
     const compiler = getCompiler('some-library.js', {
-      wrapper: {
-        call: 'window',
-      },
+      wrapper: ['window', 'document'],
     });
     const stats = await compile(compiler);
 
@@ -235,9 +232,7 @@ describe('loader', () => {
         moduleName: './lib_1',
         list: false,
       },
-      wrapper: {
-        call: 'window',
-      },
+      wrapper: 'window',
       additionalCode: 'var someVariable = 1;',
     });
     const stats = await compile(compiler);
@@ -345,7 +340,7 @@ describe('loader', () => {
     expect(getWarnings(stats)).toMatchSnapshot('warnings');
   });
 
-  it('should emit error when invalid arguments for import commonjs', async () => {
+  it('should work pure require', async () => {
     const compiler = getCompiler('some-library.js', {
       imports: {
         type: 'commonjs',
@@ -379,9 +374,6 @@ describe('loader', () => {
     });
     const stats = await compile(compiler);
 
-    expect(getModuleSource('./some-library.js', stats)).toMatchSnapshot(
-      'result'
-    );
     expect(getErrors(stats)).toMatchSnapshot('errors');
     expect(getWarnings(stats)).toMatchSnapshot('warnings');
   });
@@ -401,9 +393,6 @@ describe('loader', () => {
     });
     const stats = await compile(compiler);
 
-    expect(getModuleSource('./some-library.js', stats)).toMatchSnapshot(
-      'result'
-    );
     expect(getErrors(stats)).toMatchSnapshot('errors');
     expect(getWarnings(stats)).toMatchSnapshot('warnings');
   });

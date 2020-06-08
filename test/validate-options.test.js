@@ -17,6 +17,7 @@ describe('validate options', () => {
           type: 'module',
           moduleName: 'jQuery',
           list: [
+            'lib',
             {
               name: 'lib',
             },
@@ -51,7 +52,7 @@ describe('validate options', () => {
       ],
     },
     wrapper: {
-      success: [{ call: 'windows' }, { IIFE: 'windows' }],
+      success: ['window', ['window', 'document']],
       failure: [false, true, [], ['']],
     },
     additionalCode: {
