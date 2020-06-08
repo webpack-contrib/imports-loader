@@ -266,6 +266,26 @@ describe('loader', () => {
     expect(getWarnings(stats)).toMatchSnapshot('warnings');
   });
 
+  it('should work require default', async () => {
+    const compiler = getCompiler('some-library.js', {
+      imports: {
+        type: 'commonjs',
+        moduleName: './lib_1',
+        list: {
+          name: '$',
+          type: 'default',
+        },
+      },
+    });
+    const stats = await compile(compiler);
+
+    expect(getModuleSource('./some-library.js', stats)).toMatchSnapshot(
+      'result'
+    );
+    expect(getErrors(stats)).toMatchSnapshot('errors');
+    expect(getWarnings(stats)).toMatchSnapshot('warnings');
+  });
+
   it('should work destructuring require', async () => {
     const compiler = getCompiler('some-library.js', {
       imports: [
@@ -332,6 +352,30 @@ describe('loader', () => {
         moduleName: './lib_1',
         list: false,
       },
+    });
+    const stats = await compile(compiler);
+
+    expect(getModuleSource('./some-library.js', stats)).toMatchSnapshot(
+      'result'
+    );
+    expect(getErrors(stats)).toMatchSnapshot('errors');
+    expect(getWarnings(stats)).toMatchSnapshot('warnings');
+  });
+
+  it('should emit error when try namespace import to commonjs', async () => {
+    const compiler = getCompiler('some-library.js', {
+      imports: [
+        {
+          type: 'commonjs',
+          moduleName: './lib_4',
+          list: [
+            {
+              name: 'lib_4_all',
+              type: 'namespace',
+            },
+          ],
+        },
+      ],
     });
     const stats = await compile(compiler);
 

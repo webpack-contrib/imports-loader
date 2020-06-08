@@ -2,25 +2,54 @@
 
 exports[`loader should emit error when invalid arguments for import commonjs: errors 1`] = `
 Array [
-  "ModuleBuildError: Module build failed (from \`replaced original path\`):
-Error: Not enough data to commonjs import",
+  "ModuleError: Module Error (from \`replaced original path\`):
+Not enough data to commonjs import",
 ]
 `;
 
-exports[`loader should emit error when invalid arguments for import commonjs: result 1`] = `"throw new Error(\\"Module build failed (from /media/veracrypt1/OS/imports-loader/src/index.js):\\\\nError: Not enough data to commonjs import\\\\n    at renderImportCommonjs (/media/veracrypt1/OS/imports-loader/src/utils.js:140:9)\\\\n    at renderImport (/media/veracrypt1/OS/imports-loader/src/utils.js:150:10)\\\\n    at forEach (/media/veracrypt1/OS/imports-loader/src/index.js:36:22)\\\\n    at Array.forEach (<anonymous>)\\\\n    at Object.loader (/media/veracrypt1/OS/imports-loader/src/index.js:35:21)\\");"`;
+exports[`loader should emit error when invalid arguments for import commonjs: result 1`] = `
+"var someCode = {
+  number: 123,
+  object: { existingSubProperty: 123 }
+};
+"
+`;
 
 exports[`loader should emit error when invalid arguments for import commonjs: warnings 1`] = `Array []`;
 
 exports[`loader should emit error when invalid arguments for import: errors 1`] = `
 Array [
-  "ModuleBuildError: Module build failed (from \`replaced original path\`):
-Error: Not enough data to import",
+  "ModuleError: Module Error (from \`replaced original path\`):
+Not enough data to import",
 ]
 `;
 
-exports[`loader should emit error when invalid arguments for import: result 1`] = `"throw new Error(\\"Module build failed (from /media/veracrypt1/OS/imports-loader/src/index.js):\\\\nError: Not enough data to import\\\\n    at getImportProfile (/media/veracrypt1/OS/imports-loader/src/utils.js:78:11)\\\\n    at renderImport (/media/veracrypt1/OS/imports-loader/src/utils.js:144:25)\\\\n    at forEach (/media/veracrypt1/OS/imports-loader/src/index.js:36:22)\\\\n    at Array.forEach (<anonymous>)\\\\n    at Object.loader (/media/veracrypt1/OS/imports-loader/src/index.js:35:21)\\");"`;
+exports[`loader should emit error when invalid arguments for import: result 1`] = `
+"var someCode = {
+  number: 123,
+  object: { existingSubProperty: 123 }
+};
+"
+`;
 
 exports[`loader should emit error when invalid arguments for import: warnings 1`] = `Array []`;
+
+exports[`loader should emit error when try namespace import to commonjs: errors 1`] = `
+Array [
+  "ModuleError: Module Error (from \`replaced original path\`):
+Commonjs not support namespace import",
+]
+`;
+
+exports[`loader should emit error when try namespace import to commonjs: result 1`] = `
+"var someCode = {
+  number: 123,
+  object: { existingSubProperty: 123 }
+};
+"
+`;
+
+exports[`loader should emit error when try namespace import to commonjs: warnings 1`] = `Array []`;
 
 exports[`loader should require when import option is array: errors 1`] = `Array []`;
 
@@ -85,8 +114,8 @@ exports[`loader should require when import-default: result 1`] = `
 "/*** IMPORTS FROM imports-loader ***/
 import lib_1 from \\"lib_1\\";
 import lib_2 from \\"./lib_2.js\\";
-import defaultExport,  { lib_3_method as method } from \\"./lib_3.js\\";
-import lib_4,  * as lib_4_all from \\"./lib_4\\";
+import defaultExport, { lib_3_method as method } from \\"./lib_3.js\\";
+import lib_4, * as lib_4_all from \\"./lib_4\\";
 var someCode = {
   number: 123,
   object: { existingSubProperty: 123 }
@@ -215,6 +244,20 @@ var someCode = {
 `;
 
 exports[`loader should work import, wrapper and additionalCode option: warnings 1`] = `Array []`;
+
+exports[`loader should work require default: errors 1`] = `Array []`;
+
+exports[`loader should work require default: result 1`] = `
+"/*** IMPORTS FROM imports-loader ***/
+var $ = require(\\"./lib_1\\");
+var someCode = {
+  number: 123,
+  object: { existingSubProperty: 123 }
+};
+"
+`;
+
+exports[`loader should work require default: warnings 1`] = `Array []`;
 
 exports[`loader should work require: errors 1`] = `Array []`;
 

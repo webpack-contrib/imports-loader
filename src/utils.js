@@ -1,153 +1,80 @@
-function getImportProfile(params) {
+function renderImport(params) {
+  const isCommonJs = params.type === 'commonjs';
+
   const importEntry =
     typeof params === 'string'
       ? { moduleName: params, list: { name: params, type: 'default' } }
       : { ...params };
 
-  const result = {
-    /*
-    import-side-effect
-    import-default
-    name-space-import
-    named-imports
-    import-default , name-space-import
-    import-default , named-imports
-    */
-    quantityImportsType: 0,
-    moduleType: params.type || 'module',
-    type: {
-      default: false,
-      sideEffect: false,
-      namespaceImport: false,
-      namedImports: false,
-    },
-    moduleName: importEntry.moduleName,
-    importDefault: {
-      // name: "defaultExport"
-    },
-    namespaceImport: {
-      // name: "ns"
-    },
-    namedImports: [
-      // {
-      //   name: "exportName",
-      //   alias: "shortName"
-      // }
-    ],
-  };
   let { list } = importEntry;
+  const { moduleName } = importEntry;
 
+  // 1. Import-side-effect
   if (list === false) {
-    result.type.sideEffect = true;
-    return result;
+    if (isCommonJs) {
+      throw new Error('Not enough data to commonjs import');
+    }
+
+    return `import "${moduleName}";`;
   }
 
-  list = Array.isArray(list)
-    ? list
-    : typeof list === 'string'
-    ? [{ name: list, type: 'default' }]
-    : [list];
+  list = Array.isArray(list) ? list : [list];
+
+  let defaultImport = '';
+  let namespaceImport = '';
+  let namedImports = '';
 
   list.forEach((entry) => {
-    if (entry.type === 'default' && entry.name) {
-      result.type.default = true;
-      result.importDefault.name = entry.name;
+    const normalizedEntry =
+      typeof entry === 'string' ? { name: entry, type: 'default' } : entry;
+
+    // 2. Default import
+    if (normalizedEntry.type === 'default' && normalizedEntry.name) {
+      defaultImport += `${normalizedEntry.name}`;
       return;
     }
 
-    if (entry.type === 'namespace' && entry.name) {
-      result.type.namespace = true;
-      result.namespaceImport.name = entry.name;
+    // 3. Namespace import
+    if (normalizedEntry.type === 'namespace' && normalizedEntry.name) {
+      if (isCommonJs) {
+        throw new Error('Commonjs not support namespace import');
+      }
+      namespaceImport += `* as ${normalizedEntry.name}`;
       return;
     }
 
-    if (entry.name) {
-      result.type.namedImports = true;
-      result.namedImports.push({
-        name: entry.name,
-        alias: entry.alias,
-      });
+    // 4. Named import
+    if (normalizedEntry.name) {
+      const sep = isCommonJs ? ': ' : ' as ';
+      const comma = namedImports ? ', ' : '';
+
+      namedImports += normalizedEntry.alias
+        ? `${comma}${normalizedEntry.name}${sep}${normalizedEntry.alias}`
+        : `${comma}${normalizedEntry.name}`;
     }
   });
 
-  result.quantityImportsType = Object.keys(result.type).filter(
-    (key) => result.type[key]
-  ).length;
+  let notDefaultImport = namespaceImport;
 
-  if (result.quantityImportsType === 0) {
+  if (namedImports) {
+    notDefaultImport = `{ ${namedImports} }`;
+  }
+
+  if (!defaultImport && !notDefaultImport) {
     throw new Error('Not enough data to import');
   }
 
-  return result;
-}
+  if (!isCommonJs) {
+    const comma = defaultImport && notDefaultImport ? ', ' : '';
 
-function renderImportModule(importProfile) {
-  let result = 'import';
-
-  if (importProfile.type.sideEffect) {
-    result += ` "${importProfile.moduleName}";`;
-    return result;
+    return `import ${defaultImport}${comma}${notDefaultImport} from "${moduleName}";`;
   }
 
-  if (importProfile.type.default) {
-    result += ` ${importProfile.importDefault.name}`;
+  if (defaultImport) {
+    return `var ${defaultImport} = require("${moduleName}");`;
   }
 
-  if (importProfile.quantityImportsType > 1) {
-    result += ', ';
-  }
-
-  if (importProfile.type.namedImports) {
-    const namedImportString = importProfile.namedImports.map((entry) => {
-      if (entry.alias) {
-        return `${entry.name} as ${entry.alias}`;
-      }
-
-      return entry.name;
-    });
-
-    result += ` { ${namedImportString.join(', ')} }`;
-  }
-
-  if (importProfile.type.namespace) {
-    result += ` * as ${importProfile.namespaceImport.name}`;
-  }
-
-  result += ` from "${importProfile.moduleName}";`;
-
-  return result;
-}
-
-function renderImportCommonjs(importProfile) {
-  if (importProfile.type.default) {
-    return `var ${importProfile.importDefault.name} = require("${importProfile.moduleName}");`;
-  }
-
-  if (importProfile.type.namedImports) {
-    const namedImportString = importProfile.namedImports.map((entry) => {
-      if (entry.alias) {
-        return `${entry.name}: ${entry.alias}`;
-      }
-
-      return entry.name;
-    });
-
-    return `var { ${namedImportString.join(', ')} } = require("${
-      importProfile.moduleName
-    }");`;
-  }
-
-  throw new Error('Not enough data to commonjs import');
-}
-
-function renderImport(importEntry) {
-  const importProfile = getImportProfile(importEntry);
-
-  if (importProfile.moduleType === 'module') {
-    return renderImportModule(importProfile);
-  }
-
-  return renderImportCommonjs(importProfile);
+  return `var { ${namedImports} } = require("${moduleName}");`;
 }
 
 export default renderImport;

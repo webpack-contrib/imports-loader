@@ -36,7 +36,9 @@ export default function loader(content, sourceMap) {
         imports.push(renderImport(importEntry));
       });
     } catch (error) {
-      callback(error, content, sourceMap);
+      this.emitError(error);
+
+      callback(null, content, sourceMap);
       return;
     }
   }
@@ -70,7 +72,7 @@ export default function loader(content, sourceMap) {
       content,
       new SourceMapConsumer(sourceMap)
     );
-    node.prepend(`${importString}${prefix}`);
+    node.prepend(`${importString}${prefix}\n`);
     node.add(postfix);
     const result = node.toStringWithSourceMap({
       file: getCurrentRequest(this),
