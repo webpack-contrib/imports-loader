@@ -1,57 +1,115 @@
-function renderImport(params) {
-  const isCommonJs = params.type === 'commonjs';
+import { stringifyRequest } from 'loader-utils';
 
-  const importEntry =
-    typeof params === 'string'
-      ? { moduleName: params, list: { name: params, type: 'default' } }
-      : { ...params };
+function getImports(options) {
+  const { imports, additionalCode, wrapper } = options;
+  const moduleImports = Array.isArray(imports) ? imports : [imports];
 
-  let { list } = importEntry;
+  if (!imports && !additionalCode && !wrapper) {
+    throw new Error(
+      `You must fill out one of the options "imports", "wrapper" or "additionalCode"`
+    );
+  }
 
-  const { moduleName } = importEntry;
+  if (!imports) {
+    return [];
+  }
+
+  const result = [];
+
+  for (const params of moduleImports) {
+    const isCommonJs = params.type === 'commonjs';
+
+    const importsEntry =
+      typeof params === 'string'
+        ? { moduleName: params, list: { name: params, type: 'default' } }
+        : { ...params };
+
+    let { list } = importsEntry;
+
+    if (list === false) {
+      result.push(importsEntry);
+      break;
+    }
+
+    list = Array.isArray(list) ? list : [list];
+
+    importsEntry.list = list.map((entry) => {
+      const normalizedEntry =
+        typeof entry === 'string' ? { name: entry, type: 'default' } : entry;
+
+      // 2. Default import
+      if (normalizedEntry.type === 'default') {
+        if (!normalizedEntry.name) {
+          throw new Error(`Skipped the "name" option for default import`);
+        }
+
+        return normalizedEntry;
+      }
+
+      // 3. Namespace import
+      if (normalizedEntry.type === 'namespace') {
+        if (isCommonJs) {
+          throw new Error('Commonjs not support namespace import');
+        }
+
+        if (!normalizedEntry.name) {
+          throw new Error(`Skipped the "name" option for namespace import`);
+        }
+
+        return normalizedEntry;
+      }
+
+      // 4. Named import
+      if (!normalizedEntry.name) {
+        throw new Error(`Skipped the "name" option for named import`);
+      }
+
+      return normalizedEntry;
+    });
+
+    result.push(importsEntry);
+  }
+
+  return result;
+}
+
+function renderImports(loaderContext, importsEntry) {
+  const isCommonJs = importsEntry.type === 'commonjs';
+  const { list, moduleName } = importsEntry;
 
   // 1. Import-side-effect
   if (list === false) {
-    return isCommonJs ? `require("${moduleName}");` : `import "${moduleName}";`;
+    return isCommonJs
+      ? `require(${stringifyRequest(loaderContext, moduleName)});`
+      : `import ${stringifyRequest(loaderContext, moduleName)};`;
   }
-
-  list = Array.isArray(list) ? list : [list];
 
   let defaultImport = '';
   let namespaceImport = '';
   let namedImports = '';
 
   list.forEach((entry) => {
-    const normalizedEntry =
-      typeof entry === 'string' ? { name: entry, type: 'default' } : entry;
-
     // 2. Default import
-    if (normalizedEntry.type === 'default' && normalizedEntry.name) {
-      defaultImport += `${normalizedEntry.name}`;
+    if (entry.type === 'default') {
+      defaultImport += `${entry.name}`;
 
       return;
     }
 
     // 3. Namespace import
-    if (normalizedEntry.type === 'namespace' && normalizedEntry.name) {
-      if (isCommonJs) {
-        throw new Error('Commonjs not support namespace import');
-      }
-
-      namespaceImport += `* as ${normalizedEntry.name}`;
+    if (entry.type === 'namespace') {
+      namespaceImport += `* as ${entry.name}`;
 
       return;
     }
 
     // 4. Named import
-    if (normalizedEntry.name) {
-      const sep = isCommonJs ? ': ' : ' as ';
-      const comma = namedImports ? ', ' : '';
+    const sep = isCommonJs ? ': ' : ' as ';
+    const comma = namedImports ? ', ' : '';
 
-      namedImports += normalizedEntry.alias
-        ? `${comma}${normalizedEntry.name}${sep}${normalizedEntry.alias}`
-        : `${comma}${normalizedEntry.name}`;
-    }
+    namedImports += entry.alias
+      ? `${comma}${entry.name}${sep}${entry.alias}`
+      : `${comma}${entry.name}`;
   });
 
   let notDefaultImport = namespaceImport;
@@ -60,21 +118,36 @@ function renderImport(params) {
     notDefaultImport = `{ ${namedImports} }`;
   }
 
-  if (!defaultImport && !notDefaultImport) {
-    throw new Error(`Not enough data to import \n${importEntry}`);
-  }
-
   if (!isCommonJs) {
     const comma = defaultImport && notDefaultImport ? ', ' : '';
 
-    return `import ${defaultImport}${comma}${notDefaultImport} from "${moduleName}";`;
+    return `import ${defaultImport}${comma}${notDefaultImport} from ${stringifyRequest(
+      loaderContext,
+      moduleName
+    )};`;
   }
+
+  let commonjsImports = '';
 
   if (defaultImport) {
-    return `var ${defaultImport} = require("${moduleName}");`;
+    commonjsImports += `var ${defaultImport} = require(${stringifyRequest(
+      loaderContext,
+      moduleName
+    )});`;
   }
 
-  return `var { ${namedImports} } = require("${moduleName}");`;
+  if (!namedImports) {
+    return commonjsImports;
+  }
+
+  commonjsImports += commonjsImports ? '\n' : '';
+
+  commonjsImports += `var { ${namedImports} } = require(${stringifyRequest(
+    loaderContext,
+    moduleName
+  )});`;
+
+  return commonjsImports;
 }
 
-export default renderImport;
+export { getImports, renderImports };

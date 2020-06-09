@@ -3,11 +3,29 @@
 exports[`loader should emit error when invalid arguments for import: errors 1`] = `
 Array [
   "ModuleBuildError: Module build failed (from \`replaced original path\`):
-Error: Not enough data to import ",
+Error: Skipped the \\"name\\" option for named import",
 ]
 `;
 
 exports[`loader should emit error when invalid arguments for import: warnings 1`] = `Array []`;
+
+exports[`loader should emit error when not arguments for import: errors 1`] = `
+Array [
+  "ModuleBuildError: Module build failed (from \`replaced original path\`):
+Error: You must fill out one of the options \\"imports\\", \\"wrapper\\" or \\"additionalCode\\"",
+]
+`;
+
+exports[`loader should emit error when not arguments for import: warnings 1`] = `Array []`;
+
+exports[`loader should emit error when skipped name to import-default: errors 1`] = `
+Array [
+  "ModuleBuildError: Module build failed (from \`replaced original path\`):
+Error: Skipped the \\"name\\" option for default import",
+]
+`;
+
+exports[`loader should emit error when skipped name to import-default: warnings 1`] = `Array []`;
 
 exports[`loader should emit error when try namespace import to commonjs: errors 1`] = `
 Array [
@@ -178,6 +196,7 @@ exports[`loader should work few require: errors 1`] = `Array []`;
 exports[`loader should work few require: result 1`] = `
 "/*** IMPORTS FROM imports-loader ***/
 var $ = require(\\"./lib_1\\");
+var lib_2_all = require(\\"./lib_2\\");
 var { lib2_method_1, lib2_method_2: lib_2_method_2_short } = require(\\"./lib_2\\");
 
 var someCode = {

@@ -320,6 +320,7 @@ describe('loader', () => {
           type: 'commonjs',
           moduleName: './lib_2',
           list: [
+            'lib_2_all',
             {
               name: 'lib2_method_1',
             },
@@ -353,6 +354,21 @@ describe('loader', () => {
     expect(getModuleSource('./some-library.js', stats)).toMatchSnapshot(
       'result'
     );
+    expect(getErrors(stats)).toMatchSnapshot('errors');
+    expect(getWarnings(stats)).toMatchSnapshot('warnings');
+  });
+
+  it('should emit error when skipped name to import-default', async () => {
+    const compiler = getCompiler('some-library.js', {
+      imports: {
+        moduleName: './lib_2.js',
+        list: {
+          type: 'default',
+        },
+      },
+    });
+    const stats = await compile(compiler);
+
     expect(getErrors(stats)).toMatchSnapshot('errors');
     expect(getWarnings(stats)).toMatchSnapshot('warnings');
   });
@@ -391,6 +407,14 @@ describe('loader', () => {
         },
       ],
     });
+    const stats = await compile(compiler);
+
+    expect(getErrors(stats)).toMatchSnapshot('errors');
+    expect(getWarnings(stats)).toMatchSnapshot('warnings');
+  });
+
+  it('should emit error when not arguments for import', async () => {
+    const compiler = getCompiler('some-library.js', {});
     const stats = await compile(compiler);
 
     expect(getErrors(stats)).toMatchSnapshot('errors');

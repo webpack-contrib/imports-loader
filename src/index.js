@@ -9,7 +9,7 @@ import validateOptions from 'schema-utils';
 
 import schema from './options.json';
 
-import renderImport from './utils';
+import { getImports, renderImports } from './utils';
 
 export default function loader(content, sourceMap) {
   const options = getOptions(this) || {};
@@ -21,32 +21,27 @@ export default function loader(content, sourceMap) {
 
   const callback = this.async();
 
-  const moduleImport = options.imports;
+  let imports;
 
-  let moduleImports;
+  try {
+    imports = getImports(options);
+  } catch (error) {
+    callback(error);
 
-  let imports = '';
-
-  if (moduleImport) {
-    moduleImports = Array.isArray(moduleImport) ? moduleImport : [moduleImport];
-
-    try {
-      moduleImports.forEach((importEntry) => {
-        imports += `${renderImport(importEntry)}\n`;
-      });
-    } catch (error) {
-      callback(error, content, sourceMap);
-
-      return;
-    }
+    return;
   }
 
-  let importString = `/*** IMPORTS FROM imports-loader ***/\n${imports}`;
+  const loaderContext = this;
+  const importsCode = imports.reduce((acc, importsEntry) => {
+    return `${acc}${renderImports(loaderContext, importsEntry)}\n`;
+  }, '');
+
+  let finalImportsCode = `/*** IMPORTS FROM imports-loader ***/\n${importsCode}`;
 
   const { additionalCode } = options;
 
   if (additionalCode) {
-    importString += `\n${additionalCode}`;
+    finalImportsCode += `\n${additionalCode}`;
   }
 
   let codeBeforeModule = '';
@@ -65,7 +60,7 @@ export default function loader(content, sourceMap) {
       new SourceMapConsumer(sourceMap)
     );
 
-    node.prepend(`${importString}${codeBeforeModule}\n`);
+    node.prepend(`${finalImportsCode}${codeBeforeModule}\n`);
     node.add(codeAfterModule);
 
     const result = node.toStringWithSourceMap({
@@ -79,7 +74,7 @@ export default function loader(content, sourceMap) {
 
   callback(
     null,
-    `${importString}${codeBeforeModule}\n${content}${codeAfterModule}`,
+    `${finalImportsCode}${codeBeforeModule}\n${content}${codeAfterModule}`,
     sourceMap
   );
 }
