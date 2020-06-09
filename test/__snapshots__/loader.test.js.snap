@@ -24,6 +24,7 @@ exports[`loader should require when import option is array: result 1`] = `
 "/*** IMPORTS FROM imports-loader ***/
 import lib_1 from \\"lib_1\\";
 import lib_2 from \\"lib_2\\";
+
 var someCode = {
   number: 123,
   object: { existingSubProperty: 123 }
@@ -38,6 +39,7 @@ exports[`loader should require when import option is filePath: errors 1`] = `Arr
 exports[`loader should require when import option is filePath: result 1`] = `
 "/*** IMPORTS FROM imports-loader ***/
 import $ from \\"./lib_1\\";
+
 var someCode = {
   number: 123,
   object: { existingSubProperty: 123 }
@@ -52,6 +54,7 @@ exports[`loader should require when import option is object: errors 1`] = `Array
 exports[`loader should require when import option is object: result 1`] = `
 "/*** IMPORTS FROM imports-loader ***/
 import $ from \\"./lib_1\\";
+
 var someCode = {
   number: 123,
   object: { existingSubProperty: 123 }
@@ -66,6 +69,7 @@ exports[`loader should require when import option is string: errors 1`] = `Array
 exports[`loader should require when import option is string: result 1`] = `
 "/*** IMPORTS FROM imports-loader ***/
 import lib_1 from \\"lib_1\\";
+
 var someCode = {
   number: 123,
   object: { existingSubProperty: 123 }
@@ -83,6 +87,7 @@ import lib_1 from \\"lib_1\\";
 import lib_2 from \\"./lib_2.js\\";
 import defaultExport, { lib_3_method as method } from \\"./lib_3.js\\";
 import lib_4, * as lib_4_all from \\"./lib_4\\";
+
 var someCode = {
   number: 123,
   object: { existingSubProperty: 123 }
@@ -97,6 +102,7 @@ exports[`loader should require when import-side-effect: errors 1`] = `Array []`;
 exports[`loader should require when import-side-effect: result 1`] = `
 "/*** IMPORTS FROM imports-loader ***/
 import \\"./lib_1\\";
+
 var someCode = {
   number: 123,
   object: { existingSubProperty: 123 }
@@ -111,6 +117,7 @@ exports[`loader should require when name-space-import: errors 1`] = `Array []`;
 exports[`loader should require when name-space-import: result 1`] = `
 "/*** IMPORTS FROM imports-loader ***/
 import * as lib_1_all from \\"./lib_1\\";
+
 var someCode = {
   number: 123,
   object: { existingSubProperty: 123 }
@@ -126,6 +133,7 @@ exports[`loader should require when named-imports: result 1`] = `
 "/*** IMPORTS FROM imports-loader ***/
 import { lib1_method } from \\"./lib_1\\";
 import lib2_default, { lib2_method_1, lib2_method_2 as lib_2_method_2_short } from \\"./lib_2\\";
+
 var someCode = {
   number: 123,
   object: { existingSubProperty: 123 }
@@ -155,6 +163,7 @@ exports[`loader should work destructuring require: errors 1`] = `Array []`;
 exports[`loader should work destructuring require: result 1`] = `
 "/*** IMPORTS FROM imports-loader ***/
 var { lib2_method_1, lib2_method_2: lib_2_method_2_short } = require(\\"./lib_2\\");
+
 var someCode = {
   number: 123,
   object: { existingSubProperty: 123 }
@@ -170,6 +179,7 @@ exports[`loader should work few require: result 1`] = `
 "/*** IMPORTS FROM imports-loader ***/
 var $ = require(\\"./lib_1\\");
 var { lib2_method_1, lib2_method_2: lib_2_method_2_short } = require(\\"./lib_2\\");
+
 var someCode = {
   number: 123,
   object: { existingSubProperty: 123 }
@@ -184,6 +194,7 @@ exports[`loader should work import, wrapper and additionalCode option: errors 1`
 exports[`loader should work import, wrapper and additionalCode option: result 1`] = `
 "/*** IMPORTS FROM imports-loader ***/
 import \\"./lib_1\\";
+
 var someVariable = 1;
 (function() {
 var someCode = {
@@ -201,6 +212,7 @@ exports[`loader should work pure require: errors 1`] = `Array []`;
 exports[`loader should work pure require: result 1`] = `
 "/*** IMPORTS FROM imports-loader ***/
 require(\\"./lib_1\\");
+
 var someCode = {
   number: 123,
   object: { existingSubProperty: 123 }
@@ -215,6 +227,7 @@ exports[`loader should work require default: errors 1`] = `Array []`;
 exports[`loader should work require default: result 1`] = `
 "/*** IMPORTS FROM imports-loader ***/
 var $ = require(\\"./lib_1\\");
+
 var someCode = {
   number: 123,
   object: { existingSubProperty: 123 }
@@ -229,6 +242,7 @@ exports[`loader should work require: errors 1`] = `Array []`;
 exports[`loader should work require: result 1`] = `
 "/*** IMPORTS FROM imports-loader ***/
 var $ = require(\\"./lib_1\\");
+
 var someCode = {
   number: 123,
   object: { existingSubProperty: 123 }

@@ -4,10 +4,10 @@
       "type": "object",
       "properties": {
         "name": {
-          "$ref": "#/definitions/StringPattern"
+          "$ref": "#/definitions/ListStringPattern"
         },
         "alias": {
-          "$ref": "#/definitions/StringPattern"
+          "$ref": "#/definitions/ListStringPattern"
         },
         "type": {
           "enum": ["namespace", "default"]
@@ -22,7 +22,8 @@
           "enum": ["module", "commonjs"]
         },
         "moduleName": {
-          "$ref": "#/definitions/StringPattern"
+          "type": "string",
+          "minLength": 1
         },
         "list": {
           "anyOf": [
@@ -30,7 +31,7 @@
               "type": "boolean"
             },
             {
-              "$ref": "#/definitions/StringPattern"
+              "$ref": "#/definitions/ListStringPattern"
             },
             {
               "$ref": "#/definitions/NamesObjectPattern"
@@ -41,7 +42,7 @@
               "items": {
                 "anyOf": [
                   {
-                    "$ref": "#/definitions/StringPattern"
+                    "$ref": "#/definitions/ListStringPattern"
                   },
                   {
                     "$ref": "#/definitions/NamesObjectPattern"
@@ -53,7 +54,11 @@
         }
       }
     },
-    "StringPattern": {
+    "ImportsStringPattern": {
+      "type": "string",
+      "minLength": 1
+    },
+    "ListStringPattern": {
       "type": "string",
       "minLength": 1
     }
@@ -63,7 +68,7 @@
     "imports": {
       "anyOf": [
         {
-          "$ref": "#/definitions/StringPattern"
+          "$ref": "#/definitions/ImportsStringPattern"
         },
         {
           "$ref": "#/definitions/ObjectPattern"
@@ -74,7 +79,7 @@
           "items": {
             "anyOf": [
               {
-                "$ref": "#/definitions/StringPattern"
+                "$ref": "#/definitions/ImportsStringPattern"
               },
               {
                 "$ref": "#/definitions/ObjectPattern"
@@ -87,19 +92,22 @@
     "wrapper": {
       "anyOf": [
         {
-          "$ref": "#/definitions/StringPattern"
+          "type": "string",
+          "minLength": 1
         },
         {
           "type": "array",
           "minItems": 1,
           "items": {
-            "$ref": "#/definitions/StringPattern"
+            "type": "string",
+            "minLength": 1
           }
         }
       ]
     },
     "additionalCode": {
-      "$ref": "#/definitions/StringPattern"
+      "type": "string",
+      "minLength": 1
     }
   },
   "additionalProperties": false

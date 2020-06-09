@@ -25,14 +25,14 @@ export default function loader(content, sourceMap) {
 
   let moduleImports;
 
-  const imports = [];
+  let imports = '';
 
   if (moduleImport) {
     moduleImports = Array.isArray(moduleImport) ? moduleImport : [moduleImport];
 
     try {
       moduleImports.forEach((importEntry) => {
-        imports.push(renderImport(importEntry));
+        imports += `${renderImport(importEntry)}\n`;
       });
     } catch (error) {
       callback(error, content, sourceMap);
@@ -41,24 +41,22 @@ export default function loader(content, sourceMap) {
     }
   }
 
-  let prefix = '';
-  let postfix = '';
-
-  const { wrapper } = options;
-
-  if (wrapper) {
-    prefix += '\n(function() {';
-    postfix += `\n}.call(${wrapper.toString()}));`;
-  }
-
-  let importString = `/*** IMPORTS FROM imports-loader ***/\n${imports.join(
-    '\n'
-  )}`;
+  let importString = `/*** IMPORTS FROM imports-loader ***/\n${imports}`;
 
   const { additionalCode } = options;
 
   if (additionalCode) {
     importString += `\n${additionalCode}`;
+  }
+
+  let codeBeforeModule = '';
+  let codeAfterModule = '';
+
+  const { wrapper } = options;
+
+  if (wrapper) {
+    codeBeforeModule += '\n(function() {';
+    codeAfterModule += `\n}.call(${wrapper.toString()}));`;
   }
 
   if (this.sourceMap && sourceMap) {
@@ -67,8 +65,8 @@ export default function loader(content, sourceMap) {
       new SourceMapConsumer(sourceMap)
     );
 
-    node.prepend(`${importString}${prefix}\n`);
-    node.add(postfix);
+    node.prepend(`${importString}${codeBeforeModule}\n`);
+    node.add(codeAfterModule);
 
     const result = node.toStringWithSourceMap({
       file: getCurrentRequest(this),
@@ -79,5 +77,9 @@ export default function loader(content, sourceMap) {
     return;
   }
 
-  callback(null, `${importString}${prefix}\n${content}${postfix}`, sourceMap);
+  callback(
+    null,
+    `${importString}${codeBeforeModule}\n${content}${codeAfterModule}`,
+    sourceMap
+  );
 }
