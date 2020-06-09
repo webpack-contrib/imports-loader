@@ -38,10 +38,37 @@ then you can inject the `jquery` variable into the module by configuring the imp
 **index.js**
 
 ```js
-require('imports-loader?$=jquery!./example.js');
+require('./example.js');
+```
+
+**webpack.config.js**
+
+```js
+module.exports = {
+  module: {
+    rules: [
+      {
+        test: require.resolve('example.js'),
+        use: [
+          {
+            loader: 'imports-loader',
+            options: {
+              imports: {
+                moduleName: 'jquery',
+                list: '$',
+              },
+            },
+          },
+        ],
+      },
+    ],
+  },
+};
 ```
 
 This simply prepends `import jquery from "jquery";` to `example.js`.
+
+## Inline syntax
 
 **index.js**
 
@@ -112,7 +139,7 @@ module.exports = {
 Type: `String|Object|Array`
 Default: `undefined`
 
-- `String`
+#### String
 
 **webpack.config.js**
 
@@ -138,7 +165,7 @@ module.exports = {
 
 Result: `import jquery from "jquery";`.
 
-- `Array`
+#### Array
 
 **webpack.config.js**
 
@@ -175,7 +202,7 @@ import angular from 'angular';
 import $ from 'jquery';
 ```
 
-- `Object`
+#### Object
 
 **webpack.config.js**
 
@@ -204,17 +231,16 @@ module.exports = {
 
 Result: `import $ from "jquery";`.
 
-##### Type
+Options: `type`, `moduleName`, `list`
+
+##### type
 
 Type: `String`
 Default: `module`
 
 The type of the module to import (`import` or `require`).
 
-Possible values:
-
-- `module`,
-- `commonjs`
+Possible values: `module`, `commonjs`
 
 **webpack.config.js**
 
@@ -244,21 +270,21 @@ module.exports = {
 
 Result: `var $ = require("jquery");`
 
-##### ModuleName
+##### moduleName
 
 Type: `String`
 Default: `undefined`
 
 The name of the module to import (`jquery`, `lodash`, `./example-file.js`).
 
-##### List
+##### list
 
 Type: `String|Boolean|Object|Array`
 Default: `undefined`
 
 Сonfigures import string.
 
-- `Boolean`
+###### Boolean
 
 Lets you make a namespace import or pure require
 
@@ -289,11 +315,11 @@ module.exports = {
 
 Result: `import "some-module";`
 
-- `String`
+###### String
 
 Reduced to the object `{name: passedValue, type: 'default'}`
 
-- `Array`
+###### Array
 
 ```js
 module.exports = {
@@ -329,9 +355,11 @@ module.exports = {
 
 Result: `import nameDefaultImport, { method_1, method_2 as method_2_alias } from "some-module"`.
 
-- `Object`
+###### Object
 
-###### name
+Options: `name`, `alias`, `type`
+
+> name
 
 Type: `String`
 Default: `undefined`
@@ -341,7 +369,7 @@ Export name.
 `import { name as alias } from "some-module"`.
 `import { name } from "some-module"`.
 
-###### alias
+> alias
 
 Type: `String`
 Default: `undefined`
@@ -350,17 +378,14 @@ Alias for export name.
 
 `import { name as alias } from "some-module"`.
 
-###### type
+> type
 
 Type: `String`
 Default: `undefined`
 
 Type export name
 
-Possible values:
-
-- `default`,
-- `namespace`
+Possible values: `default`, `namespace`
 
 ```js
 module.exports = {

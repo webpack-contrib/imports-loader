@@ -31,9 +31,8 @@ export default function loader(content, sourceMap) {
     return;
   }
 
-  const loaderContext = this;
-  const importsCode = imports.reduce((acc, importsEntry) => {
-    return `${acc}${renderImports(loaderContext, importsEntry)}\n`;
+  const importsCode = imports.reduce((acc, item) => {
+    return `${acc}${renderImports(this, item)}\n`;
   }, '');
 
   let finalImportsCode = `/*** IMPORTS FROM imports-loader ***/\n${importsCode}`;
