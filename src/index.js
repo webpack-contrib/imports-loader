@@ -19,20 +19,31 @@ export default function loader(content, sourceMap) {
     baseDataPath: 'options',
   });
 
+  const type = options.type || 'module';
   const callback = this.async();
 
   let imports;
 
   try {
-    imports = getImports(options);
+    imports = getImports(type, options);
   } catch (error) {
     callback(error);
 
     return;
   }
 
-  const importsCode = imports.reduce((acc, item) => {
-    return `${acc}${renderImports(this, item)}\n`;
+  const importsSorted = {};
+
+  for (const item of imports) {
+    if (!importsSorted[item.moduleName]) {
+      importsSorted[item.moduleName] = [];
+    }
+
+    importsSorted[item.moduleName].push(item);
+  }
+
+  const importsCode = Object.entries(importsSorted).reduce((acc, item) => {
+    return `${acc}${renderImports(this, type, item[1])}\n`;
   }, '');
 
   let finalImportsCode = `/*** IMPORTS FROM imports-loader ***/\n${importsCode}`;

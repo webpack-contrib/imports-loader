@@ -3,7 +3,26 @@ import path from 'path';
 import webpack from 'webpack';
 import { createFsFromVolume, Volume } from 'memfs';
 
-export default (fixture, loaderOptions = {}, config = {}) => {
+export default (
+  fixture,
+  loaderOptions = {},
+  config = {},
+  disableLoader = false
+) => {
+  const loaders = [];
+
+  if (!disableLoader) {
+    loaders.push({
+      test: path.resolve(__dirname, '../fixtures', fixture),
+      use: [
+        {
+          loader: path.resolve(__dirname, '../../src'),
+          options: loaderOptions || {},
+        },
+      ],
+    });
+  }
+
   const fullConfig = {
     mode: 'development',
     devtool: config.devtool || false,
@@ -17,17 +36,7 @@ export default (fixture, loaderOptions = {}, config = {}) => {
       // libraryTarget: 'var',
     },
     module: {
-      rules: [
-        {
-          test: path.resolve(__dirname, '../fixtures', fixture),
-          use: [
-            {
-              loader: path.resolve(__dirname, '../../src'),
-              options: loaderOptions || {},
-            },
-          ],
-        },
-      ],
+      rules: loaders,
     },
     plugins: [],
     resolve: {

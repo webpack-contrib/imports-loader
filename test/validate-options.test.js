@@ -2,6 +2,10 @@ import { getCompiler, compile } from './helpers';
 
 describe('validate options', () => {
   const tests = {
+    type: {
+      success: ['module', 'commonjs'],
+      failure: ['string', '', {}, []],
+    },
     imports: {
       success: [
         'lib_1',
@@ -9,31 +13,19 @@ describe('validate options', () => {
         ['globalObject1'],
         ['globalObject1.foo'],
         {
-          type: 'commonjs',
           moduleName: 'jQuery',
-          list: '$',
+          name: '$',
         },
         {
-          type: 'module',
+          syntax: 'named',
           moduleName: 'jQuery',
-          list: [
-            'lib',
-            {
-              name: 'lib',
-            },
-            {
-              name: 'lib',
-              alias: 'lib',
-            },
-            {
-              name: 'lib',
-              type: 'default',
-            },
-            {
-              alias: 'lib',
-              type: 'namespace',
-            },
-          ],
+          name: 'lib',
+          alias: 'lib_alias',
+        },
+        {
+          syntax: 'default',
+          moduleName: 'jQuery',
+          name: 'lib',
         },
       ],
       failure: [
@@ -48,6 +40,12 @@ describe('validate options', () => {
           type: 'string',
           moduleName: 'jQuery',
           list: false,
+        },
+        {
+          syntax: 'default',
+          moduleName: 'jQuery',
+          name: 'lib',
+          alias: 'lib_alias',
         },
       ],
     },

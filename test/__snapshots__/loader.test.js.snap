@@ -1,9 +1,36 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
+exports[`loader should emit error inline: errors 1`] = `
+Array [
+  "ModuleBuildError: Module build failed (from \`replaced original path\`):
+Error: Invalid \\"named lib_2 name alias something\\" for import",
+]
+`;
+
+exports[`loader should emit error inline: warnings 1`] = `Array []`;
+
+exports[`loader should emit error when alias don\`t need: errors 1`] = `
+Array [
+  "ModuleBuildError: Module build failed (from \`replaced original path\`):
+Error: The \\"side-effect\\" syntax can't have \\"some_alias\\" alias in \\"[object Object]\\" value",
+]
+`;
+
+exports[`loader should emit error when alias don\`t need: errors 2`] = `
+Array [
+  "ModuleBuildError: Module build failed (from \`replaced original path\`):
+Error: The \\"side-effect\\" syntax can't have \\"some_name\\" name in \\"[object Object]\\" value",
+]
+`;
+
+exports[`loader should emit error when alias don\`t need: warnings 1`] = `Array []`;
+
+exports[`loader should emit error when alias don\`t need: warnings 2`] = `Array []`;
+
 exports[`loader should emit error when invalid arguments for import: errors 1`] = `
 Array [
   "ModuleBuildError: Module build failed (from \`replaced original path\`):
-Error: Skipped the \\"name\\" option for named import",
+Error: The \\"default\\" syntax can't have \\"lib_2_method_2_short\\" alias in \\"[object Object]\\" value",
 ]
 `;
 
@@ -21,7 +48,7 @@ exports[`loader should emit error when not arguments for import: warnings 1`] = 
 exports[`loader should emit error when skipped name to import-default: errors 1`] = `
 Array [
   "ModuleBuildError: Module build failed (from \`replaced original path\`):
-Error: Skipped the \\"name\\" option for default import",
+Error: The \\"default\\" syntax should have \\"name\\" option in \\"[object Object]\\" value",
 ]
 `;
 
@@ -30,7 +57,7 @@ exports[`loader should emit error when skipped name to import-default: warnings 
 exports[`loader should emit error when try namespace import to commonjs: errors 1`] = `
 Array [
   "ModuleBuildError: Module build failed (from \`replaced original path\`):
-Error: Commonjs not support namespace import",
+Error: The \\"commonjs\\" type not support \\"namespace\\" syntax import in \\"[object Object]\\" value",
 ]
 `;
 
@@ -51,21 +78,6 @@ var someCode = {
 `;
 
 exports[`loader should require when import option is array: warnings 1`] = `Array []`;
-
-exports[`loader should require when import option is filePath: errors 1`] = `Array []`;
-
-exports[`loader should require when import option is filePath: result 1`] = `
-"/*** IMPORTS FROM imports-loader ***/
-import $ from \\"./lib_1\\";
-
-var someCode = {
-  number: 123,
-  object: { existingSubProperty: 123 }
-};
-"
-`;
-
-exports[`loader should require when import option is filePath: warnings 1`] = `Array []`;
 
 exports[`loader should require when import option is object: errors 1`] = `Array []`;
 
@@ -225,6 +237,55 @@ var someCode = {
 `;
 
 exports[`loader should work import, wrapper and additionalCode option: warnings 1`] = `Array []`;
+
+exports[`loader should work inline 1: errors 1`] = `Array []`;
+
+exports[`loader should work inline 1: result 1`] = `
+"/*** IMPORTS FROM imports-loader ***/
+import lib_1 from \\"lib_1\\";
+import lib_2 from \\"lib_2\\";
+
+var someCode = {
+  number: 123,
+  object: { existingSubProperty: 123 }
+};
+"
+`;
+
+exports[`loader should work inline 1: warnings 1`] = `Array []`;
+
+exports[`loader should work inline 2: errors 1`] = `Array []`;
+
+exports[`loader should work inline 2: result 1`] = `
+"/*** IMPORTS FROM imports-loader ***/
+var lib_2_all = require(\\"lib_2\\");
+var { lib_2_method: lib_2_method_alias } = require(\\"lib_2\\");
+
+var someCode = {
+  number: 123,
+  object: { existingSubProperty: 123 }
+};
+"
+`;
+
+exports[`loader should work inline 2: warnings 1`] = `Array []`;
+
+exports[`loader should work inline 3: errors 1`] = `Array []`;
+
+exports[`loader should work inline 3: result 1`] = `
+"/*** IMPORTS FROM imports-loader ***/
+import $ from \\"lib_2\\";
+
+(function() {
+var someCode = {
+  number: 123,
+  object: { existingSubProperty: 123 }
+};
+
+}.call(window));"
+`;
+
+exports[`loader should work inline 3: warnings 1`] = `Array []`;
 
 exports[`loader should work pure require: errors 1`] = `Array []`;
 
