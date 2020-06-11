@@ -35,7 +35,7 @@ exports[`validate options should throw an error on the "imports" option with "" 
  - options.imports should be an non-empty string."
 `;
 
-exports[`validate options should throw an error on the "imports" option with "/test/" value 1`] = `"The \\"default\\" syntax should have \\"name\\" option in \\"/test/\\" value"`;
+exports[`validate options should throw an error on the "imports" option with "/test/" value 1`] = `"The import should have \\"moduleName\\" option in \\"/test/\\" value"`;
 
 exports[`validate options should throw an error on the "imports" option with "[""]" value 1`] = `
 "Invalid options object. Imports loader has been initialized using an options object that does not match the API schema.
@@ -60,7 +60,7 @@ exports[`validate options should throw an error on the "imports" option with "{"
       object { syntax?, moduleName?, name?, alias? }"
 `;
 
-exports[`validate options should throw an error on the "imports" option with "{}" value 1`] = `"The \\"default\\" syntax should have \\"name\\" option in \\"[object Object]\\" value"`;
+exports[`validate options should throw an error on the "imports" option with "{}" value 1`] = `"The import should have \\"moduleName\\" option in \\"[object Object]\\" value"`;
 
 exports[`validate options should throw an error on the "imports" option with "false" value 1`] = `
 "Invalid options object. Imports loader has been initialized using an options object that does not match the API schema.

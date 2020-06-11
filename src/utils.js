@@ -29,12 +29,17 @@ function resolveImports(type, item) {
       };
     }
   } else {
-    const defaultOptions = {
-      type: 'module',
-      syntax: 'default',
-    };
+    result = { ...{ syntax: 'default' }, ...item };
 
-    result = { ...defaultOptions, ...item };
+    if (result.syntax === 'default' && !result.name) {
+      result.name = result.moduleName;
+    }
+  }
+
+  if (!result.moduleName) {
+    throw new Error(
+      `The import should have "moduleName" option in "${item}" value`
+    );
   }
 
   if (
@@ -62,7 +67,7 @@ function resolveImports(type, item) {
   }
 
   if (
-    ['default', 'namespace', 'named'].includes(result.syntax) &&
+    ['namespace', 'named'].includes(result.syntax) &&
     typeof result.name === 'undefined'
   ) {
     throw new Error(
@@ -78,7 +83,7 @@ function getImports(type, options) {
 
   if (!imports && !additionalCode && !wrapper) {
     throw new Error(
-      `You must fill out one of the options "imports", "wrapper" or "additionalCode"`
+      `You must fill out one of the options "imports", "wrapper" or "additionalCode" in "${options}" value`
     );
   }
 

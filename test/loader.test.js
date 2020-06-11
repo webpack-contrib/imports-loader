@@ -328,6 +328,47 @@ describe('loader', () => {
     expect(getWarnings(stats)).toMatchSnapshot('warnings');
   });
 
+  it('should work string syntax when commonjs type', async () => {
+    const compiler = getCompiler('some-library.js', {
+      type: 'commonjs',
+      imports: [
+        'default ./lib_1 $',
+        'default ./lib_2 lib_2_all',
+        'named ./lib_2 lib2_method_1',
+        'named ./lib_2 lib2_method_2 lib_2_method_2_short',
+        'side-effect ./lib_3',
+      ],
+    });
+    const stats = await compile(compiler);
+
+    expect(getModuleSource('./some-library.js', stats)).toMatchSnapshot(
+      'result'
+    );
+    expect(getErrors(stats)).toMatchSnapshot('errors');
+    expect(getWarnings(stats)).toMatchSnapshot('warnings');
+  });
+
+  it('should work string syntax when module type', async () => {
+    const compiler = getCompiler('some-library.js', {
+      imports: [
+        'default ./lib_1 $',
+        'default ./lib_2 lib_2_all',
+        'named ./lib_2 lib2_method_1',
+        'named ./lib_2 lib2_method_2 lib_2_method_2_short',
+        'default ./lib_3 lib_3_defaul',
+        'namespace ./lib_3 lib_3_all',
+        'side-effect ./lib_4',
+      ],
+    });
+    const stats = await compile(compiler);
+
+    expect(getModuleSource('./some-library.js', stats)).toMatchSnapshot(
+      'result'
+    );
+    expect(getErrors(stats)).toMatchSnapshot('errors');
+    expect(getWarnings(stats)).toMatchSnapshot('warnings');
+  });
+
   it('should emit error when alias don`t need', async () => {
     const compiler = getCompiler('some-library.js', {
       imports: {
@@ -356,11 +397,11 @@ describe('loader', () => {
     expect(getWarnings(stats)).toMatchSnapshot('warnings');
   });
 
-  it('should emit error when skipped name to import-default', async () => {
+  it('should emit error when skipped name to import-named', async () => {
     const compiler = getCompiler('some-library.js', {
       imports: {
         moduleName: './lib_2.js',
-        syntax: 'default',
+        syntax: 'named',
       },
     });
     const stats = await compile(compiler);
