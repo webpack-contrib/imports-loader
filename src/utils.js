@@ -9,13 +9,13 @@ function resolveImports(type, item) {
     const noWhitespaceItem = item.trim();
 
     if (noWhitespaceItem.length === 0) {
-      throw new Error(`Invalid "${item}" value for export`);
+      throw new Error(`Invalid "${item}" value for import`);
     }
 
     const splittedItem = noWhitespaceItem.split(' ');
 
     if (splittedItem.length > 4) {
-      throw new Error(`Invalid "${item}" for import`);
+      throw new Error(`Invalid "${item}" value for import`);
     }
 
     if (splittedItem.length === 1) {
@@ -45,7 +45,7 @@ function resolveImports(type, item) {
 
   if (typeof result.moduleName === 'undefined') {
     throw new Error(
-      `The import should have "moduleName" option in "${item}" value`
+      `Need to specify the "moduleName" option in "${item}" value`
     );
   }
 
@@ -54,7 +54,7 @@ function resolveImports(type, item) {
     typeof result.alias !== 'undefined'
   ) {
     throw new Error(
-      `The "${result.syntax}" syntax can't have "${result.alias}" alias in "${item}" value`
+      `The "${result.syntax}" syntax does not support "${result.alias}" alias in "${item}" value`
     );
   }
 
@@ -63,7 +63,7 @@ function resolveImports(type, item) {
     typeof result.name !== 'undefined'
   ) {
     throw new Error(
-      `The "${result.syntax}" syntax can't have "${result.name}" name in "${item}" value`
+      `The "${result.syntax}" syntax does not support "${result.name}" name in "${item}" value`
     );
   }
 
@@ -81,7 +81,7 @@ function resolveImports(type, item) {
     type === 'module'
   ) {
     throw new Error(
-      `The "module" type not support "${result.syntax}" syntax import in "${item}" value`
+      `The "commonjs" type not support "namespace" syntax import in "${item}" value`
     );
   }
 
@@ -90,7 +90,7 @@ function resolveImports(type, item) {
     typeof result.name === 'undefined'
   ) {
     throw new Error(
-      `The "${result.syntax}" syntax should have "name" option in "${item}" value`
+      `The "${result.syntax}" syntax does not support the "name" option in "${item}" value`
     );
   }
 
@@ -142,7 +142,7 @@ function getImports(type, imports) {
           const [{ syntax }] = importsSyntax;
 
           throw new Error(
-            `The "${syntax}" syntax format can't have multiple import in "${item}" value`
+            `The "${syntax}" syntax format should not have multiple imports in "${item}" value`
           );
         }
       }

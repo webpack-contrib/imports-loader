@@ -19,7 +19,7 @@ exports[`loader should not work with source maps when the "devtool" options are 
 exports[`loader should throw an error on multiple "default" imports: errors 1`] = `
 Array [
   "ModuleBuildError: Module build failed (from \`replaced original path\`):
-Error: The \\"default\\" syntax format can't have multiple import in \\"./lib_2,[object Object],[object Object]\\" value",
+Error: The \\"default\\" syntax format should not have multiple imports in \\"./lib_2,[object Object],[object Object]\\" value",
 ]
 `;
 
@@ -28,7 +28,7 @@ exports[`loader should throw an error on multiple "default" imports: warnings 1`
 exports[`loader should throw an error on the empty string: errors 1`] = `
 Array [
   "ModuleBuildError: Module build failed (from \`replaced original path\`):
-Error: Invalid \\"      \\" value for export",
+Error: Invalid \\"      \\" value for import",
 ]
 `;
 
@@ -37,7 +37,7 @@ exports[`loader should throw an error on the empty string: warnings 1`] = `Array
 exports[`loader should throw an error when "alias" can not be used: errors 1`] = `
 Array [
   "ModuleBuildError: Module build failed (from \`replaced original path\`):
-Error: The \\"side-effect\\" syntax can't have \\"some_alias\\" alias in \\"[object Object]\\" value",
+Error: The \\"side-effect\\" syntax does not support \\"some_alias\\" alias in \\"[object Object]\\" value",
 ]
 `;
 
@@ -46,7 +46,7 @@ exports[`loader should throw an error when "alias" can not be used: warnings 1`]
 exports[`loader should throw an error when "name" can not be used: errors 1`] = `
 Array [
   "ModuleBuildError: Module build failed (from \`replaced original path\`):
-Error: The \\"side-effect\\" syntax can't have \\"some_name\\" name in \\"[object Object]\\" value",
+Error: The \\"side-effect\\" syntax does not support \\"some_name\\" name in \\"[object Object]\\" value",
 ]
 `;
 
@@ -55,7 +55,7 @@ exports[`loader should throw an error when "name" can not be used: warnings 1`] 
 exports[`loader should throw an error when "name" do not exist: errors 1`] = `
 Array [
   "ModuleBuildError: Module build failed (from \`replaced original path\`):
-Error: The \\"named\\" syntax should have \\"name\\" option in \\"[object Object]\\" value",
+Error: The \\"named\\" syntax does not support the \\"name\\" option in \\"[object Object]\\" value",
 ]
 `;
 
@@ -64,7 +64,7 @@ exports[`loader should throw an error when "name" do not exist: warnings 1`] = `
 exports[`loader should throw an error when "namespace" ca not be used in CommonJS: errors 1`] = `
 Array [
   "ModuleBuildError: Module build failed (from \`replaced original path\`):
-Error: The \\"commonjs\\" type not support \\"namespace\\" syntax import in \\"[object Object]\\" value",
+Error: The \\"commonjs\\" format does not support \\"namespace\\" syntax import in \\"[object Object]\\" value",
 ]
 `;
 
@@ -73,7 +73,7 @@ exports[`loader should throw an error when "namespace" ca not be used in CommonJ
 exports[`loader should throw an error when invalid arguments for imports: errors 1`] = `
 Array [
   "ModuleBuildError: Module build failed (from \`replaced original path\`):
-Error: The \\"default\\" syntax can't have \\"lib_2_method_2_short\\" alias in \\"[object Object]\\" value",
+Error: The \\"default\\" syntax does not support \\"lib_2_method_2_short\\" alias in \\"[object Object]\\" value",
 ]
 `;
 
@@ -82,7 +82,7 @@ exports[`loader should throw an error when invalid arguments for imports: warnin
 exports[`loader should throw an error when multiple "namespace" imports: errors 1`] = `
 Array [
   "ModuleBuildError: Module build failed (from \`replaced original path\`):
-Error: The \\"namespace\\" syntax format can't have multiple import in \\"./lib_2,[object Object],[object Object]\\" value",
+Error: The \\"namespace\\" syntax format should not have multiple imports in \\"./lib_2,[object Object],[object Object]\\" value",
 ]
 `;
 
@@ -91,7 +91,7 @@ exports[`loader should throw an error when multiple "namespace" imports: warning
 exports[`loader should throw an error when multiple "side-effect" import: errors 1`] = `
 Array [
   "ModuleBuildError: Module build failed (from \`replaced original path\`):
-Error: The \\"side-effect\\" syntax format can't have multiple import in \\"./lib_2,[object Object],[object Object]\\" value",
+Error: The \\"side-effect\\" syntax format should not have multiple imports in \\"./lib_2,[object Object],[object Object]\\" value",
 ]
 `;
 
@@ -109,7 +109,7 @@ exports[`loader should throw an error when no arguments for imports: warnings 1`
 exports[`loader should throw error on invalid inline syntax: errors 1`] = `
 Array [
   "ModuleBuildError: Module build failed (from \`replaced original path\`):
-Error: Invalid \\"named lib_2 name alias something\\" for import",
+Error: Invalid \\"named lib_2 name alias something\\" value for import",
 ]
 `;
 
