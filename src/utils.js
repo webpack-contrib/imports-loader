@@ -50,7 +50,7 @@ function resolveImports(type, item) {
   }
 
   if (
-    ['default', 'single', 'side-effect', 'pure'].includes(result.syntax) &&
+    ['default', 'single', 'side-effects', 'pure'].includes(result.syntax) &&
     typeof result.alias !== 'undefined'
   ) {
     throw new Error(
@@ -59,7 +59,7 @@ function resolveImports(type, item) {
   }
 
   if (
-    ['side-effect', 'pure'].includes(result.syntax) &&
+    ['side-effects', 'pure'].includes(result.syntax) &&
     typeof result.name !== 'undefined'
   ) {
     throw new Error(
@@ -81,7 +81,7 @@ function resolveImports(type, item) {
     type === 'module'
   ) {
     throw new Error(
-      `The "commonjs" type not support "namespace" syntax import in "${item}" value`
+      `The "${type}" format does not support "namespace" syntax import in "${item}" value`
     );
   }
 
@@ -131,7 +131,7 @@ function getImports(type, imports) {
       ({ syntax }) => syntax === 'namespace'
     );
     const sideEffectImports = item[1].filter(
-      ({ syntax }) => syntax === 'side-effect'
+      ({ syntax }) => syntax === 'side-effects'
     );
 
     const pure = item[1].filter((entry) => entry.syntax === 'pure');

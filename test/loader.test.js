@@ -211,11 +211,11 @@ describe('loader', () => {
     expect(getWarnings(stats)).toMatchSnapshot('warnings');
   });
 
-  it('should work with "side-effect" imports', async () => {
+  it('should work with "side-effects" imports', async () => {
     const compiler = getCompiler('some-library.js', {
       imports: {
         moduleName: './lib_1',
-        syntax: 'side-effect',
+        syntax: 'side-effects',
       },
     });
     const stats = await compile(compiler);
@@ -270,7 +270,7 @@ describe('loader', () => {
     const compiler = getCompiler('some-library.js', {
       imports: {
         moduleName: './lib_1',
-        syntax: 'side-effect',
+        syntax: 'side-effects',
       },
       wrapper: 'window',
       additionalCode: 'var someVariable = 1;',
@@ -379,11 +379,11 @@ describe('loader', () => {
     expect(getWarnings(stats)).toMatchSnapshot('warnings');
   });
 
-  it('should work "side-effect" CommonJS imports', async () => {
+  it('should work "side-effects" CommonJS imports', async () => {
     const compiler = getCompiler('some-library.js', {
       type: 'commonjs',
       imports: {
-        syntax: 'pure',
+        syntax: 'side-effects',
         moduleName: './lib_1',
       },
     });
@@ -426,7 +426,7 @@ describe('loader', () => {
         'named ./lib_2 lib2_method_2 lib_2_method_2_short',
         'default ./lib_3 lib_3_defaul',
         'namespace ./lib_3 lib_3_all',
-        'side-effect ./lib_4',
+        'side-effects ./lib_4',
       ],
     });
     const stats = await compile(compiler);
@@ -442,7 +442,7 @@ describe('loader', () => {
     const compiler = getCompiler('some-library.js', {
       imports: {
         moduleName: './lib_1',
-        syntax: 'side-effect',
+        syntax: 'side-effects',
         alias: 'some_alias',
       },
     });
@@ -456,7 +456,7 @@ describe('loader', () => {
     const compiler = getCompiler('some-library.js', {
       imports: {
         moduleName: './lib_1',
-        syntax: 'side-effect',
+        syntax: 'side-effects',
         name: 'some_name',
       },
     });
@@ -531,9 +531,9 @@ describe('loader', () => {
     expect(getWarnings(stats)).toMatchSnapshot('warnings');
   });
 
-  it('should throw an error when multiple "side-effect" import', async () => {
+  it('should throw an error when multiple "side-effects" import', async () => {
     const compiler = getCompiler('some-library.js', {
-      imports: ['side-effect ./lib_2', 'side-effect ./lib_2'],
+      imports: ['side-effects ./lib_2', 'side-effects ./lib_2'],
     });
     const stats = await compile(compiler);
 

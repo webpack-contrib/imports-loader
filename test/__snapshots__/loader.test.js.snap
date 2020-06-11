@@ -37,7 +37,7 @@ exports[`loader should throw an error on the empty string: warnings 1`] = `Array
 exports[`loader should throw an error when "alias" can not be used: errors 1`] = `
 Array [
   "ModuleBuildError: Module build failed (from \`replaced original path\`):
-Error: The \\"side-effect\\" syntax does not support \\"some_alias\\" alias in \\"[object Object]\\" value",
+Error: The \\"side-effects\\" syntax does not support \\"some_alias\\" alias in \\"[object Object]\\" value",
 ]
 `;
 
@@ -46,7 +46,7 @@ exports[`loader should throw an error when "alias" can not be used: warnings 1`]
 exports[`loader should throw an error when "name" can not be used: errors 1`] = `
 Array [
   "ModuleBuildError: Module build failed (from \`replaced original path\`):
-Error: The \\"side-effect\\" syntax does not support \\"some_name\\" name in \\"[object Object]\\" value",
+Error: The \\"side-effects\\" syntax does not support \\"some_name\\" name in \\"[object Object]\\" value",
 ]
 `;
 
@@ -88,14 +88,14 @@ Error: The \\"namespace\\" syntax format should not have multiple imports in \\"
 
 exports[`loader should throw an error when multiple "namespace" imports: warnings 1`] = `Array []`;
 
-exports[`loader should throw an error when multiple "side-effect" import: errors 1`] = `
+exports[`loader should throw an error when multiple "side-effects" import: errors 1`] = `
 Array [
   "ModuleBuildError: Module build failed (from \`replaced original path\`):
-Error: The \\"side-effect\\" syntax format should not have multiple imports in \\"./lib_2,[object Object],[object Object]\\" value",
+Error: The \\"side-effects\\" syntax format should not have multiple imports in \\"./lib_2,[object Object],[object Object]\\" value",
 ]
 `;
 
-exports[`loader should throw an error when multiple "side-effect" import: warnings 1`] = `Array []`;
+exports[`loader should throw an error when multiple "side-effects" import: warnings 1`] = `Array []`;
 
 exports[`loader should throw an error when no arguments for imports: errors 1`] = `
 Array [
@@ -115,9 +115,9 @@ Error: Invalid \\"named lib_2 name alias something\\" value for import",
 
 exports[`loader should throw error on invalid inline syntax: warnings 1`] = `Array []`;
 
-exports[`loader should work "side-effect" CommonJS imports: errors 1`] = `Array []`;
+exports[`loader should work "side-effects" CommonJS imports: errors 1`] = `Array []`;
 
-exports[`loader should work "side-effect" CommonJS imports: result 1`] = `
+exports[`loader should work "side-effects" CommonJS imports: result 1`] = `
 "/*** IMPORTS FROM imports-loader ***/
 require(\\"./lib_1\\");
 
@@ -128,7 +128,7 @@ var someCode = {
 "
 `;
 
-exports[`loader should work "side-effect" CommonJS imports: warnings 1`] = `Array []`;
+exports[`loader should work "side-effects" CommonJS imports: warnings 1`] = `Array []`;
 
 exports[`loader should work with "default" CommonJS imports: errors 1`] = `Array []`;
 
@@ -227,9 +227,9 @@ var someCode = {
 
 exports[`loader should work with "namespace" imports: warnings 1`] = `Array []`;
 
-exports[`loader should work with "side-effect" imports: errors 1`] = `Array []`;
+exports[`loader should work with "side-effects" imports: errors 1`] = `Array []`;
 
-exports[`loader should work with "side-effect" imports: result 1`] = `
+exports[`loader should work with "side-effects" imports: result 1`] = `
 "/*** IMPORTS FROM imports-loader ***/
 import \\"./lib_1\\";
 
@@ -240,7 +240,7 @@ var someCode = {
 "
 `;
 
-exports[`loader should work with "side-effect" imports: warnings 1`] = `Array []`;
+exports[`loader should work with "side-effects" imports: warnings 1`] = `Array []`;
 
 exports[`loader should work with a string syntax using CommonJS: errors 1`] = `Array []`;
 
