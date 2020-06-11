@@ -3,74 +3,71 @@
 	Author Tobias Koppers @sokra
 */
 
+import { SourceNode, SourceMapConsumer } from 'source-map';
 import { getOptions, getCurrentRequest } from 'loader-utils';
-// import validateOptions from 'schema-utils';
-//
-// import schema from './options.json';
+import validateOptions from 'schema-utils';
 
-const { SourceNode } = require('source-map');
-const { SourceMapConsumer } = require('source-map');
+import schema from './options.json';
 
-const HEADER = '/*** IMPORTS FROM imports-loader ***/\n';
+import { getImports, renderImports } from './utils';
 
 export default function loader(content, sourceMap) {
   const options = getOptions(this) || {};
 
-  // validateOptions(schema, options, 'Loader');
+  validateOptions(schema, options, {
+    name: 'Imports loader',
+    baseDataPath: 'options',
+  });
 
+  const type = options.type || 'module';
   const callback = this.async();
 
-  if (this.cacheable) this.cacheable();
-  const query = options;
-  const imports = [];
-  const postfixes = [];
-  Object.keys(query).forEach((name) => {
-    let value;
-    if (typeof query[name] === 'string' && query[name].substr(0, 1) === '>') {
-      value = query[name].substr(1);
-    } else {
-      let mod = name;
-      if (typeof query[name] === 'string') {
-        mod = query[name];
-      }
-      value = `require(${JSON.stringify(mod)})`;
-    }
-    if (name === 'this') {
-      imports.push('(function() {');
-      postfixes.unshift(`}.call(${value}));`);
-    } else if (name.indexOf('.') !== -1) {
-      name.split('.').reduce((previous, current, index, names) => {
-        const expr = previous + current;
+  let importsCode = `/*** IMPORTS FROM imports-loader ***/\n`;
 
-        if (previous.length === 0) {
-          imports.push(`var ${expr} = (${current} || {});`);
-        } else if (index < names.length - 1) {
-          imports.push(`${expr} = ${expr} || {};`);
-        } else {
-          imports.push(`${expr} = ${value};`);
-        }
+  let imports;
 
-        return `${previous}${current}.`;
-      }, '');
-    } else {
-      imports.push(`var ${name} = ${value};`);
+  if (options.imports) {
+    try {
+      imports = getImports(type, options.imports);
+    } catch (error) {
+      callback(error);
+
+      return;
     }
-  });
-  const prefix = `${HEADER}${imports.join('\n')}\n\n`;
-  const postfix = `\n${postfixes.join('\n')}`;
-  if (sourceMap) {
+
+    importsCode += Object.entries(imports).reduce((acc, item) => {
+      return `${acc}${renderImports(this, type, item[1])}\n`;
+    }, '');
+  }
+
+  if (options.additionalCode) {
+    importsCode += `\n${options.additionalCode}`;
+  }
+
+  let codeAfterModule = '';
+
+  if (options.wrapper) {
+    importsCode += '\n(function() {';
+    codeAfterModule += `\n}.call(${options.wrapper.toString()}));`;
+  }
+
+  if (this.sourceMap && sourceMap) {
     const node = SourceNode.fromStringWithSourceMap(
       content,
       new SourceMapConsumer(sourceMap)
     );
-    node.prepend(prefix);
-    node.add(postfix);
+
+    node.prepend(`${importsCode}\n`);
+    node.add(codeAfterModule);
+
     const result = node.toStringWithSourceMap({
       file: getCurrentRequest(this),
     });
+
     callback(null, result.code, result.map.toJSON());
+
     return;
   }
 
-  callback(null, `${prefix}${content}${postfix}`, sourceMap);
+  callback(null, `${importsCode}\n${content}${codeAfterModule}`, sourceMap);
 }

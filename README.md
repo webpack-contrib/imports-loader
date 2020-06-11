@@ -1,98 +1,444 @@
-[![npm][npm]][npm-url]
-[![deps][deps]][deps-url]
-[![test][test]][test-url]
-[![chat][chat]][chat-url]
-
 <div align="center">
-  <!-- replace with accurate logo e.g from https://worldvectorlogo.com/ -->
   <a href="https://github.com/webpack/webpack">
-    <img width="200" height="200" vspace="" hspace="25"
-      src="https://cdn.rawgit.com/webpack/media/e7485eb2/logo/icon.svg">
+    <img width="200" height="200"
+      src="https://webpack.js.org/assets/icon-square-big.svg">
   </a>
-  <h1>Imports Loader</h1>
-  <p>The imports loader allows you to use modules that depend on specific global variables.<p>
 </div>
+
+[![npm][npm]][npm-url]
+[![node][node]][node-url]
+[![deps][deps]][deps-url]
+[![tests][tests]][tests-url]
+[![cover][cover]][cover-url]
+[![chat][chat]][chat-url]
+[![size][size]][size-url]
+
+# Imports Loader
+
+The imports loader allows you to use modules that depend on specific global variables.
 
 This is useful for third-party modules that rely on global variables like `$` or `this` being the `window` object. The imports loader can add the necessary `require('whatever')` calls, so those modules work with webpack.
 
-<h2 align="center">Install</h2>
+## Getting Started
 
-```bash
-npm install imports-loader
+To begin, you'll need to install `imports-loader`:
+
+```console
+$ npm install imports-loader --save-dev
 ```
-
-<h2 align="center"><a href="https://webpack.js.org/concepts/loaders">Usage</a></h2>
 
 Given you have this file `example.js`
 
-```javascript
+```js
 $('img').doSomeAwesomeJqueryPluginStuff();
 ```
 
-then you can inject the `$` variable into the module by configuring the imports-loader like this:
+then you can inject the `jquery` variable into the module by configuring the imports-loader like this:
 
-```javascript
-require('imports-loader?$=jquery!./example.js');
+**index.js**
+
+```js
+require('imports-loader?imports=default%20jquery%20$!./example.js');
+// Adds the following code to the beginning of example.js:
+//
+//  `import $ from "jquery";` to `example.js`
 ```
 
-This simply prepends `var $ = require("jquery");` to `example.js`.
+> ⚠ By default loader generate ES module named syntax.
 
-### Syntax
+### Inline
 
-| Query value         | Equals                                |
-| ------------------- | ------------------------------------- |
-| `angular`           |  `var angular = require("angular");`  |
-| `$=jquery`          | `var $ = require("jquery");`          |
-| `define=>false`     | `var define = false;`                 |
-| `config=>{size:50}` | `var config = {size:50};`             |
-| `this=>window`      | `(function () { ... }).call(window);` |
+The `imports` have follow syntax:
 
-### Multiple values
-
-Multiple values are separated by comma `,`:
-
-```javascript
-require('imports-loader?$=jquery,angular,config=>{size:50}!./file.js');
+```
+?imports=syntax%20moduleName%20name%20alias
 ```
 
-### webpack.config.js
+The space (`%20`) is the separator between import segments.
 
-As always, you should rather configure this in your `webpack.config.js`:
+> `syntax` is required.
 
-```javascript
-// ./webpack.config.js
+A `syntax` can be omitted only if one segment is used. In this case, the `moduleName` and `name` will be equal to it.
 
+Description of string values can be found in the documentation below.
+
+#### Examples
+
+**index.js**
+
+```js
+require(`imports-loader?imports[]=default%20jquery%20$&imports[]=angular!./example.js`);
+// Adds the following code to the beginning of example.js:
+//
+//  import $ from "jquery";
+//  import angular from "angular";
+```
+
+```js
+require(`imports-loader?type=commonjsimports[]=default%20jquery%20$&imports[]=angular!./example.js`);
+// Adds the following code to the beginning of example.js:
+//
+//  var $ = require("jquery");
+//  var angular = require("angular");
+```
+
+```js
+require(`imports-loader?wrapper=window&imports[]=default%20jquery%20$&imports[]=angular!./example.js`);
+// Adds the following code to the example.js:
+//
+//  import $ from "jquery";
+//  import angular from "angular";
+//
+// (function () {
+//   code from example.js
+// }.call(window));
+```
+
+Description of string values can be found in the documentation below.
+
+### Using Configuration
+
+The loader's signature:
+
+**webpack.config.js**
+
+```js
 module.exports = {
-    ...
-    module: {
-        rules: [
-            {
-                test: require.resolve("some-module"),
-                use: "imports-loader?this=>window"
-            }
-        ]
-    }
+  module: {
+    rules: [
+      {
+        test: require.resolve('example.js'),
+        use: [
+          {
+            loader: 'imports-loader',
+            options: {
+              type: 'commonjs',
+              imports: [
+                'default ./lib_1 $',
+                'default ./lib_2 lib_2_default',
+                'named ./lib_2 lib2_method_1',
+                'named ./lib_2 lib2_method_2 lib_2_method_2_short',
+                'default ./lib_3 lib_3_defaul',
+                'namespace ./lib_3 lib_3_all',
+                'side-effect ./lib_4',
+                'default jquery $',
+                {
+                  moduleName: 'angular',
+                  name: 'angular',
+                },
+              ],
+              wrapper: {
+                call: 'window',
+              },
+              additionalCode: 'var someVariable = 1;',
+            },
+          },
+        ],
+      },
+    ],
+  },
 };
 ```
 
-<h2 align="center">Typical Use Cases</h2>
+And run `webpack` via your preferred method.
 
-### jQuery plugins
+## Options
 
-`imports-loader?$=jquery`
+|           Name            |                   Type                    |   Default   | Description                 |
+| :-----------------------: | :---------------------------------------: | :---------: | :-------------------------- |
+|    **[`type`](#type)**    |                `{String}`                 |  `module`   | Format of generated exports |
+| **[`imports`](#imports)** | `{String\|Object\|Array<String\|Object>}` | `undefined` | List of imports             |
 
-### Custom Angular modules
+### Type
 
-`imports-loader?angular`
+Type: `String`
+Default: `module`
 
-### Disable AMD
+Format of generated exports.
 
-There are many modules that check for a `define` function before using CommonJS. Since webpack is capable of both, they default to AMD in this case, which can be a problem if the implementation is quirky.
+Possible values - `commonjs` (CommonJS module syntax) and `module` (ES module syntax).
 
-Then you can easily disable the AMD path by writing
+#### `commonjs`
 
-```javascript
-imports-loader?define=>false
+**webpack.config.js**
+
+```js
+module.exports = {
+  module: {
+    rules: [
+      {
+        test: require.resolve('example.js'),
+        loader: 'imports-loader',
+        options: {
+          type: 'commonjs',
+          imports: 'Foo',
+        },
+      },
+    ],
+  },
+};
+// Adds the following code to the beginning of example.js:
+//
+// var Foo = require("Foo");
+```
+
+#### `module`
+
+**webpack.config.js**
+
+```js
+module.exports = {
+  module: {
+    rules: [
+      {
+        test: require.resolve('example.js'),
+        loader: 'imports-loader',
+        options: {
+          type: 'module',
+          imports: 'Foo',
+        },
+      },
+    ],
+  },
+};
+// Adds the following code to the beginning of example.js:
+//
+// import Foo from "Foo";
+```
+
+### Imports
+
+Type: `String|Object|Array`
+Default: `undefined`
+
+List of imports.
+
+#### `String`
+
+Allows to use a string to describe an export.
+
+##### `Syntax`
+
+String values let you specify import syntax, moduleName, name, and alias.
+
+String syntax - `[[syntax] [moduleName] [name] [alias]]`, where:
+
+- `[syntax]` - can be `default`, `named`, `namespace` or `side-effect`
+- `[moduleName]` - name of an imported module (**required**)
+- `[name]` - name of an imported value (**required**)
+- `[alias]` - alias of an imported value (**may be omitted**)
+
+Examples:
+
+- `[Foo]` - generates `import Foo from "Foo";`.
+- `[default Foo]` - generates `import Foo from "Foo";`.
+- `[default ./my-lib Foo]` - generates `import Foo from "./my-lib";`.
+- `[named Foo FooA]` - generates `import { FooA } from "Foo";`.
+- `[named Foo FooA Bar]` - generates `import { FooA as Bar } from "Foo";`.
+- `[[default Foo] [named Foo Bar BarA]]` - generates `import Foo, { Bar as BarA } from "Foo";`.
+- `[namespace Foo FooA]` - generates `import * as FooA from "Foo";`.
+- `[[default Foo] [namespace Foo FooA]]` - generates `import Foo, * as FooA from "Foo";`.
+- `[side-effect Foo]` - generates `import "Foo";`.
+
+> ⚠ Aliases can't be used together with `default` or `side-effect` syntax.
+
+###### Examples
+
+**webpack.config.js**
+
+```js
+module.exports = {
+  module: {
+    rules: [
+      {
+        test: require.resolve('example.js'),
+        use: [
+          {
+            loader: 'imports-loader',
+            options: {
+              type: 'commonjs',
+              imports: 'default jquery $',
+            },
+          },
+        ],
+      },
+    ],
+  },
+};
+
+// Adds the following code to the beginning of example.js:
+//
+// import $ from "jquery";
+```
+
+#### `Object`
+
+Allows to use an object to describe an import.
+
+Properties:
+
+- `[syntax]` - can be `default`, `named`, `namespace` or `side-effect`
+- `moduleName` - name of an imported module (**required**)
+- `name` - name of an exported value (**required**)
+- `alias` - alias of an exported value (**may be omitted**)
+
+##### Examples
+
+**webpack.config.js**
+
+```js
+module.exports = {
+  module: {
+    rules: [
+      {
+        test: require.resolve('example.js'),
+        use: [
+          {
+            loader: 'imports-loader',
+            options: {
+              type: 'commonjs',
+              imports: {
+                syntax: 'named',
+                moduleName: './lib_2',
+                name: 'lib2_method_2',
+                alias: 'lib_2_method_2_alias',
+              },
+            },
+          },
+        ],
+      },
+    ],
+  },
+};
+
+// Adds the following code to the beginning of example.js:
+//
+// import { lib2_method_2 as lib_2_method_2_alias } from "./lib_2";
+```
+
+#### `Array`
+
+Allow to specify multiple imports. Each item can be a [`string`](https://github.com/webpack-contrib/imports-loader#string) or an [`object`](https://github.com/webpack-contrib/imports-loader#object).
+
+##### Examples
+
+**webpack.config.js**
+
+```js
+module.exports = {
+  module: {
+    rules: [
+      {
+        test: require.resolve('example.js'),
+        use: [
+          {
+            loader: 'imports-loader',
+            options: {
+              type: 'commonjs',
+              imports: [
+                {
+                  moduleName: 'angular',
+                },
+                {
+                  syntax: 'default',
+                  moduleName: 'jquery',
+                  name: '$',
+                },
+                'default ./lib_2 lib_2_default',
+                'named ./lib_2 lib2_method_1',
+                'named ./lib_2 lib2_method_2 lib_2_method_2_alias',
+                'default ./lib_3 lib_3_default',
+                'namespace ./lib_3 lib_3_all',
+                'side-effect ./lib_4',
+              ],
+            },
+          },
+        ],
+      },
+    ],
+  },
+};
+
+// Adds the following code to the beginning of example.js:
+//
+// import angular from "angular";
+// import $ from "jquery";
+// import lib_2_default, { lib2_method_1, lib2_method_2 as lib_2_method_2_alias } from "./lib_2";
+// import lib_3_default, * as lib_3_all from "./lib_3";
+// import "./lib_4";
+```
+
+### wrapper
+
+Type: `String|Array`
+Default: `undefined`
+
+Closes the module code in a function with a given `this` (`(function () { ... }).call(window);`).
+
+```js
+module.exports = {
+  module: {
+    rules: [
+      {
+        test: require.resolve('example.js'),
+        use: [
+          {
+            loader: 'imports-loader',
+            options: {
+              imports: {
+                moduleName: 'jquery',
+                name: '$',
+              },
+              wrapper: ['window', 'document'],
+            },
+          },
+        ],
+      },
+    ],
+  },
+};
+// Adds the following code to the example.js:
+//
+//  import $ from "jquery";
+//
+// (function () {
+//   code from example.js
+// }.call(window, document));
+```
+
+### additionalCode
+
+Type: `String`
+Default: `undefined`
+
+Adds custom code.
+
+```js
+module.exports = {
+  module: {
+    rules: [
+      {
+        test: require.resolve('example.js'),
+        use: [
+          {
+            loader: 'imports-loader',
+            options: {
+              imports: {
+                moduleName: 'jquery',
+                name: '$',
+              },
+              additionalCode: 'var someVariable = 1;',
+            },
+          },
+        ],
+      },
+    ],
+  },
+};
+// Adds the following code to the beginning of example.js:
+//
+// import $ from 'jquery';
+// var someVariable = 1;
 ```
 
 For further hints on compatibility issues, check out [Shimming Modules](https://webpack.js.org/guides/shimming/) of the official docs.
@@ -132,9 +478,15 @@ For further hints on compatibility issues, check out [Shimming Modules](https://
 
 [npm]: https://img.shields.io/npm/v/imports-loader.svg
 [npm-url]: https://www.npmjs.com/package/imports-loader
+[node]: https://img.shields.io/node/v/imports-loader.svg
+[node-url]: https://nodejs.org
 [deps]: https://david-dm.org/webpack-contrib/imports-loader.svg
 [deps-url]: https://david-dm.org/webpack-contrib/imports-loader
+[tests]: https://github.com/webpack-contrib/imports-loader/workflows/imports-loader/badge.svg
+[tests-url]: https://github.com/webpack-contrib/imports-loader/actions
+[cover]: https://codecov.io/gh/webpack-contrib/imports-loader/branch/master/graph/badge.svg
+[cover-url]: https://codecov.io/gh/webpack-contrib/imports-loader
 [chat]: https://img.shields.io/badge/gitter-webpack%2Fwebpack-brightgreen.svg
 [chat-url]: https://gitter.im/webpack/webpack
-[test]: http://img.shields.io/travis/webpack-contrib/imports-loader.svg
-[test-url]: https://travis-ci.org/webpack-contrib/imports-loader
+[size]: https://packagephobia.now.sh/badge?p=imports-loader
+[size-url]: https://packagephobia.now.sh/result?p=imports-loader

@@ -1,5 +1,85 @@
 {
+  "definitions": {
+    "ObjectPattern": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "syntax": {
+          "enum": ["default", "named", "namespace", "side-effect"]
+        },
+        "moduleName": {
+          "type": "string",
+          "minLength": 1
+        },
+        "name": {
+          "type": "string",
+          "minLength": 1
+        },
+        "alias": {
+          "type": "string",
+          "minLength": 1
+        }
+      }
+    },
+    "ImportsStringPattern": {
+      "type": "string",
+      "minLength": 1
+    }
+  },
   "type": "object",
-  "properties": {},
+  "properties": {
+    "type": {
+      "enum": ["module", "commonjs"]
+    },
+    "imports": {
+      "anyOf": [
+        {
+          "$ref": "#/definitions/ImportsStringPattern"
+        },
+        {
+          "$ref": "#/definitions/ObjectPattern"
+        },
+        {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "anyOf": [
+              {
+                "$ref": "#/definitions/ImportsStringPattern"
+              },
+              {
+                "$ref": "#/definitions/ObjectPattern"
+              }
+            ]
+          }
+        }
+      ]
+    },
+    "wrapper": {
+      "anyOf": [
+        {
+          "type": "string",
+          "minLength": 1
+        },
+        {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "type": "string",
+            "minLength": 1
+          }
+        }
+      ]
+    },
+    "additionalCode": {
+      "type": "string",
+      "minLength": 1
+    }
+  },
+  "anyOf": [
+    { "required": ["imports"] },
+    { "required": ["wrapper"] },
+    { "required": ["additionalCode"] }
+  ],
   "additionalProperties": false
 }

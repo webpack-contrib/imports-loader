@@ -1,21 +1,428 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`loader should set a variable: errors 1`] = `Array []`;
+exports[`loader should emit error inline: errors 1`] = `
+Array [
+  "ModuleBuildError: Module build failed (from \`replaced original path\`):
+Error: Invalid \\"named lib_2 name alias something\\" for import",
+]
+`;
 
-exports[`loader should set a variable: result 1`] = `
+exports[`loader should emit error inline: warnings 1`] = `Array []`;
+
+exports[`loader should emit error when alias don\`t need: errors 1`] = `
+Array [
+  "ModuleBuildError: Module build failed (from \`replaced original path\`):
+Error: The \\"side-effect\\" syntax can't have \\"some_alias\\" alias in \\"[object Object]\\" value",
+]
+`;
+
+exports[`loader should emit error when alias don\`t need: errors 2`] = `
+Array [
+  "ModuleBuildError: Module build failed (from \`replaced original path\`):
+Error: The \\"side-effect\\" syntax can't have \\"some_name\\" name in \\"[object Object]\\" value",
+]
+`;
+
+exports[`loader should emit error when alias don\`t need: warnings 1`] = `Array []`;
+
+exports[`loader should emit error when alias don\`t need: warnings 2`] = `Array []`;
+
+exports[`loader should emit error when invalid arguments for import: errors 1`] = `
+Array [
+  "ModuleBuildError: Module build failed (from \`replaced original path\`):
+Error: The \\"default\\" syntax can't have \\"lib_2_method_2_short\\" alias in \\"[object Object]\\" value",
+]
+`;
+
+exports[`loader should emit error when invalid arguments for import: warnings 1`] = `Array []`;
+
+exports[`loader should emit error when multiple default import: errors 1`] = `
+Array [
+  "ModuleBuildError: Module build failed (from \`replaced original path\`):
+Error: The \\"default\\" syntax format can't have multiple import in \\"./lib_2,[object Object],[object Object]\\" value",
+]
+`;
+
+exports[`loader should emit error when multiple default import: warnings 1`] = `Array []`;
+
+exports[`loader should emit error when multiple namespace import: errors 1`] = `
+Array [
+  "ModuleBuildError: Module build failed (from \`replaced original path\`):
+Error: The \\"namespace\\" syntax format can't have multiple import in \\"./lib_2,[object Object],[object Object]\\" value",
+]
+`;
+
+exports[`loader should emit error when multiple namespace import: warnings 1`] = `Array []`;
+
+exports[`loader should emit error when multiple side-effect import: errors 1`] = `
+Array [
+  "ModuleBuildError: Module build failed (from \`replaced original path\`):
+Error: The \\"side-effect\\" syntax format can't have multiple import in \\"./lib_2,[object Object],[object Object]\\" value",
+]
+`;
+
+exports[`loader should emit error when multiple side-effect import: warnings 1`] = `Array []`;
+
+exports[`loader should emit error when not arguments for import: errors 1`] = `
+Array [
+  "ModuleBuildError: Module build failed (from \`replaced original path\`):
+ValidationError: Invalid options object. Imports loader has been initialized using an options object that does not match the API schema.",
+]
+`;
+
+exports[`loader should emit error when not arguments for import: warnings 1`] = `Array []`;
+
+exports[`loader should emit error when skipped name to import-named: errors 1`] = `
+Array [
+  "ModuleBuildError: Module build failed (from \`replaced original path\`):
+Error: The \\"named\\" syntax should have \\"name\\" option in \\"[object Object]\\" value",
+]
+`;
+
+exports[`loader should emit error when skipped name to import-named: warnings 1`] = `Array []`;
+
+exports[`loader should emit error when try namespace import to commonjs: errors 1`] = `
+Array [
+  "ModuleBuildError: Module build failed (from \`replaced original path\`):
+Error: The \\"commonjs\\" type not support \\"namespace\\" syntax import in \\"[object Object]\\" value",
+]
+`;
+
+exports[`loader should emit error when try namespace import to commonjs: warnings 1`] = `Array []`;
+
+exports[`loader should require when import option is array: errors 1`] = `Array []`;
+
+exports[`loader should require when import option is array: result 1`] = `
 "/*** IMPORTS FROM imports-loader ***/
-var someVariable = 1;
-var anotherVariable = 2;
-var someVariable = (someVariable || {});
-someVariable.someProperty = someVariable.someProperty || {};
-someVariable.someProperty.someSubProperty = 1;
+import lib_1 from \\"lib_1\\";
+import lib_2 from \\"lib_2\\";
 
 var someCode = {
   number: 123,
   object: { existingSubProperty: 123 }
 };
-
 "
 `;
 
-exports[`loader should set a variable: warnings 1`] = `Array []`;
+exports[`loader should require when import option is array: warnings 1`] = `Array []`;
+
+exports[`loader should require when import option is object: errors 1`] = `Array []`;
+
+exports[`loader should require when import option is object: result 1`] = `
+"/*** IMPORTS FROM imports-loader ***/
+import $ from \\"./lib_1\\";
+
+var someCode = {
+  number: 123,
+  object: { existingSubProperty: 123 }
+};
+"
+`;
+
+exports[`loader should require when import option is object: warnings 1`] = `Array []`;
+
+exports[`loader should require when import option is string: errors 1`] = `Array []`;
+
+exports[`loader should require when import option is string: result 1`] = `
+"/*** IMPORTS FROM imports-loader ***/
+import lib_1 from \\"lib_1\\";
+
+var someCode = {
+  number: 123,
+  object: { existingSubProperty: 123 }
+};
+"
+`;
+
+exports[`loader should require when import option is string: warnings 1`] = `Array []`;
+
+exports[`loader should require when import-default: errors 1`] = `Array []`;
+
+exports[`loader should require when import-default: result 1`] = `
+"/*** IMPORTS FROM imports-loader ***/
+import lib_1 from \\"lib_1\\";
+import lib_2 from \\"./lib_2.js\\";
+import defaultExport, { lib_3_method as method } from \\"./lib_3.js\\";
+import lib_4, * as lib_4_all from \\"./lib_4\\";
+
+var someCode = {
+  number: 123,
+  object: { existingSubProperty: 123 }
+};
+"
+`;
+
+exports[`loader should require when import-default: warnings 1`] = `Array []`;
+
+exports[`loader should require when import-side-effect: errors 1`] = `Array []`;
+
+exports[`loader should require when import-side-effect: result 1`] = `
+"/*** IMPORTS FROM imports-loader ***/
+import \\"./lib_1\\";
+
+var someCode = {
+  number: 123,
+  object: { existingSubProperty: 123 }
+};
+"
+`;
+
+exports[`loader should require when import-side-effect: warnings 1`] = `Array []`;
+
+exports[`loader should require when name-space-import: errors 1`] = `Array []`;
+
+exports[`loader should require when name-space-import: result 1`] = `
+"/*** IMPORTS FROM imports-loader ***/
+import * as lib_1_all from \\"./lib_1\\";
+
+var someCode = {
+  number: 123,
+  object: { existingSubProperty: 123 }
+};
+"
+`;
+
+exports[`loader should require when name-space-import: warnings 1`] = `Array []`;
+
+exports[`loader should require when named-imports: errors 1`] = `Array []`;
+
+exports[`loader should require when named-imports: result 1`] = `
+"/*** IMPORTS FROM imports-loader ***/
+import { lib1_method } from \\"./lib_1\\";
+import lib2_default, { lib2_method_1, lib2_method_2 as lib_2_method_2_short } from \\"./lib_2\\";
+
+var someCode = {
+  number: 123,
+  object: { existingSubProperty: 123 }
+};
+"
+`;
+
+exports[`loader should require when named-imports: warnings 1`] = `Array []`;
+
+exports[`loader should work additionalCode option: errors 1`] = `Array []`;
+
+exports[`loader should work additionalCode option: result 1`] = `
+"/*** IMPORTS FROM imports-loader ***/
+
+var someVariable = 1;
+var someCode = {
+  number: 123,
+  object: { existingSubProperty: 123 }
+};
+"
+`;
+
+exports[`loader should work additionalCode option: warnings 1`] = `Array []`;
+
+exports[`loader should work destructuring require: errors 1`] = `Array []`;
+
+exports[`loader should work destructuring require: result 1`] = `
+"/*** IMPORTS FROM imports-loader ***/
+var { lib2_method_1, lib2_method_2: lib_2_method_2_short } = require(\\"./lib_2\\");
+
+var someCode = {
+  number: 123,
+  object: { existingSubProperty: 123 }
+};
+"
+`;
+
+exports[`loader should work destructuring require: warnings 1`] = `Array []`;
+
+exports[`loader should work few require: errors 1`] = `Array []`;
+
+exports[`loader should work few require: result 1`] = `
+"/*** IMPORTS FROM imports-loader ***/
+var $ = require(\\"./lib_1\\");
+var lib_2_all = require(\\"./lib_2\\");
+var { lib2_method_1, lib2_method_2: lib_2_method_2_short } = require(\\"./lib_2\\");
+
+var someCode = {
+  number: 123,
+  object: { existingSubProperty: 123 }
+};
+"
+`;
+
+exports[`loader should work few require: warnings 1`] = `Array []`;
+
+exports[`loader should work import, wrapper and additionalCode option: errors 1`] = `Array []`;
+
+exports[`loader should work import, wrapper and additionalCode option: result 1`] = `
+"/*** IMPORTS FROM imports-loader ***/
+import \\"./lib_1\\";
+
+var someVariable = 1;
+(function() {
+var someCode = {
+  number: 123,
+  object: { existingSubProperty: 123 }
+};
+
+}.call(window));"
+`;
+
+exports[`loader should work import, wrapper and additionalCode option: warnings 1`] = `Array []`;
+
+exports[`loader should work inline 1: errors 1`] = `Array []`;
+
+exports[`loader should work inline 1: result 1`] = `
+"/*** IMPORTS FROM imports-loader ***/
+import lib_1 from \\"lib_1\\";
+import lib_2 from \\"lib_2\\";
+
+var someCode = {
+  number: 123,
+  object: { existingSubProperty: 123 }
+};
+"
+`;
+
+exports[`loader should work inline 1: warnings 1`] = `Array []`;
+
+exports[`loader should work inline 2: errors 1`] = `Array []`;
+
+exports[`loader should work inline 2: result 1`] = `
+"/*** IMPORTS FROM imports-loader ***/
+var lib_2_all = require(\\"lib_2\\");
+var { lib_2_method: lib_2_method_alias } = require(\\"lib_2\\");
+
+var someCode = {
+  number: 123,
+  object: { existingSubProperty: 123 }
+};
+"
+`;
+
+exports[`loader should work inline 2: warnings 1`] = `Array []`;
+
+exports[`loader should work inline 3: errors 1`] = `Array []`;
+
+exports[`loader should work inline 3: result 1`] = `
+"/*** IMPORTS FROM imports-loader ***/
+import $ from \\"lib_2\\";
+
+(function() {
+var someCode = {
+  number: 123,
+  object: { existingSubProperty: 123 }
+};
+
+}.call(window));"
+`;
+
+exports[`loader should work inline 3: warnings 1`] = `Array []`;
+
+exports[`loader should work pure require: errors 1`] = `Array []`;
+
+exports[`loader should work pure require: result 1`] = `
+"/*** IMPORTS FROM imports-loader ***/
+require(\\"./lib_1\\");
+
+var someCode = {
+  number: 123,
+  object: { existingSubProperty: 123 }
+};
+"
+`;
+
+exports[`loader should work pure require: warnings 1`] = `Array []`;
+
+exports[`loader should work require default: errors 1`] = `Array []`;
+
+exports[`loader should work require default: result 1`] = `
+"/*** IMPORTS FROM imports-loader ***/
+var $ = require(\\"./lib_1\\");
+
+var someCode = {
+  number: 123,
+  object: { existingSubProperty: 123 }
+};
+"
+`;
+
+exports[`loader should work require default: warnings 1`] = `Array []`;
+
+exports[`loader should work require: errors 1`] = `Array []`;
+
+exports[`loader should work require: result 1`] = `
+"/*** IMPORTS FROM imports-loader ***/
+var $ = require(\\"./lib_1\\");
+
+var someCode = {
+  number: 123,
+  object: { existingSubProperty: 123 }
+};
+"
+`;
+
+exports[`loader should work require: warnings 1`] = `Array []`;
+
+exports[`loader should work string syntax when commonjs type: errors 1`] = `Array []`;
+
+exports[`loader should work string syntax when commonjs type: result 1`] = `
+"/*** IMPORTS FROM imports-loader ***/
+var $ = require(\\"./lib_1\\");
+var lib_2_all = require(\\"./lib_2\\");
+var { lib2_method_1, lib2_method_2: lib_2_method_2_short } = require(\\"./lib_2\\");
+require(\\"./lib_3\\");
+
+var someCode = {
+  number: 123,
+  object: { existingSubProperty: 123 }
+};
+"
+`;
+
+exports[`loader should work string syntax when commonjs type: warnings 1`] = `Array []`;
+
+exports[`loader should work string syntax when module type: errors 1`] = `Array []`;
+
+exports[`loader should work string syntax when module type: result 1`] = `
+"/*** IMPORTS FROM imports-loader ***/
+import $ from \\"./lib_1\\";
+import lib_2_all, { lib2_method_1, lib2_method_2 as lib_2_method_2_short } from \\"./lib_2\\";
+import lib_3_defaul, * as lib_3_all from \\"./lib_3\\";
+import \\"./lib_4\\";
+
+var someCode = {
+  number: 123,
+  object: { existingSubProperty: 123 }
+};
+"
+`;
+
+exports[`loader should work string syntax when module type: warnings 1`] = `Array []`;
+
+exports[`loader should work wrapper array: errors 1`] = `Array []`;
+
+exports[`loader should work wrapper array: result 1`] = `
+"/*** IMPORTS FROM imports-loader ***/
+
+(function() {
+var someCode = {
+  number: 123,
+  object: { existingSubProperty: 123 }
+};
+
+}.call(window,document));"
+`;
+
+exports[`loader should work wrapper array: warnings 1`] = `Array []`;
+
+exports[`loader should work wrapper: errors 1`] = `Array []`;
+
+exports[`loader should work wrapper: result 1`] = `
+"/*** IMPORTS FROM imports-loader ***/
+
+(function() {
+var someCode = {
+  number: 123,
+  object: { existingSubProperty: 123 }
+};
+
+}.call(window));"
+`;
+
+exports[`loader should work wrapper: warnings 1`] = `Array []`;
