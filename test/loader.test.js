@@ -1,3 +1,5 @@
+import path from 'path';
+
 import {
   compile,
   getCompiler,
@@ -7,8 +9,7 @@ import {
 } from './helpers';
 
 describe('loader', () => {
-  // TODO rename test
-  it('should require when import option is string', async () => {
+  it('should work with a string value', async () => {
     const compiler = getCompiler('some-library.js', {
       imports: 'lib_1',
     });
@@ -21,7 +22,7 @@ describe('loader', () => {
     expect(getWarnings(stats)).toMatchSnapshot('warnings');
   });
 
-  it('should require when import option is object', async () => {
+  it('should work with an object value', async () => {
     const compiler = getCompiler('some-library.js', {
       imports: {
         moduleName: './lib_1',
@@ -37,7 +38,7 @@ describe('loader', () => {
     expect(getWarnings(stats)).toMatchSnapshot('warnings');
   });
 
-  it('should require when import option is array', async () => {
+  it('should work with string arrays', async () => {
     const compiler = getCompiler('some-library.js', {
       imports: ['lib_1', 'lib_2'],
     });
@@ -50,7 +51,73 @@ describe('loader', () => {
     expect(getWarnings(stats)).toMatchSnapshot('warnings');
   });
 
-  it('should require when import-default', async () => {
+  it('should work with source maps when the "devtool" option is enabled', async () => {
+    const compiler = getCompiler(
+      'some-library.js',
+      {},
+      {
+        devtool: 'source-map',
+        module: {
+          rules: [
+            {
+              test: /\.js$/i,
+              rules: [
+                {
+                  loader: path.resolve(__dirname, '../src'),
+                  options: { imports: 'lib_1' },
+                },
+                {
+                  loader: 'babel-loader',
+                },
+              ],
+            },
+          ],
+        },
+      }
+    );
+    const stats = await compile(compiler);
+
+    expect(getModuleSource('./some-library.js', stats)).toMatchSnapshot(
+      'module'
+    );
+    expect(getErrors(stats)).toMatchSnapshot('errors');
+    expect(getWarnings(stats)).toMatchSnapshot('warnings');
+  });
+
+  it('should not work with source maps when the "devtool" options are disabled', async () => {
+    const compiler = getCompiler(
+      'some-library.js',
+      {},
+      {
+        devtool: false,
+        module: {
+          rules: [
+            {
+              test: /\.js$/i,
+              rules: [
+                {
+                  loader: path.resolve(__dirname, '../src'),
+                  options: { imports: 'lib_1' },
+                },
+                {
+                  loader: 'babel-loader',
+                },
+              ],
+            },
+          ],
+        },
+      }
+    );
+    const stats = await compile(compiler);
+
+    expect(getModuleSource('./some-library.js', stats)).toMatchSnapshot(
+      'module'
+    );
+    expect(getErrors(stats)).toMatchSnapshot('errors');
+    expect(getWarnings(stats)).toMatchSnapshot('warnings');
+  });
+
+  it('should work with "default" imports', async () => {
     const compiler = getCompiler('some-library.js', {
       imports: [
         'lib_1',
@@ -91,7 +158,7 @@ describe('loader', () => {
     expect(getWarnings(stats)).toMatchSnapshot('warnings');
   });
 
-  it('should require when name-space-import', async () => {
+  it('should work with "namespace" imports', async () => {
     const compiler = getCompiler('some-library.js', {
       imports: [
         {
@@ -110,7 +177,7 @@ describe('loader', () => {
     expect(getWarnings(stats)).toMatchSnapshot('warnings');
   });
 
-  it('should require when named-imports', async () => {
+  it('should work with "named" imports"', async () => {
     const compiler = getCompiler('some-library.js', {
       imports: [
         {
@@ -144,7 +211,7 @@ describe('loader', () => {
     expect(getWarnings(stats)).toMatchSnapshot('warnings');
   });
 
-  it('should require when import-side-effect', async () => {
+  it('should work with "side-effect" imports', async () => {
     const compiler = getCompiler('some-library.js', {
       imports: {
         moduleName: './lib_1',
@@ -160,7 +227,7 @@ describe('loader', () => {
     expect(getWarnings(stats)).toMatchSnapshot('warnings');
   });
 
-  it('should work wrapper', async () => {
+  it('should work with the "wrapper" option', async () => {
     const compiler = getCompiler('some-library.js', {
       wrapper: 'window',
     });
@@ -173,7 +240,7 @@ describe('loader', () => {
     expect(getWarnings(stats)).toMatchSnapshot('warnings');
   });
 
-  it('should work wrapper array', async () => {
+  it('should work with the "wrapper" options and arguments', async () => {
     const compiler = getCompiler('some-library.js', {
       wrapper: ['window', 'document'],
     });
@@ -186,7 +253,7 @@ describe('loader', () => {
     expect(getWarnings(stats)).toMatchSnapshot('warnings');
   });
 
-  it('should work additionalCode option', async () => {
+  it('should work with the "additionalCode" option', async () => {
     const compiler = getCompiler('some-library.js', {
       additionalCode: 'var someVariable = 1;',
     });
@@ -199,7 +266,7 @@ describe('loader', () => {
     expect(getWarnings(stats)).toMatchSnapshot('warnings');
   });
 
-  it('should work import, wrapper and additionalCode option', async () => {
+  it('should work with "imports", "wrapper" and "additionalCode" options', async () => {
     const compiler = getCompiler('some-library.js', {
       imports: {
         moduleName: './lib_1',
@@ -217,7 +284,7 @@ describe('loader', () => {
     expect(getWarnings(stats)).toMatchSnapshot('warnings');
   });
 
-  it('should work require', async () => {
+  it('should work with "multiple" CommonJS imports', async () => {
     const compiler = getCompiler('some-library.js', {
       type: 'commonjs',
       imports: {
@@ -234,7 +301,7 @@ describe('loader', () => {
     expect(getWarnings(stats)).toMatchSnapshot('warnings');
   });
 
-  it('should work require default', async () => {
+  it('should work with "default" CommonJS imports', async () => {
     const compiler = getCompiler('some-library.js', {
       type: 'commonjs',
       imports: {
@@ -252,7 +319,7 @@ describe('loader', () => {
     expect(getWarnings(stats)).toMatchSnapshot('warnings');
   });
 
-  it('should work destructuring require', async () => {
+  it('should work with multiple CommonJS imports', async () => {
     const compiler = getCompiler('some-library.js', {
       type: 'commonjs',
       imports: [
@@ -278,7 +345,7 @@ describe('loader', () => {
     expect(getWarnings(stats)).toMatchSnapshot('warnings');
   });
 
-  it('should work few require', async () => {
+  it('should work with multiple CommonJS imports and union same', async () => {
     const compiler = getCompiler('some-library.js', {
       type: 'commonjs',
       imports: [
@@ -312,7 +379,7 @@ describe('loader', () => {
     expect(getWarnings(stats)).toMatchSnapshot('warnings');
   });
 
-  it('should work pure require', async () => {
+  it('should work "side-effect" CommonJS imports', async () => {
     const compiler = getCompiler('some-library.js', {
       type: 'commonjs',
       imports: {
@@ -329,7 +396,7 @@ describe('loader', () => {
     expect(getWarnings(stats)).toMatchSnapshot('warnings');
   });
 
-  it('should work string syntax when commonjs type', async () => {
+  it('should work with a string syntax using CommonJS', async () => {
     const compiler = getCompiler('some-library.js', {
       type: 'commonjs',
       imports: [
@@ -349,8 +416,9 @@ describe('loader', () => {
     expect(getWarnings(stats)).toMatchSnapshot('warnings');
   });
 
-  it('should work string syntax when module type', async () => {
+  it('should work with a string syntax using ES modules', async () => {
     const compiler = getCompiler('some-library.js', {
+      type: 'module',
       imports: [
         'default ./lib_1 $',
         'default ./lib_2 lib_2_all',
@@ -370,7 +438,7 @@ describe('loader', () => {
     expect(getWarnings(stats)).toMatchSnapshot('warnings');
   });
 
-  it('should emit error when alias don`t need', async () => {
+  it('should throw an error when "alias" can not be used', async () => {
     const compiler = getCompiler('some-library.js', {
       imports: {
         moduleName: './lib_1',
@@ -384,7 +452,7 @@ describe('loader', () => {
     expect(getWarnings(stats)).toMatchSnapshot('warnings');
   });
 
-  it('should emit error when alias don`t need', async () => {
+  it('should throw an error when "name" can not be used', async () => {
     const compiler = getCompiler('some-library.js', {
       imports: {
         moduleName: './lib_1',
@@ -398,7 +466,7 @@ describe('loader', () => {
     expect(getWarnings(stats)).toMatchSnapshot('warnings');
   });
 
-  it('should emit error when skipped name to import-named', async () => {
+  it('should throw an error when "name" do not exist', async () => {
     const compiler = getCompiler('some-library.js', {
       imports: {
         moduleName: './lib_2.js',
@@ -411,7 +479,7 @@ describe('loader', () => {
     expect(getWarnings(stats)).toMatchSnapshot('warnings');
   });
 
-  it('should emit error when try namespace import to commonjs', async () => {
+  it('should throw an error when "namespace" ca not be used in CommonJS', async () => {
     const compiler = getCompiler('some-library.js', {
       type: 'commonjs',
       imports: [
@@ -428,7 +496,7 @@ describe('loader', () => {
     expect(getWarnings(stats)).toMatchSnapshot('warnings');
   });
 
-  it('should emit error when invalid arguments for import', async () => {
+  it('should throw an error when invalid arguments for imports', async () => {
     const compiler = getCompiler('some-library.js', {
       imports: [
         {
@@ -443,7 +511,7 @@ describe('loader', () => {
     expect(getWarnings(stats)).toMatchSnapshot('warnings');
   });
 
-  it('should emit error when multiple default import', async () => {
+  it('should throw an error on multiple "default" imports', async () => {
     const compiler = getCompiler('some-library.js', {
       imports: ['default ./lib_2 lib_2', 'default ./lib_2 lib_3'],
     });
@@ -453,7 +521,7 @@ describe('loader', () => {
     expect(getWarnings(stats)).toMatchSnapshot('warnings');
   });
 
-  it('should emit error when multiple namespace import', async () => {
+  it('should throw an error when multiple "namespace" imports', async () => {
     const compiler = getCompiler('some-library.js', {
       imports: ['namespace ./lib_2 lib_2', 'namespace ./lib_2 lib_3'],
     });
@@ -463,7 +531,7 @@ describe('loader', () => {
     expect(getWarnings(stats)).toMatchSnapshot('warnings');
   });
 
-  it('should emit error when multiple side-effect import', async () => {
+  it('should throw an error when multiple "side-effect" import', async () => {
     const compiler = getCompiler('some-library.js', {
       imports: ['side-effect ./lib_2', 'side-effect ./lib_2'],
     });
@@ -473,7 +541,7 @@ describe('loader', () => {
     expect(getWarnings(stats)).toMatchSnapshot('warnings');
   });
 
-  it('should emit error when not arguments for import', async () => {
+  it('should throw an error when no arguments for imports', async () => {
     const compiler = getCompiler('some-library.js', {});
     const stats = await compile(compiler);
 
@@ -481,7 +549,7 @@ describe('loader', () => {
     expect(getWarnings(stats)).toMatchSnapshot('warnings');
   });
 
-  it('should work inline 1', async () => {
+  it('should work with inline syntax', async () => {
     const compiler = getCompiler('inline.js', {}, {}, true);
     const stats = await compile(compiler);
 
@@ -492,7 +560,7 @@ describe('loader', () => {
     expect(getWarnings(stats)).toMatchSnapshot('warnings');
   });
 
-  it('should work inline 2', async () => {
+  it('should work with inline syntax #1', async () => {
     const compiler = getCompiler('inline2.js', {}, {}, true);
     const stats = await compile(compiler);
 
@@ -503,7 +571,7 @@ describe('loader', () => {
     expect(getWarnings(stats)).toMatchSnapshot('warnings');
   });
 
-  it('should work inline 3', async () => {
+  it('should work with inline syntax #2', async () => {
     const compiler = getCompiler('inline3.js', {}, {}, true);
     const stats = await compile(compiler);
 
@@ -514,7 +582,7 @@ describe('loader', () => {
     expect(getWarnings(stats)).toMatchSnapshot('warnings');
   });
 
-  it('should emit error inline', async () => {
+  it('should throw error on invalid inline syntax', async () => {
     const compiler = getCompiler('inline-broken.js', {}, {}, true);
     const stats = await compile(compiler);
 
@@ -522,7 +590,7 @@ describe('loader', () => {
     expect(getWarnings(stats)).toMatchSnapshot('warnings');
   });
 
-  it('should require when import option is string', async () => {
+  it('should work with a string value with spaces', async () => {
     const compiler = getCompiler('some-library.js', {
       imports: '   lib_1   ',
     });
