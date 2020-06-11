@@ -36,10 +36,37 @@ Error: The \\"default\\" syntax can't have \\"lib_2_method_2_short\\" alias in \
 
 exports[`loader should emit error when invalid arguments for import: warnings 1`] = `Array []`;
 
+exports[`loader should emit error when multiple default import: errors 1`] = `
+Array [
+  "ModuleBuildError: Module build failed (from \`replaced original path\`):
+Error: The \\"default\\" syntax format can't have multiple import in \\"./lib_2,[object Object],[object Object]\\" value",
+]
+`;
+
+exports[`loader should emit error when multiple default import: warnings 1`] = `Array []`;
+
+exports[`loader should emit error when multiple namespace import: errors 1`] = `
+Array [
+  "ModuleBuildError: Module build failed (from \`replaced original path\`):
+Error: The \\"namespace\\" syntax format can't have multiple import in \\"./lib_2,[object Object],[object Object]\\" value",
+]
+`;
+
+exports[`loader should emit error when multiple namespace import: warnings 1`] = `Array []`;
+
+exports[`loader should emit error when multiple side-effect import: errors 1`] = `
+Array [
+  "ModuleBuildError: Module build failed (from \`replaced original path\`):
+Error: The \\"side-effect\\" syntax format can't have multiple import in \\"./lib_2,[object Object],[object Object]\\" value",
+]
+`;
+
+exports[`loader should emit error when multiple side-effect import: warnings 1`] = `Array []`;
+
 exports[`loader should emit error when not arguments for import: errors 1`] = `
 Array [
   "ModuleBuildError: Module build failed (from \`replaced original path\`):
-Error: You must fill out one of the options \\"imports\\", \\"wrapper\\" or \\"additionalCode\\" in \\"[object Object]\\" value",
+ValidationError: Invalid options object. Imports loader has been initialized using an options object that does not match the API schema.",
 ]
 `;
 

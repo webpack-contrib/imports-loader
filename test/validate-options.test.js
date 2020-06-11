@@ -78,9 +78,18 @@ describe('validate options', () => {
     it(`should ${
       type === 'success' ? 'successfully validate' : 'throw an error on'
     } the "${key}" option with "${stringifyValue(value)}" value`, async () => {
-      const compiler = getCompiler('some-library.js', {
-        [key]: value,
-      });
+      let compiler;
+
+      if (key === 'type') {
+        compiler = getCompiler('some-library.js', {
+          [key]: value,
+          wrapper: 'window',
+        });
+      } else {
+        compiler = getCompiler('some-library.js', {
+          [key]: value,
+        });
+      }
 
       let stats;
 

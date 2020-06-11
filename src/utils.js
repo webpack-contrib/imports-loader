@@ -29,7 +29,7 @@ function resolveImports(type, item) {
       };
     }
   } else {
-    result = { ...{ syntax: 'default' }, ...item };
+    result = { syntax: 'default', ...item };
 
     if (result.syntax === 'default' && !result.name) {
       result.name = result.moduleName;
@@ -78,19 +78,7 @@ function resolveImports(type, item) {
   return result;
 }
 
-function getImports(type, options) {
-  const { imports, additionalCode, wrapper } = options;
-
-  if (!imports && !additionalCode && !wrapper) {
-    throw new Error(
-      `You must fill out one of the options "imports", "wrapper" or "additionalCode" in "${options}" value`
-    );
-  }
-
-  if (!imports) {
-    return [];
-  }
-
+function getImports(type, imports) {
   let result = [];
 
   if (typeof imports === 'string') {
@@ -99,7 +87,41 @@ function getImports(type, options) {
     result = [].concat(imports).map((item) => resolveImports(type, item));
   }
 
-  return result;
+  const sortedResults = {};
+
+  for (const item of result) {
+    if (!sortedResults[item.moduleName]) {
+      sortedResults[item.moduleName] = [];
+    }
+
+    sortedResults[item.moduleName].push(item);
+  }
+
+  for (const item of Object.entries(sortedResults)) {
+    const defaultImports = item[1].filter(
+      (entry) => entry.syntax === 'default'
+    );
+    const namespaceImports = item[1].filter(
+      (entry) => entry.syntax === 'namespace'
+    );
+    const sideEffectImports = item[1].filter(
+      (entry) => entry.syntax === 'side-effect'
+    );
+
+    [defaultImports, namespaceImports, sideEffectImports].forEach(
+      (importsSyntax) => {
+        if (importsSyntax.length > 1) {
+          const [{ syntax }] = importsSyntax;
+
+          throw new Error(
+            `The "${syntax}" syntax format can't have multiple import in "${item}" value`
+          );
+        }
+      }
+    );
+  }
+
+  return sortedResults;
 }
 
 function renderImports(loaderContext, type, imports) {
@@ -112,32 +134,27 @@ function renderImports(loaderContext, type, imports) {
   const sideEffectImports = imports.filter(
     (item) => item.syntax === 'side-effect'
   );
+  const isModule = type === 'module';
 
   // 1. Import-side-effect
   if (sideEffectImports.length > 0) {
-    return type === 'commonjs'
-      ? `require(${stringifyRequest(loaderContext, moduleName)});`
-      : `import ${stringifyRequest(loaderContext, moduleName)};`;
+    return isModule
+      ? `import ${stringifyRequest(loaderContext, moduleName)};`
+      : `require(${stringifyRequest(loaderContext, moduleName)});`;
   }
 
-  let code = type === 'commonjs' ? '' : 'import';
+  let code = isModule ? 'import' : '';
 
   // 2. Default import
   if (defaultImports.length > 0) {
     const [{ name }] = defaultImports;
 
-    // eslint-disable-next-line default-case
-    switch (type) {
-      case 'commonjs':
-        code += `var ${name} = require(${stringifyRequest(
+    code += isModule
+      ? ` ${name}`
+      : `var ${name} = require(${stringifyRequest(
           loaderContext,
           moduleName
         )});`;
-        break;
-      case 'module':
-        code += ` ${name}`;
-        break;
-    }
   }
 
   // 3. Namespace import
@@ -154,26 +171,25 @@ function renderImports(loaderContext, type, imports) {
   // 4. Named import
   if (namedImports.length > 0) {
     if (defaultImports.length > 0) {
-      code += type === 'commonjs' ? '\nvar { ' : ', { ';
+      code += isModule ? ', { ' : '\nvar { ';
     } else {
-      code += type === 'commonjs' ? 'var { ' : ' { ';
+      code += isModule ? ' { ' : 'var { ';
     }
 
     namedImports.forEach((namedImport, i) => {
       const comma = i > 0 ? ', ' : '';
       const { name, alias } = namedImport;
-      const sep = type === 'commonjs' ? ': ' : ' as ';
+      const sep = isModule ? ' as ' : ': ';
 
       code += alias ? `${comma}${name}${sep}${alias}` : `${comma}${name}`;
     });
 
-    code +=
-      type === 'commonjs'
-        ? ` } = require(${stringifyRequest(loaderContext, moduleName)});`
-        : ' }';
+    code += isModule
+      ? ' }'
+      : ` } = require(${stringifyRequest(loaderContext, moduleName)});`;
   }
 
-  if (type === 'commonjs') {
+  if (!isModule) {
     return code;
   }
 

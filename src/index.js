@@ -22,46 +22,33 @@ export default function loader(content, sourceMap) {
   const type = options.type || 'module';
   const callback = this.async();
 
+  let importsCode = `/*** IMPORTS FROM imports-loader ***/\n`;
+
   let imports;
 
-  try {
-    imports = getImports(type, options);
-  } catch (error) {
-    callback(error);
+  if (options.imports) {
+    try {
+      imports = getImports(type, options.imports);
+    } catch (error) {
+      callback(error);
 
-    return;
-  }
-
-  const importsSorted = {};
-
-  for (const item of imports) {
-    if (!importsSorted[item.moduleName]) {
-      importsSorted[item.moduleName] = [];
+      return;
     }
 
-    importsSorted[item.moduleName].push(item);
+    importsCode += Object.entries(imports).reduce((acc, item) => {
+      return `${acc}${renderImports(this, type, item[1])}\n`;
+    }, '');
   }
 
-  const importsCode = Object.entries(importsSorted).reduce((acc, item) => {
-    return `${acc}${renderImports(this, type, item[1])}\n`;
-  }, '');
-
-  let finalImportsCode = `/*** IMPORTS FROM imports-loader ***/\n${importsCode}`;
-
-  const { additionalCode } = options;
-
-  if (additionalCode) {
-    finalImportsCode += `\n${additionalCode}`;
+  if (options.additionalCode) {
+    importsCode += `\n${options.additionalCode}`;
   }
 
-  let codeBeforeModule = '';
   let codeAfterModule = '';
 
-  const { wrapper } = options;
-
-  if (wrapper) {
-    codeBeforeModule += '\n(function() {';
-    codeAfterModule += `\n}.call(${wrapper.toString()}));`;
+  if (options.wrapper) {
+    importsCode += '\n(function() {';
+    codeAfterModule += `\n}.call(${options.wrapper.toString()}));`;
   }
 
   if (this.sourceMap && sourceMap) {
@@ -70,7 +57,7 @@ export default function loader(content, sourceMap) {
       new SourceMapConsumer(sourceMap)
     );
 
-    node.prepend(`${finalImportsCode}${codeBeforeModule}\n`);
+    node.prepend(`${importsCode}\n`);
     node.add(codeAfterModule);
 
     const result = node.toStringWithSourceMap({
@@ -82,9 +69,5 @@ export default function loader(content, sourceMap) {
     return;
   }
 
-  callback(
-    null,
-    `${finalImportsCode}${codeBeforeModule}\n${content}${codeAfterModule}`,
-    sourceMap
-  );
+  callback(null, `${importsCode}\n${content}${codeAfterModule}`, sourceMap);
 }

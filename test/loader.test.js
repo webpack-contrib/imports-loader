@@ -442,6 +442,36 @@ describe('loader', () => {
     expect(getWarnings(stats)).toMatchSnapshot('warnings');
   });
 
+  it('should emit error when multiple default import', async () => {
+    const compiler = getCompiler('some-library.js', {
+      imports: ['default ./lib_2 lib_2', 'default ./lib_2 lib_3'],
+    });
+    const stats = await compile(compiler);
+
+    expect(getErrors(stats)).toMatchSnapshot('errors');
+    expect(getWarnings(stats)).toMatchSnapshot('warnings');
+  });
+
+  it('should emit error when multiple namespace import', async () => {
+    const compiler = getCompiler('some-library.js', {
+      imports: ['namespace ./lib_2 lib_2', 'namespace ./lib_2 lib_3'],
+    });
+    const stats = await compile(compiler);
+
+    expect(getErrors(stats)).toMatchSnapshot('errors');
+    expect(getWarnings(stats)).toMatchSnapshot('warnings');
+  });
+
+  it('should emit error when multiple side-effect import', async () => {
+    const compiler = getCompiler('some-library.js', {
+      imports: ['side-effect ./lib_2', 'side-effect ./lib_2'],
+    });
+    const stats = await compile(compiler);
+
+    expect(getErrors(stats)).toMatchSnapshot('errors');
+    expect(getWarnings(stats)).toMatchSnapshot('warnings');
+  });
+
   it('should emit error when not arguments for import', async () => {
     const compiler = getCompiler('some-library.js', {});
     const stats = await compile(compiler);
