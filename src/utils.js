@@ -2,10 +2,17 @@ import { stringifyRequest } from 'loader-utils';
 
 function resolveImports(type, item) {
   const defaultSyntax = type === 'module' ? 'default' : 'single';
+
   let result;
 
   if (typeof item === 'string') {
-    const splittedItem = item.split(' ');
+    const noWhitespaceItem = item.trim();
+
+    if (noWhitespaceItem.length === 0) {
+      throw new Error(`Invalid "${item}" value for export`);
+    }
+
+    const splittedItem = noWhitespaceItem.split(' ');
 
     if (splittedItem.length > 4) {
       throw new Error(`Invalid "${item}" for import`);
@@ -13,7 +20,6 @@ function resolveImports(type, item) {
 
     if (splittedItem.length === 1) {
       result = {
-        type,
         syntax: defaultSyntax,
         moduleName: splittedItem[0],
         name: splittedItem[0],
@@ -32,12 +38,12 @@ function resolveImports(type, item) {
   } else {
     result = { syntax: defaultSyntax, ...item };
 
-    if (result.syntax === defaultSyntax && !result.name) {
+    if (result.syntax === defaultSyntax && typeof result.name === 'undefined') {
       result.name = result.moduleName;
     }
   }
 
-  if (!result.moduleName) {
+  if (typeof result.moduleName === 'undefined') {
     throw new Error(
       `The import should have "moduleName" option in "${item}" value`
     );
@@ -103,25 +109,29 @@ function getImports(type, imports) {
   const sortedResults = {};
 
   for (const item of result) {
-    if (!sortedResults[item.moduleName]) {
-      sortedResults[item.moduleName] = [];
+    const { moduleName } = item;
+
+    if (!sortedResults[moduleName]) {
+      sortedResults[moduleName] = [];
     }
 
-    sortedResults[item.moduleName].push(item);
+    const { syntax, name, alias } = item;
+
+    sortedResults[moduleName].push({ syntax, name, alias });
   }
 
   const defaultSyntax = type === 'module' ? 'default' : 'single';
 
   for (const item of Object.entries(sortedResults)) {
     const defaultImports = item[1].filter(
-      (entry) => entry.syntax === defaultSyntax
+      ({ syntax }) => syntax === defaultSyntax
     );
 
     const namespaceImports = item[1].filter(
-      (entry) => entry.syntax === 'namespace'
+      ({ syntax }) => syntax === 'namespace'
     );
     const sideEffectImports = item[1].filter(
-      (entry) => entry.syntax === 'side-effect'
+      ({ syntax }) => syntax === 'side-effect'
     );
 
     const pure = item[1].filter((entry) => entry.syntax === 'pure');
@@ -149,15 +159,15 @@ function renderImports(loaderContext, type, imports) {
   const namedImports = imports.filter((item) => item.syntax === 'named');
   const multipleImports = imports.filter((item) => item.syntax === 'multiple');
   const namespaceImports = imports.filter(
-    (item) => item.syntax === 'namespace'
+    ({ syntax }) => syntax === 'namespace'
   );
   const sideEffectImports = imports.filter(
-    (item) => item.syntax === 'side-effect'
+    ({ syntax }) => syntax === 'side-effect'
   );
   const pure = imports.filter((item) => item.syntax === 'pure');
   const isModule = type === 'module';
 
-  // 1. Module import-side-effect
+  // Import-side-effect
   if (sideEffectImports.length > 0) {
     return `import ${stringifyRequest(loaderContext, moduleName)};`;
   }
@@ -169,7 +179,7 @@ function renderImports(loaderContext, type, imports) {
 
   let code = isModule ? 'import' : '';
 
-  // 3. Module default import
+  // Default import
   if (defaultImports.length > 0) {
     const [{ name }] = defaultImports;
 
@@ -186,7 +196,7 @@ function renderImports(loaderContext, type, imports) {
     )});`;
   }
 
-  // 5. Module namespace import
+  // Namespace import
   if (namespaceImports.length > 0) {
     if (defaultImports.length > 0) {
       code += `,`;
@@ -197,7 +207,7 @@ function renderImports(loaderContext, type, imports) {
     code += ` * as ${name}`;
   }
 
-  // 6. Module named import
+  // Named import
   if (namedImports.length > 0) {
     if (defaultImports.length > 0) {
       code += ', { ';

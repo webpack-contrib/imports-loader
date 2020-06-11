@@ -7,6 +7,7 @@ import {
 } from './helpers';
 
 describe('loader', () => {
+  // TODO rename test
   it('should require when import option is string', async () => {
     const compiler = getCompiler('some-library.js', {
       imports: 'lib_1',
@@ -515,6 +516,29 @@ describe('loader', () => {
 
   it('should emit error inline', async () => {
     const compiler = getCompiler('inline-broken.js', {}, {}, true);
+    const stats = await compile(compiler);
+
+    expect(getErrors(stats)).toMatchSnapshot('errors');
+    expect(getWarnings(stats)).toMatchSnapshot('warnings');
+  });
+
+  it('should require when import option is string', async () => {
+    const compiler = getCompiler('some-library.js', {
+      imports: '   lib_1   ',
+    });
+    const stats = await compile(compiler);
+
+    expect(getModuleSource('./some-library.js', stats)).toMatchSnapshot(
+      'result'
+    );
+    expect(getErrors(stats)).toMatchSnapshot('errors');
+    expect(getWarnings(stats)).toMatchSnapshot('warnings');
+  });
+
+  it('should throw an error on the empty string', async () => {
+    const compiler = getCompiler('some-library.js', {
+      imports: '      ',
+    });
     const stats = await compile(compiler);
 
     expect(getErrors(stats)).toMatchSnapshot('errors');

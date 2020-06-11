@@ -66,7 +66,7 @@ exports[`loader should emit error when multiple side-effect import: warnings 1`]
 exports[`loader should emit error when not arguments for import: errors 1`] = `
 Array [
   "ModuleBuildError: Module build failed (from \`replaced original path\`):
-ValidationError: Invalid options object. Imports loader has been initialized using an options object that does not match the API schema.",
+ValidationError: Invalid options object. Imports Loader has been initialized using an options object that does not match the API schema.",
 ]
 `;
 
@@ -123,6 +123,8 @@ exports[`loader should require when import option is object: warnings 1`] = `Arr
 
 exports[`loader should require when import option is string: errors 1`] = `Array []`;
 
+exports[`loader should require when import option is string: errors 2`] = `Array []`;
+
 exports[`loader should require when import option is string: result 1`] = `
 "/*** IMPORTS FROM imports-loader ***/
 import lib_1 from \\"lib_1\\";
@@ -134,7 +136,20 @@ var someCode = {
 "
 `;
 
+exports[`loader should require when import option is string: result 2`] = `
+"/*** IMPORTS FROM imports-loader ***/
+import lib_1 from \\"lib_1\\";
+
+var someCode = {
+  number: 123,
+  object: { existingSubProperty: 123 }
+};
+"
+`;
+
 exports[`loader should require when import option is string: warnings 1`] = `Array []`;
+
+exports[`loader should require when import option is string: warnings 2`] = `Array []`;
 
 exports[`loader should require when import-default: errors 1`] = `Array []`;
 
@@ -199,6 +214,15 @@ var someCode = {
 `;
 
 exports[`loader should require when named-imports: warnings 1`] = `Array []`;
+
+exports[`loader should throw an error on the empty string: errors 1`] = `
+Array [
+  "ModuleBuildError: Module build failed (from \`replaced original path\`):
+Error: Invalid \\"      \\" value for export",
+]
+`;
+
+exports[`loader should throw an error on the empty string: warnings 1`] = `Array []`;
 
 exports[`loader should work additionalCode option: errors 1`] = `Array []`;
 
