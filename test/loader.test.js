@@ -239,7 +239,7 @@ describe('loader', () => {
       imports: {
         moduleName: './lib_1',
         name: '$',
-        syntax: 'default',
+        syntax: 'single',
       },
     });
     const stats = await compile(compiler);
@@ -315,7 +315,7 @@ describe('loader', () => {
     const compiler = getCompiler('some-library.js', {
       type: 'commonjs',
       imports: {
-        syntax: 'side-effect',
+        syntax: 'pure-require',
         moduleName: './lib_1',
       },
     });
@@ -332,11 +332,11 @@ describe('loader', () => {
     const compiler = getCompiler('some-library.js', {
       type: 'commonjs',
       imports: [
-        'default ./lib_1 $',
-        'default ./lib_2 lib_2_all',
+        'single ./lib_1 $',
+        'single ./lib_2 lib_2_all',
         'multiple ./lib_2 lib2_method_1',
         'multiple ./lib_2 lib2_method_2 lib_2_method_2_short',
-        'side-effect ./lib_3',
+        'pure-require ./lib_3',
       ],
     });
     const stats = await compile(compiler);

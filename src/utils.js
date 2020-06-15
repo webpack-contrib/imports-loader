@@ -1,6 +1,7 @@
 import { stringifyRequest } from 'loader-utils';
 
 function resolveImports(type, item) {
+  const defaultSyntax = type === 'module' ? 'default' : 'single';
   let result;
 
   if (typeof item === 'string') {
@@ -13,7 +14,7 @@ function resolveImports(type, item) {
     if (splittedItem.length === 1) {
       result = {
         type,
-        syntax: 'default',
+        syntax: defaultSyntax,
         moduleName: splittedItem[0],
         name: splittedItem[0],
         // eslint-disable-next-line no-undefined
@@ -29,9 +30,9 @@ function resolveImports(type, item) {
       };
     }
   } else {
-    result = { syntax: 'default', ...item };
+    result = { syntax: defaultSyntax, ...item };
 
-    if (result.syntax === 'default' && !result.name) {
+    if (result.syntax === defaultSyntax && !result.name) {
       result.name = result.moduleName;
     }
   }
@@ -43,7 +44,9 @@ function resolveImports(type, item) {
   }
 
   if (
-    ['default', 'side-effect'].includes(result.syntax) &&
+    ['default', 'single', 'side-effect', 'pure-require'].includes(
+      result.syntax
+    ) &&
     typeof result.alias !== 'undefined'
   ) {
     throw new Error(
@@ -52,7 +55,7 @@ function resolveImports(type, item) {
   }
 
   if (
-    ['side-effect'].includes(result.syntax) &&
+    ['side-effect', 'pure-require'].includes(result.syntax) &&
     typeof result.name !== 'undefined'
   ) {
     throw new Error(
@@ -60,13 +63,19 @@ function resolveImports(type, item) {
     );
   }
 
-  if (['namespace', 'named'].includes(result.syntax) && type === 'commonjs') {
+  if (
+    ['default', 'namespace', 'named', 'side-effect'].includes(result.syntax) &&
+    type === 'commonjs'
+  ) {
     throw new Error(
       `The "commonjs" type not support "${result.syntax}" syntax import in "${item}" value`
     );
   }
 
-  if (['multiple'].includes(result.syntax) && type === 'module') {
+  if (
+    ['single', 'multiple', 'pure-require'].includes(result.syntax) &&
+    type === 'module'
+  ) {
     throw new Error(
       `The "module" type not support "${result.syntax}" syntax import in "${item}" value`
     );
@@ -103,10 +112,13 @@ function getImports(type, imports) {
     sortedResults[item.moduleName].push(item);
   }
 
+  const defaultSyntax = type === 'module' ? 'default' : 'single';
+
   for (const item of Object.entries(sortedResults)) {
     const defaultImports = item[1].filter(
-      (entry) => entry.syntax === 'default'
+      (entry) => entry.syntax === defaultSyntax
     );
+
     const namespaceImports = item[1].filter(
       (entry) => entry.syntax === 'namespace'
     );
@@ -114,7 +126,11 @@ function getImports(type, imports) {
       (entry) => entry.syntax === 'side-effect'
     );
 
-    [defaultImports, namespaceImports, sideEffectImports].forEach(
+    const pureRequire = item[1].filter(
+      (entry) => entry.syntax === 'pure-require'
+    );
+
+    [defaultImports, namespaceImports, sideEffectImports, pureRequire].forEach(
       (importsSyntax) => {
         if (importsSyntax.length > 1) {
           const [{ syntax }] = importsSyntax;
@@ -133,6 +149,7 @@ function getImports(type, imports) {
 function renderImports(loaderContext, type, imports) {
   const [{ moduleName }] = imports;
   const defaultImports = imports.filter((item) => item.syntax === 'default');
+  const singleImports = imports.filter((item) => item.syntax === 'single');
   const namedImports = imports.filter((item) => item.syntax === 'named');
   const multipleImports = imports.filter((item) => item.syntax === 'multiple');
   const namespaceImports = imports.filter(
@@ -141,30 +158,39 @@ function renderImports(loaderContext, type, imports) {
   const sideEffectImports = imports.filter(
     (item) => item.syntax === 'side-effect'
   );
+  const pureRequire = imports.filter((item) => item.syntax === 'pure-require');
   const isModule = type === 'module';
 
-  // 1. Import-side-effect
+  // 1. Module import-side-effect
   if (sideEffectImports.length > 0) {
-    return isModule
-      ? `import ${stringifyRequest(loaderContext, moduleName)};`
-      : `require(${stringifyRequest(loaderContext, moduleName)});`;
+    return `import ${stringifyRequest(loaderContext, moduleName)};`;
+  }
+
+  // 2. CommonJs pure-require
+  if (pureRequire.length > 0) {
+    return `require(${stringifyRequest(loaderContext, moduleName)});`;
   }
 
   let code = isModule ? 'import' : '';
 
-  // 2. Default import
+  // 3. Module default import
   if (defaultImports.length > 0) {
     const [{ name }] = defaultImports;
 
-    code += isModule
-      ? ` ${name}`
-      : `var ${name} = require(${stringifyRequest(
-          loaderContext,
-          moduleName
-        )});`;
+    code += ` ${name}`;
   }
 
-  // 3. Namespace import
+  // 4. CommonJs single import
+  if (singleImports.length > 0) {
+    const [{ name }] = singleImports;
+
+    code += `var ${name} = require(${stringifyRequest(
+      loaderContext,
+      moduleName
+    )});`;
+  }
+
+  // 5. Module namespace import
   if (namespaceImports.length > 0) {
     if (defaultImports.length > 0) {
       code += `,`;
@@ -175,7 +201,7 @@ function renderImports(loaderContext, type, imports) {
     code += ` * as ${name}`;
   }
 
-  // 4. Named import
+  // 6. Module named import
   if (namedImports.length > 0) {
     if (defaultImports.length > 0) {
       code += ', { ';
@@ -194,9 +220,9 @@ function renderImports(loaderContext, type, imports) {
     code += ' }';
   }
 
-  // 5. Multiple import
+  // 7. CommonJs multiple import
   if (multipleImports.length > 0) {
-    if (defaultImports.length > 0) {
+    if (singleImports.length > 0) {
       code += '\nvar { ';
     } else {
       code += 'var { ';
