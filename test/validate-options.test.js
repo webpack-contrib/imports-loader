@@ -17,6 +17,21 @@ describe('validate options', () => {
           name: '$',
         },
         {
+          syntax: 'namespace',
+          moduleName: 'jQuery',
+          name: '$',
+        },
+        {
+          syntax: 'side-effect',
+          moduleName: 'jQuery',
+        },
+        {
+          syntax: 'multiple',
+          moduleName: 'jQuery',
+          name: 'lib',
+          alias: 'lib_alias',
+        },
+        {
           syntax: 'named',
           moduleName: 'jQuery',
           name: 'lib',

@@ -60,14 +60,20 @@ function resolveImports(type, item) {
     );
   }
 
-  if (['namespace'].includes(result.syntax) && type === 'commonjs') {
+  if (['namespace', 'named'].includes(result.syntax) && type === 'commonjs') {
     throw new Error(
-      `The "commonjs" type not support "namespace" syntax import in "${item}" value`
+      `The "commonjs" type not support "${result.syntax}" syntax import in "${item}" value`
+    );
+  }
+
+  if (['multiple'].includes(result.syntax) && type === 'module') {
+    throw new Error(
+      `The "module" type not support "${result.syntax}" syntax import in "${item}" value`
     );
   }
 
   if (
-    ['namespace', 'named'].includes(result.syntax) &&
+    ['namespace', 'named', 'multiple'].includes(result.syntax) &&
     typeof result.name === 'undefined'
   ) {
     throw new Error(
@@ -128,6 +134,7 @@ function renderImports(loaderContext, type, imports) {
   const [{ moduleName }] = imports;
   const defaultImports = imports.filter((item) => item.syntax === 'default');
   const namedImports = imports.filter((item) => item.syntax === 'named');
+  const multipleImports = imports.filter((item) => item.syntax === 'multiple');
   const namespaceImports = imports.filter(
     (item) => item.syntax === 'namespace'
   );
@@ -171,22 +178,39 @@ function renderImports(loaderContext, type, imports) {
   // 4. Named import
   if (namedImports.length > 0) {
     if (defaultImports.length > 0) {
-      code += isModule ? ', { ' : '\nvar { ';
+      code += ', { ';
     } else {
-      code += isModule ? ' { ' : 'var { ';
+      code += ' { ';
     }
 
     namedImports.forEach((namedImport, i) => {
       const comma = i > 0 ? ', ' : '';
       const { name, alias } = namedImport;
-      const sep = isModule ? ' as ' : ': ';
+      const sep = ' as ';
 
       code += alias ? `${comma}${name}${sep}${alias}` : `${comma}${name}`;
     });
 
-    code += isModule
-      ? ' }'
-      : ` } = require(${stringifyRequest(loaderContext, moduleName)});`;
+    code += ' }';
+  }
+
+  // 5. Multiple import
+  if (multipleImports.length > 0) {
+    if (defaultImports.length > 0) {
+      code += '\nvar { ';
+    } else {
+      code += 'var { ';
+    }
+
+    multipleImports.forEach((multipleImport, i) => {
+      const comma = i > 0 ? ', ' : '';
+      const { name, alias } = multipleImport;
+      const sep = ': ';
+
+      code += alias ? `${comma}${name}${sep}${alias}` : `${comma}${name}`;
+    });
+
+    code += ` } = require(${stringifyRequest(loaderContext, moduleName)});`;
   }
 
   if (!isModule) {

@@ -256,12 +256,12 @@ describe('loader', () => {
       type: 'commonjs',
       imports: [
         {
-          syntax: 'named',
+          syntax: 'multiple',
           moduleName: './lib_2',
           name: 'lib2_method_1',
         },
         {
-          syntax: 'named',
+          syntax: 'multiple',
           moduleName: './lib_2',
           name: 'lib2_method_2',
           alias: 'lib_2_method_2_short',
@@ -290,12 +290,12 @@ describe('loader', () => {
           name: 'lib_2_all',
         },
         {
-          syntax: 'named',
+          syntax: 'multiple',
           moduleName: './lib_2',
           name: 'lib2_method_1',
         },
         {
-          syntax: 'named',
+          syntax: 'multiple',
           moduleName: './lib_2',
           name: 'lib2_method_2',
           alias: 'lib_2_method_2_short',
@@ -334,8 +334,8 @@ describe('loader', () => {
       imports: [
         'default ./lib_1 $',
         'default ./lib_2 lib_2_all',
-        'named ./lib_2 lib2_method_1',
-        'named ./lib_2 lib2_method_2 lib_2_method_2_short',
+        'multiple ./lib_2 lib2_method_1',
+        'multiple ./lib_2 lib2_method_2 lib_2_method_2_short',
         'side-effect ./lib_3',
       ],
     });
