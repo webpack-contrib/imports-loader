@@ -44,9 +44,7 @@ function resolveImports(type, item) {
   }
 
   if (
-    ['default', 'single', 'side-effect', 'pure-require'].includes(
-      result.syntax
-    ) &&
+    ['default', 'single', 'side-effect', 'pure'].includes(result.syntax) &&
     typeof result.alias !== 'undefined'
   ) {
     throw new Error(
@@ -55,7 +53,7 @@ function resolveImports(type, item) {
   }
 
   if (
-    ['side-effect', 'pure-require'].includes(result.syntax) &&
+    ['side-effect', 'pure'].includes(result.syntax) &&
     typeof result.name !== 'undefined'
   ) {
     throw new Error(
@@ -73,7 +71,7 @@ function resolveImports(type, item) {
   }
 
   if (
-    ['single', 'multiple', 'pure-require'].includes(result.syntax) &&
+    ['single', 'multiple', 'pure'].includes(result.syntax) &&
     type === 'module'
   ) {
     throw new Error(
@@ -126,11 +124,9 @@ function getImports(type, imports) {
       (entry) => entry.syntax === 'side-effect'
     );
 
-    const pureRequire = item[1].filter(
-      (entry) => entry.syntax === 'pure-require'
-    );
+    const pure = item[1].filter((entry) => entry.syntax === 'pure');
 
-    [defaultImports, namespaceImports, sideEffectImports, pureRequire].forEach(
+    [defaultImports, namespaceImports, sideEffectImports, pure].forEach(
       (importsSyntax) => {
         if (importsSyntax.length > 1) {
           const [{ syntax }] = importsSyntax;
@@ -158,7 +154,7 @@ function renderImports(loaderContext, type, imports) {
   const sideEffectImports = imports.filter(
     (item) => item.syntax === 'side-effect'
   );
-  const pureRequire = imports.filter((item) => item.syntax === 'pure-require');
+  const pure = imports.filter((item) => item.syntax === 'pure');
   const isModule = type === 'module';
 
   // 1. Module import-side-effect
@@ -166,8 +162,8 @@ function renderImports(loaderContext, type, imports) {
     return `import ${stringifyRequest(loaderContext, moduleName)};`;
   }
 
-  // 2. CommonJs pure-require
-  if (pureRequire.length > 0) {
+  // 2. CommonJs pure
+  if (pure.length > 0) {
     return `require(${stringifyRequest(loaderContext, moduleName)});`;
   }
 

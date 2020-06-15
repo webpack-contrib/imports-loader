@@ -315,7 +315,7 @@ describe('loader', () => {
     const compiler = getCompiler('some-library.js', {
       type: 'commonjs',
       imports: {
-        syntax: 'pure-require',
+        syntax: 'pure',
         moduleName: './lib_1',
       },
     });
@@ -336,7 +336,7 @@ describe('loader', () => {
         'single ./lib_2 lib_2_all',
         'multiple ./lib_2 lib2_method_1',
         'multiple ./lib_2 lib2_method_2 lib_2_method_2_short',
-        'pure-require ./lib_3',
+        'pure ./lib_3',
       ],
     });
     const stats = await compile(compiler);

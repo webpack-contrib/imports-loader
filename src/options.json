@@ -12,7 +12,7 @@
             "side-effect",
             "single",
             "multiple",
-            "pure-require"
+            "pure"
           ]
         },
         "moduleName": {
