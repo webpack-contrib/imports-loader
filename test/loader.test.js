@@ -239,7 +239,7 @@ describe('loader', () => {
       imports: {
         moduleName: './lib_1',
         name: '$',
-        syntax: 'default',
+        syntax: 'single',
       },
     });
     const stats = await compile(compiler);
@@ -256,12 +256,12 @@ describe('loader', () => {
       type: 'commonjs',
       imports: [
         {
-          syntax: 'named',
+          syntax: 'multiple',
           moduleName: './lib_2',
           name: 'lib2_method_1',
         },
         {
-          syntax: 'named',
+          syntax: 'multiple',
           moduleName: './lib_2',
           name: 'lib2_method_2',
           alias: 'lib_2_method_2_short',
@@ -290,12 +290,12 @@ describe('loader', () => {
           name: 'lib_2_all',
         },
         {
-          syntax: 'named',
+          syntax: 'multiple',
           moduleName: './lib_2',
           name: 'lib2_method_1',
         },
         {
-          syntax: 'named',
+          syntax: 'multiple',
           moduleName: './lib_2',
           name: 'lib2_method_2',
           alias: 'lib_2_method_2_short',
@@ -315,7 +315,7 @@ describe('loader', () => {
     const compiler = getCompiler('some-library.js', {
       type: 'commonjs',
       imports: {
-        syntax: 'side-effect',
+        syntax: 'pure',
         moduleName: './lib_1',
       },
     });
@@ -332,11 +332,11 @@ describe('loader', () => {
     const compiler = getCompiler('some-library.js', {
       type: 'commonjs',
       imports: [
-        'default ./lib_1 $',
-        'default ./lib_2 lib_2_all',
-        'named ./lib_2 lib2_method_1',
-        'named ./lib_2 lib2_method_2 lib_2_method_2_short',
-        'side-effect ./lib_3',
+        'single ./lib_1 $',
+        'single ./lib_2 lib_2_all',
+        'multiple ./lib_2 lib2_method_1',
+        'multiple ./lib_2 lib2_method_2 lib_2_method_2_short',
+        'pure ./lib_3',
       ],
     });
     const stats = await compile(compiler);

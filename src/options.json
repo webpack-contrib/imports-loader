@@ -5,7 +5,15 @@
       "additionalProperties": false,
       "properties": {
         "syntax": {
-          "enum": ["default", "named", "namespace", "side-effect"]
+          "enum": [
+            "default",
+            "named",
+            "namespace",
+            "side-effect",
+            "single",
+            "multiple",
+            "pure"
+          ]
         },
         "moduleName": {
           "type": "string",

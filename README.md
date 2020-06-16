@@ -75,7 +75,7 @@ require(`imports-loader?imports[]=default%20jquery%20$&imports[]=angular!./examp
 ```
 
 ```js
-require(`imports-loader?type=commonjsimports[]=default%20jquery%20$&imports[]=angular!./example.js`);
+require(`imports-loader?type=commonjsimports[]=single%20jquery%20$&imports[]=angular!./example.js`);
 // Adds the following code to the beginning of example.js:
 //
 //  var $ = require("jquery");
@@ -114,14 +114,13 @@ module.exports = {
             options: {
               type: 'commonjs',
               imports: [
-                'default ./lib_1 $',
-                'default ./lib_2 lib_2_default',
-                'named ./lib_2 lib2_method_1',
-                'named ./lib_2 lib2_method_2 lib_2_method_2_short',
-                'default ./lib_3 lib_3_defaul',
-                'namespace ./lib_3 lib_3_all',
-                'side-effect ./lib_4',
-                'default jquery $',
+                'single ./lib_1 $',
+                'single ./lib_2 lib_2_default',
+                'multiple ./lib_2 lib2_method_1',
+                'multiple ./lib_2 lib2_method_2 lib_2_method_2_short',
+                'single ./lib_3 lib_3_defaul',
+                'pure ./lib_4',
+                'single jquery $',
                 {
                   moduleName: 'angular',
                   name: 'angular',
@@ -223,12 +222,18 @@ String values let you specify import syntax, moduleName, name, and alias.
 
 String syntax - `[[syntax] [moduleName] [name] [alias]]`, where:
 
-- `[syntax]` - can be `default`, `named`, `namespace` or `side-effect`
+- `[syntax]`:
+
+  - if type `module`- can be `default`, `named`, `namespace` or `side-effect`
+  - if type `commonjs`- can be `single`, `multiple` or `pure`
+
 - `[moduleName]` - name of an imported module (**required**)
 - `[name]` - name of an imported value (**required**)
 - `[alias]` - alias of an imported value (**may be omitted**)
 
 Examples:
+
+If type `module`:
 
 - `[Foo]` - generates `import Foo from "Foo";`.
 - `[default Foo]` - generates `import Foo from "Foo";`.
@@ -239,6 +244,14 @@ Examples:
 - `[namespace Foo FooA]` - generates `import * as FooA from "Foo";`.
 - `[[default Foo] [namespace Foo FooA]]` - generates `import Foo, * as FooA from "Foo";`.
 - `[side-effect Foo]` - generates `import "Foo";`.
+
+If type `commonjs`:
+
+- `[Foo]` - generates `const Foo = require("Foo");`.
+- `[single Foo]` - generates `const Foo = require("Foo");`.
+- `[single ./my-lib Foo]` - generates `const Foo = require("./my-lib");`.
+- `[multiple Foo FooA Bar]` - generates `const { FooA:Bar } = require("Foo");`.
+- `[pure Foo]` - generates `require("Foo");`.
 
 > ⚠ Aliases can't be used together with `default` or `side-effect` syntax.
 
@@ -296,7 +309,6 @@ module.exports = {
           {
             loader: 'imports-loader',
             options: {
-              type: 'commonjs',
               imports: {
                 syntax: 'named',
                 moduleName: './lib_2',
@@ -334,7 +346,6 @@ module.exports = {
           {
             loader: 'imports-loader',
             options: {
-              type: 'commonjs',
               imports: [
                 {
                   moduleName: 'angular',
