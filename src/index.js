@@ -52,7 +52,7 @@ export default function loader(content, sourceMap) {
 
   if (typeof options.wrapper !== 'undefined') {
     importsCode += '\n(function() {';
-    codeAfterModule += `\n}.call(${options.wrapper.toString()}));`;
+    codeAfterModule += `\n}.call(${options.wrapper.toString()}));\n`;
   }
 
   if (this.sourceMap && sourceMap) {

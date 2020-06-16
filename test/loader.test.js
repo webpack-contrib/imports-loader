@@ -596,6 +596,44 @@ describe('loader', () => {
     expect(getWarnings(stats)).toMatchSnapshot('warnings');
   });
 
+  it('should work with all ES format syntaxes', async () => {
+    const compiler = getCompiler('some-library.js', {
+      imports: [
+        'default lib_1',
+        'named lib_1 foo',
+        'named lib_1 bar baz',
+        'namespace lib_3 my_namespace',
+        'side-effects lib_4',
+      ],
+    });
+    const stats = await compile(compiler);
+
+    expect(getModuleSource('./some-library.js', stats)).toMatchSnapshot(
+      'module'
+    );
+    expect(getErrors(stats)).toMatchSnapshot('errors');
+    expect(getWarnings(stats)).toMatchSnapshot('warnings');
+  });
+
+  it('should work with all CommonJS format syntaxes', async () => {
+    const compiler = getCompiler('some-library.js', {
+      type: 'commonjs',
+      imports: [
+        'single lib_1',
+        'multiple lib_1 foo',
+        'multiple lib_1 bar baz',
+        'pure lib_3',
+      ],
+    });
+    const stats = await compile(compiler);
+
+    expect(getModuleSource('./some-library.js', stats)).toMatchSnapshot(
+      'module'
+    );
+    expect(getErrors(stats)).toMatchSnapshot('errors');
+    expect(getWarnings(stats)).toMatchSnapshot('warnings');
+  });
+
   it('should throw an error when "alias" can not be set using an object notation', async () => {
     const compiler = getCompiler('some-library.js', {
       imports: {

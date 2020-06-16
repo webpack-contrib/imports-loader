@@ -177,6 +177,8 @@ function renderImports(loaderContext, type, moduleName, imports) {
 
     // Single
     if (singleImports.length > 0) {
+      code += pure.length > 0 ? '\n' : '';
+
       singleImports.forEach((singleImport, i) => {
         const { name } = singleImport;
         const needNewline = i < singleImports.length - 1 ? '\n' : '';
@@ -194,7 +196,8 @@ function renderImports(loaderContext, type, moduleName, imports) {
 
     // Multiple
     if (multipleImports.length > 0) {
-      code += `${singleImports.length > 0 ? '\n' : ''}var { `;
+      code += pure.length > 0 || singleImports.length > 0 ? '\n' : '';
+      code += `var { `;
 
       multipleImports.forEach((multipleImport, i) => {
         const needComma = i > 0 ? ', ' : '';
@@ -236,7 +239,7 @@ function renderImports(loaderContext, type, moduleName, imports) {
     ({ syntax }) => syntax === 'namespace'
   );
 
-  // Default import
+  // Default
   if (defaultImports.length > 0) {
     defaultImports.forEach((defaultImport, i) => {
       const { name } = defaultImport;
@@ -249,8 +252,9 @@ function renderImports(loaderContext, type, moduleName, imports) {
     });
   }
 
-  // Named import
+  // Named
   if (namedImports.length > 0) {
+    code += defaultImports.length > 0 ? '\n' : '';
     code += 'import { ';
 
     namedImports.forEach((namedImport, i) => {
@@ -266,8 +270,10 @@ function renderImports(loaderContext, type, moduleName, imports) {
     code += ` } from ${stringifyRequest(loaderContext, moduleName)};`;
   }
 
-  // Namespace import
+  // Namespace
   if (namespaceImports.length > 0) {
+    code += defaultImports.length > 0 || namedImports.length > 0 ? '\n' : '';
+
     namespaceImports.forEach((namespaceImport, i) => {
       const { name } = namespaceImport;
       const needNewline = i < namespaceImports.length - 1 ? '\n' : '';

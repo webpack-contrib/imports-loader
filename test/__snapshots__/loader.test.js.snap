@@ -213,7 +213,8 @@ exports[`loader should work with "default" and "named" imports": errors 1`] = `A
 exports[`loader should work with "default" and "named" imports": module 1`] = `
 "/*** IMPORTS FROM imports-loader ***/
 import { lib1_method } from \\"./lib_1\\";
-import lib2_default from \\"./lib_2\\";import { lib2_method_1, lib2_method_2 as lib_2_method_2_short } from \\"./lib_2\\";
+import lib2_default from \\"./lib_2\\";
+import { lib2_method_1, lib2_method_2 as lib_2_method_2_short } from \\"./lib_2\\";
 
 var someCode = {
   number: 123,
@@ -230,8 +231,10 @@ exports[`loader should work with "default" imports: module 1`] = `
 "/*** IMPORTS FROM imports-loader ***/
 import lib_1 from \\"lib_1\\";
 import lib_2 from \\"./lib_2.js\\";
-import defaultExport from \\"./lib_3.js\\";import { lib_3_method as method } from \\"./lib_3.js\\";
-import lib_4 from \\"./lib_4\\";import * as lib_4_all from \\"./lib_4\\";
+import defaultExport from \\"./lib_3.js\\";
+import { lib_3_method as method } from \\"./lib_3.js\\";
+import lib_4 from \\"./lib_4\\";
+import * as lib_4_all from \\"./lib_4\\";
 
 var someCode = {
   number: 123,
@@ -255,7 +258,8 @@ var someCode = {
   object: { existingSubProperty: 123 }
 };
 
-}.call(window));"
+}.call(window));
+"
 `;
 
 exports[`loader should work with "imports", "wrapper" and "additionalCode" options: warnings 1`] = `Array []`;
@@ -346,8 +350,10 @@ exports[`loader should work with a string syntax using ES modules: errors 1`] = 
 exports[`loader should work with a string syntax using ES modules: module 1`] = `
 "/*** IMPORTS FROM imports-loader ***/
 import $ from \\"./lib_1\\";
-import lib_2_all from \\"./lib_2\\";import { lib2_method_1, lib2_method_2 as lib_2_method_2_short } from \\"./lib_2\\";
-import lib_3_default from \\"./lib_3\\";import * as lib_3_all from \\"./lib_3\\";
+import lib_2_all from \\"./lib_2\\";
+import { lib2_method_1, lib2_method_2 as lib_2_method_2_short } from \\"./lib_2\\";
+import lib_3_default from \\"./lib_3\\";
+import * as lib_3_all from \\"./lib_3\\";
 import \\"./lib_4\\";
 
 var someCode = {
@@ -388,6 +394,41 @@ var someCode = {
 `;
 
 exports[`loader should work with a string value: warnings 1`] = `Array []`;
+
+exports[`loader should work with all CommonJS format syntaxes: errors 1`] = `Array []`;
+
+exports[`loader should work with all CommonJS format syntaxes: module 1`] = `
+"/*** IMPORTS FROM imports-loader ***/
+var lib_1 = require(\\"lib_1\\");
+var { foo, bar: baz } = require(\\"lib_1\\");
+require(\\"lib_3\\");
+
+var someCode = {
+  number: 123,
+  object: { existingSubProperty: 123 }
+};
+"
+`;
+
+exports[`loader should work with all CommonJS format syntaxes: warnings 1`] = `Array []`;
+
+exports[`loader should work with all ES format syntaxes: errors 1`] = `Array []`;
+
+exports[`loader should work with all ES format syntaxes: module 1`] = `
+"/*** IMPORTS FROM imports-loader ***/
+import lib_1 from \\"lib_1\\";
+import { foo, bar as baz } from \\"lib_1\\";
+import * as my_namespace from \\"lib_3\\";
+import \\"lib_4\\";
+
+var someCode = {
+  number: 123,
+  object: { existingSubProperty: 123 }
+};
+"
+`;
+
+exports[`loader should work with all ES format syntaxes: warnings 1`] = `Array []`;
 
 exports[`loader should work with an object value: errors 1`] = `Array []`;
 
@@ -432,7 +473,8 @@ var someCode = {
   object: { existingSubProperty: 123 }
 };
 
-}.call(window));"
+}.call(window));
+"
 `;
 
 exports[`loader should work with inline syntax #2: warnings 1`] = `Array []`;
@@ -685,7 +727,8 @@ var someCode = {
   object: { existingSubProperty: 123 }
 };
 
-}.call(window));"
+}.call(window));
+"
 `;
 
 exports[`loader should work with the "wrapper" option: warnings 1`] = `Array []`;
@@ -701,7 +744,8 @@ var someCode = {
   object: { existingSubProperty: 123 }
 };
 
-}.call(window,document));"
+}.call(window,document));
+"
 `;
 
 exports[`loader should work with the "wrapper" options and arguments: warnings 1`] = `Array []`;
