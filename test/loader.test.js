@@ -624,7 +624,7 @@ describe('loader', () => {
     expect(getWarnings(stats)).toMatchSnapshot('warnings');
   });
 
-  it('should throw an error when "single" ca not be used in ES module', async () => {
+  it('should throw an error when "single" ca not be used in ES module using an object notation', async () => {
     const compiler = getCompiler('some-library.js', {
       type: 'module',
       imports: [
@@ -634,6 +634,17 @@ describe('loader', () => {
           syntax: 'single',
         },
       ],
+    });
+    const stats = await compile(compiler);
+
+    expect(getErrors(stats)).toMatchSnapshot('errors');
+    expect(getWarnings(stats)).toMatchSnapshot('warnings');
+  });
+
+  it('should throw an error when "single" ca not be used in ES module using a string notation', async () => {
+    const compiler = getCompiler('some-library.js', {
+      type: 'module',
+      imports: 'single ./lib_4 lib_4_all',
     });
     const stats = await compile(compiler);
 

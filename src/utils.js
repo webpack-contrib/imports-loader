@@ -85,7 +85,9 @@ function resolveImports(type, item) {
     type === 'module'
   ) {
     throw new Error(
-      `The "${type}" format does not support "namespace" syntax import in "${
+      `The "${type}" format does not support the "${
+        result.syntax
+      }" syntax in "${
         typeof item === 'string' ? item : JSON.stringify(item)
       }" value`
     );
