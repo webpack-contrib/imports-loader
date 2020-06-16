@@ -2,18 +2,24 @@ import { stringifyRequest } from 'loader-utils';
 
 function resolveImports(type, item) {
   const defaultSyntax = type === 'module' ? 'default' : 'single';
+
   let result;
 
   if (typeof item === 'string') {
-    const splittedItem = item.split(' ');
+    const noWhitespaceItem = item.trim();
+
+    if (noWhitespaceItem.length === 0) {
+      throw new Error(`Invalid "${item}" value for import`);
+    }
+
+    const splittedItem = noWhitespaceItem.split(' ');
 
     if (splittedItem.length > 4) {
-      throw new Error(`Invalid "${item}" for import`);
+      throw new Error(`Invalid "${item}" value for import`);
     }
 
     if (splittedItem.length === 1) {
       result = {
-        type,
         syntax: defaultSyntax,
         moduleName: splittedItem[0],
         name: splittedItem[0],
@@ -31,42 +37,52 @@ function resolveImports(type, item) {
     }
   } else {
     result = { syntax: defaultSyntax, ...item };
-
-    if (result.syntax === defaultSyntax && !result.name) {
-      result.name = result.moduleName;
-    }
   }
 
-  if (!result.moduleName) {
-    throw new Error(
-      `The import should have "moduleName" option in "${item}" value`
-    );
+  if (result.syntax === defaultSyntax && typeof result.name === 'undefined') {
+    result.name = result.moduleName;
   }
 
   if (
-    ['default', 'single', 'side-effect', 'pure'].includes(result.syntax) &&
+    ['default', 'side-effects', 'single', 'pure'].includes(result.syntax) &&
     typeof result.alias !== 'undefined'
   ) {
     throw new Error(
-      `The "${result.syntax}" syntax can't have "${result.alias}" alias in "${item}" value`
+      `The "${result.syntax}" syntax does not support "${
+        result.alias
+      }" alias in "${
+        typeof item === 'string'
+          ? item
+          : `\n${JSON.stringify(item, null, ' ')}\n`
+      }" value`
     );
   }
 
   if (
-    ['side-effect', 'pure'].includes(result.syntax) &&
+    ['side-effects', 'pure'].includes(result.syntax) &&
     typeof result.name !== 'undefined'
   ) {
     throw new Error(
-      `The "${result.syntax}" syntax can't have "${result.name}" name in "${item}" value`
+      `The "${result.syntax}" syntax does not support "${
+        result.name
+      }" name in "${
+        typeof item === 'string'
+          ? item
+          : `\n${JSON.stringify(item, null, ' ')}\n`
+      }" value`
     );
   }
 
   if (
-    ['default', 'namespace', 'named', 'side-effect'].includes(result.syntax) &&
+    ['default', 'namespace', 'named', 'side-effects'].includes(result.syntax) &&
     type === 'commonjs'
   ) {
     throw new Error(
-      `The "commonjs" type not support "${result.syntax}" syntax import in "${item}" value`
+      `The "${type}" type does not support the "${result.syntax}" syntax in "${
+        typeof item === 'string'
+          ? item
+          : `\n${JSON.stringify(item, null, ' ')}\n`
+      }" value`
     );
   }
 
@@ -75,7 +91,13 @@ function resolveImports(type, item) {
     type === 'module'
   ) {
     throw new Error(
-      `The "module" type not support "${result.syntax}" syntax import in "${item}" value`
+      `The "${type}" format does not support the "${
+        result.syntax
+      }" syntax in "${
+        typeof item === 'string'
+          ? item
+          : `\n${JSON.stringify(item, null, ' ')}\n`
+      }" value`
     );
   }
 
@@ -84,162 +106,211 @@ function resolveImports(type, item) {
     typeof result.name === 'undefined'
   ) {
     throw new Error(
-      `The "${result.syntax}" syntax should have "name" option in "${item}" value`
+      `The "${result.syntax}" syntax needs the "name" option in "${
+        typeof item === 'string'
+          ? item
+          : `\n${JSON.stringify(item, null, ' ')}\n`
+      }" value`
     );
   }
 
   return result;
 }
 
+function getIdentifiers(array) {
+  return array.reduce((accumulator, item) => {
+    if (typeof item.alias !== 'undefined') {
+      accumulator.push({ type: 'alias', value: item.alias });
+
+      return accumulator;
+    }
+
+    if (typeof item.name !== 'undefined') {
+      accumulator.push({ type: 'name', value: item.name });
+    }
+
+    return accumulator;
+  }, []);
+}
+
+function duplicateBy(array, key) {
+  return array.filter(
+    (a, aIndex) =>
+      array.filter((b, bIndex) => b[key] === a[key] && aIndex !== bIndex)
+        .length > 0
+  );
+}
+
 function getImports(type, imports) {
-  let result = [];
+  let result;
 
   if (typeof imports === 'string') {
-    result.push(resolveImports(type, imports));
+    result = [resolveImports(type, imports)];
   } else {
     result = [].concat(imports).map((item) => resolveImports(type, item));
   }
 
-  const sortedResults = {};
+  const identifiers = getIdentifiers(result);
+  const duplicates = duplicateBy(identifiers, 'value');
 
-  for (const item of result) {
-    if (!sortedResults[item.moduleName]) {
-      sortedResults[item.moduleName] = [];
-    }
-
-    sortedResults[item.moduleName].push(item);
+  if (duplicates.length > 0) {
+    throw new Error(
+      `Duplicate ${duplicates
+        .map((identifier) => `"${identifier.value}" (as "${identifier.type}")`)
+        .join(', ')} identifiers found in "\n${JSON.stringify(
+        imports,
+        null,
+        ' '
+      )}\n" value`
+    );
   }
 
-  const defaultSyntax = type === 'module' ? 'default' : 'single';
+  const sortedResults = Object.create(null);
 
-  for (const item of Object.entries(sortedResults)) {
-    const defaultImports = item[1].filter(
-      (entry) => entry.syntax === defaultSyntax
-    );
+  for (const item of result) {
+    const { moduleName } = item;
 
-    const namespaceImports = item[1].filter(
-      (entry) => entry.syntax === 'namespace'
-    );
-    const sideEffectImports = item[1].filter(
-      (entry) => entry.syntax === 'side-effect'
-    );
+    if (!sortedResults[moduleName]) {
+      sortedResults[moduleName] = [];
+    }
 
-    const pure = item[1].filter((entry) => entry.syntax === 'pure');
+    const { syntax, name, alias } = item;
 
-    [defaultImports, namespaceImports, sideEffectImports, pure].forEach(
-      (importsSyntax) => {
-        if (importsSyntax.length > 1) {
-          const [{ syntax }] = importsSyntax;
-
-          throw new Error(
-            `The "${syntax}" syntax format can't have multiple import in "${item}" value`
-          );
-        }
-      }
-    );
+    sortedResults[moduleName].push({ syntax, name, alias });
   }
 
   return sortedResults;
 }
 
-function renderImports(loaderContext, type, imports) {
-  const [{ moduleName }] = imports;
-  const defaultImports = imports.filter((item) => item.syntax === 'default');
-  const singleImports = imports.filter((item) => item.syntax === 'single');
-  const namedImports = imports.filter((item) => item.syntax === 'named');
-  const multipleImports = imports.filter((item) => item.syntax === 'multiple');
-  const namespaceImports = imports.filter(
-    (item) => item.syntax === 'namespace'
-  );
-  const sideEffectImports = imports.filter(
-    (item) => item.syntax === 'side-effect'
-  );
-  const pure = imports.filter((item) => item.syntax === 'pure');
-  const isModule = type === 'module';
+function renderImports(loaderContext, type, moduleName, imports) {
+  let code = '';
 
-  // 1. Module import-side-effect
-  if (sideEffectImports.length > 0) {
-    return `import ${stringifyRequest(loaderContext, moduleName)};`;
-  }
+  if (type === 'commonjs') {
+    const pure = imports.filter(({ syntax }) => syntax === 'pure');
 
-  // 2. CommonJs pure
-  if (pure.length > 0) {
-    return `require(${stringifyRequest(loaderContext, moduleName)});`;
-  }
+    // Pure
+    if (pure.length > 0) {
+      pure.forEach((_, i) => {
+        const needNewline = i < pure.length - 1 ? '\n' : '';
 
-  let code = isModule ? 'import' : '';
-
-  // 3. Module default import
-  if (defaultImports.length > 0) {
-    const [{ name }] = defaultImports;
-
-    code += ` ${name}`;
-  }
-
-  // 4. CommonJs single import
-  if (singleImports.length > 0) {
-    const [{ name }] = singleImports;
-
-    code += `var ${name} = require(${stringifyRequest(
-      loaderContext,
-      moduleName
-    )});`;
-  }
-
-  // 5. Module namespace import
-  if (namespaceImports.length > 0) {
-    if (defaultImports.length > 0) {
-      code += `,`;
+        code += `require(${stringifyRequest(
+          loaderContext,
+          moduleName
+        )});${needNewline}`;
+      });
     }
 
-    const [{ name }] = namespaceImports;
+    const singleImports = imports.filter(({ syntax }) => syntax === 'single');
 
-    code += ` * as ${name}`;
-  }
-
-  // 6. Module named import
-  if (namedImports.length > 0) {
-    if (defaultImports.length > 0) {
-      code += ', { ';
-    } else {
-      code += ' { ';
-    }
-
-    namedImports.forEach((namedImport, i) => {
-      const comma = i > 0 ? ', ' : '';
-      const { name, alias } = namedImport;
-      const sep = ' as ';
-
-      code += alias ? `${comma}${name}${sep}${alias}` : `${comma}${name}`;
-    });
-
-    code += ' }';
-  }
-
-  // 7. CommonJs multiple import
-  if (multipleImports.length > 0) {
+    // Single
     if (singleImports.length > 0) {
-      code += '\nvar { ';
-    } else {
-      code += 'var { ';
+      code += pure.length > 0 ? '\n' : '';
+
+      singleImports.forEach((singleImport, i) => {
+        const { name } = singleImport;
+        const needNewline = i < singleImports.length - 1 ? '\n' : '';
+
+        code += `var ${name} = require(${stringifyRequest(
+          loaderContext,
+          moduleName
+        )});${needNewline}`;
+      });
     }
 
-    multipleImports.forEach((multipleImport, i) => {
-      const comma = i > 0 ? ', ' : '';
-      const { name, alias } = multipleImport;
-      const sep = ': ';
+    const multipleImports = imports.filter(
+      ({ syntax }) => syntax === 'multiple'
+    );
 
-      code += alias ? `${comma}${name}${sep}${alias}` : `${comma}${name}`;
-    });
+    // Multiple
+    if (multipleImports.length > 0) {
+      code += pure.length > 0 || singleImports.length > 0 ? '\n' : '';
+      code += `var { `;
 
-    code += ` } = require(${stringifyRequest(loaderContext, moduleName)});`;
-  }
+      multipleImports.forEach((multipleImport, i) => {
+        const needComma = i > 0 ? ', ' : '';
+        const { name, alias } = multipleImport;
+        const separator = ': ';
 
-  if (!isModule) {
+        code += alias
+          ? `${needComma}${name}${separator}${alias}`
+          : `${needComma}${name}`;
+      });
+
+      code += ` } = require(${stringifyRequest(loaderContext, moduleName)});`;
+    }
+
     return code;
   }
 
-  code += ` from ${stringifyRequest(loaderContext, moduleName)};`;
+  const sideEffectsImports = imports.filter(
+    ({ syntax }) => syntax === 'side-effects'
+  );
+
+  // Side-effects
+  if (sideEffectsImports.length > 0) {
+    sideEffectsImports.forEach((_, i) => {
+      const needNewline = i < sideEffectsImports.length - 1 ? '\n' : '';
+
+      code += `import ${stringifyRequest(
+        loaderContext,
+        moduleName
+      )};${needNewline}`;
+    });
+
+    return code;
+  }
+
+  const defaultImports = imports.filter(({ syntax }) => syntax === 'default');
+  const namedImports = imports.filter(({ syntax }) => syntax === 'named');
+  const namespaceImports = imports.filter(
+    ({ syntax }) => syntax === 'namespace'
+  );
+
+  // Default
+  if (defaultImports.length > 0) {
+    defaultImports.forEach((defaultImport, i) => {
+      const { name } = defaultImport;
+      const needNewline = i < defaultImports.length - 1 ? '\n' : '';
+
+      code += `import ${name} from ${stringifyRequest(
+        loaderContext,
+        moduleName
+      )};${needNewline}`;
+    });
+  }
+
+  // Named
+  if (namedImports.length > 0) {
+    code += defaultImports.length > 0 ? '\n' : '';
+    code += 'import { ';
+
+    namedImports.forEach((namedImport, i) => {
+      const needComma = i > 0 ? ', ' : '';
+      const { name, alias } = namedImport;
+      const separator = ' as ';
+
+      code += alias
+        ? `${needComma}${name}${separator}${alias}`
+        : `${needComma}${name}`;
+    });
+
+    code += ` } from ${stringifyRequest(loaderContext, moduleName)};`;
+  }
+
+  // Namespace
+  if (namespaceImports.length > 0) {
+    code += defaultImports.length > 0 || namedImports.length > 0 ? '\n' : '';
+
+    namespaceImports.forEach((namespaceImport, i) => {
+      const { name } = namespaceImport;
+      const needNewline = i < namespaceImports.length - 1 ? '\n' : '';
+
+      code += `import * as ${name} from ${stringifyRequest(
+        loaderContext,
+        moduleName
+      )};${needNewline}`;
+    });
+  }
 
   return code;
 }

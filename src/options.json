@@ -1,6 +1,10 @@
 {
   "definitions": {
-    "ObjectPattern": {
+    "ImportItemString": {
+      "type": "string",
+      "minLength": 1
+    },
+    "ImportItemObject": {
       "type": "object",
       "additionalProperties": false,
       "properties": {
@@ -9,7 +13,7 @@
             "default",
             "named",
             "namespace",
-            "side-effect",
+            "side-effects",
             "single",
             "multiple",
             "pure"
@@ -27,11 +31,18 @@
           "type": "string",
           "minLength": 1
         }
-      }
+      },
+      "required": ["moduleName"]
     },
-    "ImportsStringPattern": {
-      "type": "string",
-      "minLength": 1
+    "ImportItem": {
+      "anyOf": [
+        {
+          "$ref": "#/definitions/ImportItemString"
+        },
+        {
+          "$ref": "#/definitions/ImportItemObject"
+        }
+      ]
     }
   },
   "type": "object",
@@ -42,23 +53,13 @@
     "imports": {
       "anyOf": [
         {
-          "$ref": "#/definitions/ImportsStringPattern"
-        },
-        {
-          "$ref": "#/definitions/ObjectPattern"
+          "$ref": "#/definitions/ImportItem"
         },
         {
           "type": "array",
           "minItems": 1,
           "items": {
-            "anyOf": [
-              {
-                "$ref": "#/definitions/ImportsStringPattern"
-              },
-              {
-                "$ref": "#/definitions/ObjectPattern"
-              }
-            ]
+            "$ref": "#/definitions/ImportItem"
           }
         }
       ]
