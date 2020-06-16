@@ -61,6 +61,15 @@ Error: The \\"side-effects\\" syntax does not support \\"some_name\\" name in \\
 
 exports[`loader should throw an error when "name" can not be used for an object notation: warnings 1`] = `Array []`;
 
+exports[`loader should throw an error when "name" do not exist using a string notation: errors 1`] = `
+Array [
+  "ModuleBuildError: Module build failed (from \`replaced original path\`):
+Error: The \\"named\\" syntax needs the \\"name\\" option in \\"named ./lib_2.js\\" value",
+]
+`;
+
+exports[`loader should throw an error when "name" do not exist using a string notation: warnings 1`] = `Array []`;
+
 exports[`loader should throw an error when "name" do not exist using an object notation: errors 1`] = `
 Array [
   "ModuleBuildError: Module build failed (from \`replaced original path\`):
@@ -115,6 +124,24 @@ Error: Duplicate \\"lib_1\\" name found in \\"[\\"lib_1\\",[{\\"syntax\\":\\"def
 
 exports[`loader should throw an error when duplicate of names found in "default" format: warnings 1`] = `Array []`;
 
+exports[`loader should throw an error when duplicate of names found in "multiple" format with other syntaxes: errors 1`] = `
+Array [
+  "ModuleBuildError: Module build failed (from \`replaced original path\`):
+Error: Duplicate \\"lib1\\", \\"lib2\\" names found in \\"[\\"lib_1\\",[{\\"syntax\\":\\"multiple\\",\\"name\\":\\"lib1\\"},{\\"syntax\\":\\"multiple\\",\\"name\\":\\"lib1\\"},{\\"syntax\\":\\"multiple\\",\\"name\\":\\"lib2\\"},{\\"syntax\\":\\"multiple\\",\\"name\\":\\"lib2\\"}]]\\" value",
+]
+`;
+
+exports[`loader should throw an error when duplicate of names found in "multiple" format with other syntaxes: warnings 1`] = `Array []`;
+
+exports[`loader should throw an error when duplicate of names found in "named" format with other syntaxes: errors 1`] = `
+Array [
+  "ModuleBuildError: Module build failed (from \`replaced original path\`):
+Error: Duplicate \\"lib1\\", \\"lib2\\" names found in \\"[\\"lib_1\\",[{\\"syntax\\":\\"named\\",\\"name\\":\\"lib1\\"},{\\"syntax\\":\\"named\\",\\"name\\":\\"lib1\\"},{\\"syntax\\":\\"named\\",\\"name\\":\\"lib2\\"},{\\"syntax\\":\\"named\\",\\"name\\":\\"lib2\\"}]]\\" value",
+]
+`;
+
+exports[`loader should throw an error when duplicate of names found in "named" format with other syntaxes: warnings 1`] = `Array []`;
+
 exports[`loader should throw an error when duplicate of names found in "named" format: errors 1`] = `
 Array [
   "ModuleBuildError: Module build failed (from \`replaced original path\`):
@@ -154,7 +181,7 @@ exports[`loader should throw an error when invalid arguments for imports: warnin
 exports[`loader should throw an error when multiple duplicate of names found in "multiple" format: errors 1`] = `
 Array [
   "ModuleBuildError: Module build failed (from \`replaced original path\`):
-Error: Duplicate \\"lib1\\", \\"lib2\\" names found in \\"[\\"lib_1\\",[{\\"syntax\\":\\"named\\",\\"name\\":\\"lib1\\"},{\\"syntax\\":\\"named\\",\\"name\\":\\"lib1\\"},{\\"syntax\\":\\"named\\",\\"name\\":\\"lib2\\"},{\\"syntax\\":\\"named\\",\\"name\\":\\"lib2\\"}]]\\" value",
+Error: Duplicate \\"lib1\\", \\"lib2\\" names found in \\"[\\"lib_1\\",[{\\"syntax\\":\\"multiple\\",\\"name\\":\\"lib1\\"},{\\"syntax\\":\\"multiple\\",\\"name\\":\\"lib1\\"},{\\"syntax\\":\\"multiple\\",\\"name\\":\\"lib2\\"},{\\"syntax\\":\\"multiple\\",\\"name\\":\\"lib2\\"}]]\\" value",
 ]
 `;
 

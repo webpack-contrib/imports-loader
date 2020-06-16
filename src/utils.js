@@ -132,7 +132,6 @@ function getImports(type, imports) {
 
   for (const item of Object.entries(sortedResults)) {
     const names = item[1]
-      // TODO test
       .filter(({ syntax }) => syntax !== 'side-effects' && syntax !== 'pure')
       .map(({ name }) => name);
     const duplicates = names.filter(

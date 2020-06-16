@@ -695,7 +695,7 @@ describe('loader', () => {
     expect(getWarnings(stats)).toMatchSnapshot('warnings');
   });
 
-  it.skip('should throw an error when "name" do not exist using a string notation', async () => {
+  it('should throw an error when "name" do not exist using a string notation', async () => {
     const compiler = getCompiler('some-library.js', {
       imports: 'named ./lib_2.js',
     });
@@ -891,11 +891,45 @@ describe('loader', () => {
 
   it('should throw an error when multiple duplicate of names found in "multiple" format', async () => {
     const compiler = getCompiler('some-library.js', {
+      type: 'commonjs',
+      imports: [
+        'multiple lib_1 lib1',
+        'multiple lib_1 lib1',
+        'multiple lib_1 lib2',
+        'multiple lib_1 lib2',
+      ],
+    });
+    const stats = await compile(compiler);
+
+    expect(getErrors(stats)).toMatchSnapshot('errors');
+    expect(getWarnings(stats)).toMatchSnapshot('warnings');
+  });
+
+  it('should throw an error when duplicate of names found in "named" format with other syntaxes', async () => {
+    const compiler = getCompiler('some-library.js', {
       imports: [
         'named lib_1 lib1',
         'named lib_1 lib1',
         'named lib_1 lib2',
         'named lib_1 lib2',
+        'side-effects lib_2',
+      ],
+    });
+    const stats = await compile(compiler);
+
+    expect(getErrors(stats)).toMatchSnapshot('errors');
+    expect(getWarnings(stats)).toMatchSnapshot('warnings');
+  });
+
+  it('should throw an error when duplicate of names found in "multiple" format with other syntaxes', async () => {
+    const compiler = getCompiler('some-library.js', {
+      type: 'commonjs',
+      imports: [
+        'multiple lib_1 lib1',
+        'multiple lib_1 lib1',
+        'multiple lib_1 lib2',
+        'multiple lib_1 lib2',
+        'pure lib_2',
       ],
     });
     const stats = await compile(compiler);
