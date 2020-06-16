@@ -74,7 +74,7 @@ function resolveImports(type, item) {
     type === 'commonjs'
   ) {
     throw new Error(
-      `The "${type}" type not support "${result.syntax}" syntax import in "${
+      `The "${type}" type does not support the "${result.syntax}" syntax in "${
         typeof item === 'string' ? item : JSON.stringify(item)
       }" value`
     );

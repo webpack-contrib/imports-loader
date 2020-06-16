@@ -607,7 +607,7 @@ describe('loader', () => {
     expect(getWarnings(stats)).toMatchSnapshot('warnings');
   });
 
-  it('should throw an error when "namespace" ca not be used in CommonJS', async () => {
+  it('should throw an error when "namespace" ca not be used in CommonJS using an object notation', async () => {
     const compiler = getCompiler('some-library.js', {
       type: 'commonjs',
       imports: [
@@ -617,6 +617,17 @@ describe('loader', () => {
           syntax: 'namespace',
         },
       ],
+    });
+    const stats = await compile(compiler);
+
+    expect(getErrors(stats)).toMatchSnapshot('errors');
+    expect(getWarnings(stats)).toMatchSnapshot('warnings');
+  });
+
+  it('should throw an error when "namespace" ca not be used in CommonJS using a string notation', async () => {
+    const compiler = getCompiler('some-library.js', {
+      type: 'commonjs',
+      imports: 'namespace ./lib_4 namespace',
     });
     const stats = await compile(compiler);
 
