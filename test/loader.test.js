@@ -1113,7 +1113,7 @@ describe('loader', () => {
     expect(getWarnings(stats)).toMatchSnapshot('warnings');
   });
 
-  it.only('should work and union "default" with "namespace"', async () => {
+  it('should work and union "default" with "namespace"', async () => {
     const compiler = getCompiler('some-library.js', {
       imports: ['default lib_1', 'namespace lib_1 ns'],
     });
