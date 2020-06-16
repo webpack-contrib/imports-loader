@@ -37,7 +37,7 @@ exports[`loader should throw an error when "alias" can not be set using a string
 exports[`loader should throw an error when "alias" can not be set using an object notation: errors 1`] = `
 Array [
   "ModuleBuildError: Module build failed (from \`replaced original path\`):
-Error: The \\"side-effects\\" syntax does not support \\"some_alias\\" alias in \\"{\\"moduleName\\":\\"./lib_1\\",\\"syntax\\":\\"side-effects\\",\\"alias\\":\\"some_alias\\"}\\" value",
+Error: The \\"side-effects\\" syntax does not support \\"some_alias\\" alias in \\"",
 ]
 `;
 
@@ -55,7 +55,7 @@ exports[`loader should throw an error when "name" can not be used for a string n
 exports[`loader should throw an error when "name" can not be used for an object notation: errors 1`] = `
 Array [
   "ModuleBuildError: Module build failed (from \`replaced original path\`):
-Error: The \\"side-effects\\" syntax does not support \\"some_name\\" name in \\"{\\"moduleName\\":\\"./lib_1\\",\\"syntax\\":\\"side-effects\\",\\"name\\":\\"some_name\\"}\\" value",
+Error: The \\"side-effects\\" syntax does not support \\"some_name\\" name in \\"",
 ]
 `;
 
@@ -73,7 +73,7 @@ exports[`loader should throw an error when "name" do not exist using a string no
 exports[`loader should throw an error when "name" do not exist using an object notation: errors 1`] = `
 Array [
   "ModuleBuildError: Module build failed (from \`replaced original path\`):
-Error: The \\"named\\" syntax needs the \\"name\\" option in \\"{\\"moduleName\\":\\"./lib_2.js\\",\\"syntax\\":\\"named\\"}\\" value",
+Error: The \\"named\\" syntax needs the \\"name\\" option in \\"",
 ]
 `;
 
@@ -91,7 +91,7 @@ exports[`loader should throw an error when "namespace" ca not be used in CommonJ
 exports[`loader should throw an error when "namespace" ca not be used in CommonJS using an object notation: errors 1`] = `
 Array [
   "ModuleBuildError: Module build failed (from \`replaced original path\`):
-Error: The \\"commonjs\\" type does not support the \\"namespace\\" syntax in \\"{\\"moduleName\\":\\"./lib_4\\",\\"name\\":\\"lib_4_all\\",\\"syntax\\":\\"namespace\\"}\\" value",
+Error: The \\"commonjs\\" type does not support the \\"namespace\\" syntax in \\"",
 ]
 `;
 
@@ -109,7 +109,7 @@ exports[`loader should throw an error when "single" ca not be used in ES module 
 exports[`loader should throw an error when "single" ca not be used in ES module using an object notation: errors 1`] = `
 Array [
   "ModuleBuildError: Module build failed (from \`replaced original path\`):
-Error: The \\"module\\" format does not support the \\"single\\" syntax in \\"{\\"moduleName\\":\\"./lib_4\\",\\"name\\":\\"lib_4_all\\",\\"syntax\\":\\"single\\"}\\" value",
+Error: The \\"module\\" format does not support the \\"single\\" syntax in \\"",
 ]
 `;
 
@@ -118,7 +118,7 @@ exports[`loader should throw an error when "single" ca not be used in ES module 
 exports[`loader should throw an error when duplicate of names found in "default" format: errors 1`] = `
 Array [
   "ModuleBuildError: Module build failed (from \`replaced original path\`):
-Error: Duplicate \\"lib_1\\" name found in \\"[\\"lib_1\\",[{\\"syntax\\":\\"default\\",\\"name\\":\\"lib_1\\"},{\\"syntax\\":\\"default\\",\\"name\\":\\"lib_1\\"}]]\\" value",
+Error: Duplicate \\"lib_1\\" name found in \\"",
 ]
 `;
 
@@ -127,7 +127,7 @@ exports[`loader should throw an error when duplicate of names found in "default"
 exports[`loader should throw an error when duplicate of names found in "multiple" format with other syntaxes: errors 1`] = `
 Array [
   "ModuleBuildError: Module build failed (from \`replaced original path\`):
-Error: Duplicate \\"lib1\\", \\"lib2\\" names found in \\"[\\"lib_1\\",[{\\"syntax\\":\\"multiple\\",\\"name\\":\\"lib1\\"},{\\"syntax\\":\\"multiple\\",\\"name\\":\\"lib1\\"},{\\"syntax\\":\\"multiple\\",\\"name\\":\\"lib2\\"},{\\"syntax\\":\\"multiple\\",\\"name\\":\\"lib2\\"}]]\\" value",
+Error: Duplicate \\"lib1\\", \\"lib2\\" names found in \\"",
 ]
 `;
 
@@ -136,7 +136,7 @@ exports[`loader should throw an error when duplicate of names found in "multiple
 exports[`loader should throw an error when duplicate of names found in "named" format with other syntaxes: errors 1`] = `
 Array [
   "ModuleBuildError: Module build failed (from \`replaced original path\`):
-Error: Duplicate \\"lib1\\", \\"lib2\\" names found in \\"[\\"lib_1\\",[{\\"syntax\\":\\"named\\",\\"name\\":\\"lib1\\"},{\\"syntax\\":\\"named\\",\\"name\\":\\"lib1\\"},{\\"syntax\\":\\"named\\",\\"name\\":\\"lib2\\"},{\\"syntax\\":\\"named\\",\\"name\\":\\"lib2\\"}]]\\" value",
+Error: Duplicate \\"lib1\\", \\"lib2\\" names found in \\"",
 ]
 `;
 
@@ -145,7 +145,7 @@ exports[`loader should throw an error when duplicate of names found in "named" f
 exports[`loader should throw an error when duplicate of names found in "named" format: errors 1`] = `
 Array [
   "ModuleBuildError: Module build failed (from \`replaced original path\`):
-Error: Duplicate \\"foo\\" name found in \\"[\\"lib_1\\",[{\\"syntax\\":\\"named\\",\\"name\\":\\"foo\\"},{\\"syntax\\":\\"named\\",\\"name\\":\\"foo\\"}]]\\" value",
+Error: Duplicate \\"foo\\" name found in \\"",
 ]
 `;
 
@@ -154,7 +154,7 @@ exports[`loader should throw an error when duplicate of names found in "named" f
 exports[`loader should throw an error when duplicate of names found in "namespace" format: errors 1`] = `
 Array [
   "ModuleBuildError: Module build failed (from \`replaced original path\`):
-Error: Duplicate \\"foo\\" name found in \\"[\\"lib_1\\",[{\\"syntax\\":\\"namespace\\",\\"name\\":\\"foo\\"},{\\"syntax\\":\\"namespace\\",\\"name\\":\\"foo\\"}]]\\" value",
+Error: Duplicate \\"foo\\" name found in \\"",
 ]
 `;
 
@@ -163,7 +163,7 @@ exports[`loader should throw an error when duplicate of names found in "namespac
 exports[`loader should throw an error when duplicate of names found in "single" format: errors 1`] = `
 Array [
   "ModuleBuildError: Module build failed (from \`replaced original path\`):
-Error: Duplicate \\"lib_1\\" name found in \\"[\\"lib_1\\",[{\\"syntax\\":\\"single\\",\\"name\\":\\"lib_1\\"},{\\"syntax\\":\\"single\\",\\"name\\":\\"lib_1\\"}]]\\" value",
+Error: Duplicate \\"lib_1\\" name found in \\"",
 ]
 `;
 
@@ -172,7 +172,7 @@ exports[`loader should throw an error when duplicate of names found in "single" 
 exports[`loader should throw an error when invalid arguments for imports: errors 1`] = `
 Array [
   "ModuleBuildError: Module build failed (from \`replaced original path\`):
-Error: The \\"default\\" syntax does not support \\"lib_2_method_2_short\\" alias in \\"{\\"moduleName\\":\\"./lib_2\\",\\"alias\\":\\"lib_2_method_2_short\\"}\\" value",
+Error: The \\"default\\" syntax does not support \\"lib_2_method_2_short\\" alias in \\"",
 ]
 `;
 
@@ -181,7 +181,7 @@ exports[`loader should throw an error when invalid arguments for imports: warnin
 exports[`loader should throw an error when multiple duplicate of names found in "multiple" format: errors 1`] = `
 Array [
   "ModuleBuildError: Module build failed (from \`replaced original path\`):
-Error: Duplicate \\"lib1\\", \\"lib2\\" names found in \\"[\\"lib_1\\",[{\\"syntax\\":\\"multiple\\",\\"name\\":\\"lib1\\"},{\\"syntax\\":\\"multiple\\",\\"name\\":\\"lib1\\"},{\\"syntax\\":\\"multiple\\",\\"name\\":\\"lib2\\"},{\\"syntax\\":\\"multiple\\",\\"name\\":\\"lib2\\"}]]\\" value",
+Error: Duplicate \\"lib1\\", \\"lib2\\" names found in \\"",
 ]
 `;
 

@@ -51,7 +51,9 @@ function resolveImports(type, item) {
       `The "${result.syntax}" syntax does not support "${
         result.alias
       }" alias in "${
-        typeof item === 'string' ? item : JSON.stringify(item)
+        typeof item === 'string'
+          ? item
+          : `\n${JSON.stringify(item, null, ' ')}\n`
       }" value`
     );
   }
@@ -64,7 +66,9 @@ function resolveImports(type, item) {
       `The "${result.syntax}" syntax does not support "${
         result.name
       }" name in "${
-        typeof item === 'string' ? item : JSON.stringify(item)
+        typeof item === 'string'
+          ? item
+          : `\n${JSON.stringify(item, null, ' ')}\n`
       }" value`
     );
   }
@@ -75,7 +79,9 @@ function resolveImports(type, item) {
   ) {
     throw new Error(
       `The "${type}" type does not support the "${result.syntax}" syntax in "${
-        typeof item === 'string' ? item : JSON.stringify(item)
+        typeof item === 'string'
+          ? item
+          : `\n${JSON.stringify(item, null, ' ')}\n`
       }" value`
     );
   }
@@ -88,7 +94,9 @@ function resolveImports(type, item) {
       `The "${type}" format does not support the "${
         result.syntax
       }" syntax in "${
-        typeof item === 'string' ? item : JSON.stringify(item)
+        typeof item === 'string'
+          ? item
+          : `\n${JSON.stringify(item, null, ' ')}\n`
       }" value`
     );
   }
@@ -99,7 +107,9 @@ function resolveImports(type, item) {
   ) {
     throw new Error(
       `The "${result.syntax}" syntax needs the "name" option in "${
-        typeof item === 'string' ? item : JSON.stringify(item)
+        typeof item === 'string'
+          ? item
+          : `\n${JSON.stringify(item, null, ' ')}\n`
       }" value`
     );
   }
@@ -146,7 +156,7 @@ function getImports(type, imports) {
             : `${duplicates
                 .map((duplicate) => `"${duplicate}"`)
                 .join(', ')} names`
-        } found in "${JSON.stringify(item)}" value`
+        } found in "\n${JSON.stringify(item, null, ' ')}\n" value`
       );
     }
   }
