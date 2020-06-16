@@ -28,7 +28,7 @@ exports[`loader should throw an error on the empty string: warnings 1`] = `Array
 exports[`loader should throw an error when "alias" can not be set using a string notation: errors 1`] = `
 Array [
   "ModuleBuildError: Module build failed (from \`replaced original path\`):
-Error: The \\"side-effects\\" syntax does not support \\"some_alias\\" alias in \\"side-effects ./lib_1 name some_alias\\" value",
+Error: The \\"side-effects\\" syntax does not support \\"some_alias\\" alias in \\"side-effects lib_1 name some_alias\\" value",
 ]
 `;
 
@@ -46,7 +46,7 @@ exports[`loader should throw an error when "alias" can not be set using an objec
 exports[`loader should throw an error when "name" can not be used for a string notation: errors 1`] = `
 Array [
   "ModuleBuildError: Module build failed (from \`replaced original path\`):
-Error: The \\"side-effects\\" syntax does not support \\"some_alias\\" name in \\"side-effects ./lib_1 some_alias\\" value",
+Error: The \\"side-effects\\" syntax does not support \\"some_alias\\" name in \\"side-effects lib_1 some_alias\\" value",
 ]
 `;
 
@@ -64,7 +64,7 @@ exports[`loader should throw an error when "name" can not be used for an object 
 exports[`loader should throw an error when "name" do not exist using a string notation: errors 1`] = `
 Array [
   "ModuleBuildError: Module build failed (from \`replaced original path\`):
-Error: The \\"named\\" syntax needs the \\"name\\" option in \\"named ./lib_2.js\\" value",
+Error: The \\"named\\" syntax needs the \\"name\\" option in \\"named lib_2.js\\" value",
 ]
 `;
 
@@ -82,7 +82,7 @@ exports[`loader should throw an error when "name" do not exist using an object n
 exports[`loader should throw an error when "namespace" ca not be used in CommonJS using a string notation: errors 1`] = `
 Array [
   "ModuleBuildError: Module build failed (from \`replaced original path\`):
-Error: The \\"commonjs\\" type does not support the \\"namespace\\" syntax in \\"namespace ./lib_4 namespace\\" value",
+Error: The \\"commonjs\\" type does not support the \\"namespace\\" syntax in \\"namespace lib_4 namespace\\" value",
 ]
 `;
 
@@ -100,7 +100,7 @@ exports[`loader should throw an error when "namespace" ca not be used in CommonJ
 exports[`loader should throw an error when "single" ca not be used in ES module using a string notation: errors 1`] = `
 Array [
   "ModuleBuildError: Module build failed (from \`replaced original path\`):
-Error: The \\"module\\" format does not support the \\"single\\" syntax in \\"single ./lib_4 lib_4_all\\" value",
+Error: The \\"module\\" format does not support the \\"single\\" syntax in \\"single lib_4 lib_4_all\\" value",
 ]
 `;
 
@@ -241,26 +241,12 @@ Error: Invalid \\"named lib_2 name alias something\\" value for import",
 
 exports[`loader should throw error on invalid inline syntax: warnings 1`] = `Array []`;
 
-exports[`loader should work "pure" CommonJS imports: errors 1`] = `Array []`;
+exports[`loader should work "pure" and "multiple" imports: errors 1`] = `Array []`;
 
-exports[`loader should work "pure" CommonJS imports: module 1`] = `
-"/*** IMPORTS FROM imports-loader ***/
-require(\\"./lib_1\\");
-
-var someCode = {
-  number: 123,
-  object: { existingSubProperty: 123 }
-};
-"
-`;
-
-exports[`loader should work "pure" CommonJS imports: warnings 1`] = `Array []`;
-
-exports[`loader should work "pure" and "multiple" CommonJS imports: errors 1`] = `Array []`;
-
-exports[`loader should work "pure" and "multiple" CommonJS imports: module 1`] = `
+exports[`loader should work "pure" and "multiple" imports: module 1`] = `
 "/*** IMPORTS FROM imports-loader ***/
 require(\\"lib_1\\");
+var { lib_2_n } = require(\\"lib_1\\");
 var { lib_2 } = require(\\"lib_2\\");
 
 var someCode = {
@@ -270,13 +256,14 @@ var someCode = {
 "
 `;
 
-exports[`loader should work "pure" and "multiple" CommonJS imports: warnings 1`] = `Array []`;
+exports[`loader should work "pure" and "multiple" imports: warnings 1`] = `Array []`;
 
-exports[`loader should work "pure" and "single" CommonJS imports: errors 1`] = `Array []`;
+exports[`loader should work "pure" and "single" imports: errors 1`] = `Array []`;
 
-exports[`loader should work "pure" and "single" CommonJS imports: module 1`] = `
+exports[`loader should work "pure" and "single" imports: module 1`] = `
 "/*** IMPORTS FROM imports-loader ***/
 require(\\"lib_1\\");
+var lib_1 = require(\\"lib_1\\");
 var lib_2 = require(\\"lib_2\\");
 
 var someCode = {
@@ -286,15 +273,30 @@ var someCode = {
 "
 `;
 
-exports[`loader should work "pure" and "single" CommonJS imports: warnings 1`] = `Array []`;
+exports[`loader should work "pure" and "single" imports: warnings 1`] = `Array []`;
+
+exports[`loader should work "pure" imports: errors 1`] = `Array []`;
+
+exports[`loader should work "pure" imports: module 1`] = `
+"/*** IMPORTS FROM imports-loader ***/
+require(\\"lib_1\\");
+
+var someCode = {
+  number: 123,
+  object: { existingSubProperty: 123 }
+};
+"
+`;
+
+exports[`loader should work "pure" imports: warnings 1`] = `Array []`;
 
 exports[`loader should work with "default" and "named" imports": errors 1`] = `Array []`;
 
 exports[`loader should work with "default" and "named" imports": module 1`] = `
 "/*** IMPORTS FROM imports-loader ***/
-import lib2_default from \\"./lib_2\\";
-import { lib2_method_1, lib2_method_2 as lib_2_method_2_short } from \\"./lib_2\\";
-import { lib1_method } from \\"./lib_1\\";
+import lib2_default from \\"lib_2\\";
+import { lib2_method_1, lib2_method_2 as lib_2_method_2_short } from \\"lib_2\\";
+import { lib1_method } from \\"lib_1\\";
 
 var someCode = {
   number: 123,
@@ -309,10 +311,9 @@ exports[`loader should work with "default" and "namespace" imports": errors 1`] 
 
 exports[`loader should work with "default" and "namespace" imports": module 1`] = `
 "/*** IMPORTS FROM imports-loader ***/
-import lib2_default from \\"./lib_2\\";
-import * as lib2_method_1 from \\"./lib_2\\";
-import * as lib2_method_2 from \\"./lib_2\\";
-import * as lib1_method from \\"./lib_1\\";
+import lib2_default from \\"lib_2\\";
+import * as lib2_namespace from \\"lib_2\\";
+import * as lib1_namespace from \\"lib_1\\";
 
 var someCode = {
   number: 123,
@@ -322,6 +323,21 @@ var someCode = {
 `;
 
 exports[`loader should work with "default" and "namespace" imports": warnings 1`] = `Array []`;
+
+exports[`loader should work with "default" imports with syntax and name: errors 1`] = `Array []`;
+
+exports[`loader should work with "default" imports with syntax and name: module 1`] = `
+"/*** IMPORTS FROM imports-loader ***/
+import lib_name from \\"lib_1\\";
+
+var someCode = {
+  number: 123,
+  object: { existingSubProperty: 123 }
+};
+"
+`;
+
+exports[`loader should work with "default" imports with syntax and name: warnings 1`] = `Array []`;
 
 exports[`loader should work with "default" imports with syntax: errors 1`] = `Array []`;
 
@@ -357,7 +373,7 @@ exports[`loader should work with "imports", "wrapper" and "additionalCode" optio
 
 exports[`loader should work with "imports", "wrapper" and "additionalCode" options: module 1`] = `
 "/*** IMPORTS FROM imports-loader ***/
-import \\"./lib_1\\";
+import \\"lib_1\\";
 
 var someVariable = 1;
 (function() {
@@ -372,11 +388,11 @@ var someCode = {
 
 exports[`loader should work with "imports", "wrapper" and "additionalCode" options: warnings 1`] = `Array []`;
 
-exports[`loader should work with "multiple" CommonJS imports: errors 1`] = `Array []`;
+exports[`loader should work with "multiple" imports: errors 1`] = `Array []`;
 
-exports[`loader should work with "multiple" CommonJS imports: module 1`] = `
+exports[`loader should work with "multiple" imports: module 1`] = `
 "/*** IMPORTS FROM imports-loader ***/
-var $ = require(\\"./lib_1\\");
+var { lib_method } = require(\\"lib_1\\");
 
 var someCode = {
   number: 123,
@@ -385,13 +401,44 @@ var someCode = {
 "
 `;
 
-exports[`loader should work with "multiple" CommonJS imports: warnings 1`] = `Array []`;
+exports[`loader should work with "multiple" imports: warnings 1`] = `Array []`;
+
+exports[`loader should work with "named" and "side-effects" imports: errors 1`] = `Array []`;
+
+exports[`loader should work with "named" and "side-effects" imports: module 1`] = `
+"/*** IMPORTS FROM imports-loader ***/
+import { lib_2 } from \\"lib_2\\";
+import \\"lib_1\\";
+
+var someCode = {
+  number: 123,
+  object: { existingSubProperty: 123 }
+};
+"
+`;
+
+exports[`loader should work with "named" and "side-effects" imports: warnings 1`] = `Array []`;
+
+exports[`loader should work with "named" imports: errors 1`] = `Array []`;
+
+exports[`loader should work with "named" imports: module 1`] = `
+"/*** IMPORTS FROM imports-loader ***/
+import { lib_1_name } from \\"lib_1\\";
+
+var someCode = {
+  number: 123,
+  object: { existingSubProperty: 123 }
+};
+"
+`;
+
+exports[`loader should work with "named" imports: warnings 1`] = `Array []`;
 
 exports[`loader should work with "namespace" imports: errors 1`] = `Array []`;
 
 exports[`loader should work with "namespace" imports: module 1`] = `
 "/*** IMPORTS FROM imports-loader ***/
-import * as lib_1_all from \\"./lib_1\\";
+import * as lib_1_all from \\"lib_1\\";
 
 var someCode = {
   number: 123,
@@ -454,7 +501,7 @@ exports[`loader should work with "side-effects" imports: errors 1`] = `Array []`
 
 exports[`loader should work with "side-effects" imports: module 1`] = `
 "/*** IMPORTS FROM imports-loader ***/
-import \\"./lib_1\\";
+import \\"lib_1\\";
 
 var someCode = {
   number: 123,
@@ -465,11 +512,11 @@ var someCode = {
 
 exports[`loader should work with "side-effects" imports: warnings 1`] = `Array []`;
 
-exports[`loader should work with "single" CommonJS imports: errors 1`] = `Array []`;
+exports[`loader should work with "single" imports with syntax and alias: errors 1`] = `Array []`;
 
-exports[`loader should work with "single" CommonJS imports: module 1`] = `
+exports[`loader should work with "single" imports with syntax and alias: module 1`] = `
 "/*** IMPORTS FROM imports-loader ***/
-var $ = require(\\"./lib_1\\");
+var lib_name = require(\\"lib_1\\");
 
 var someCode = {
   number: 123,
@@ -478,16 +525,13 @@ var someCode = {
 "
 `;
 
-exports[`loader should work with "single" CommonJS imports: warnings 1`] = `Array []`;
+exports[`loader should work with "single" imports with syntax and alias: warnings 1`] = `Array []`;
 
-exports[`loader should work with a string syntax using CommonJS modules: errors 1`] = `Array []`;
+exports[`loader should work with "single" imports with syntax: errors 1`] = `Array []`;
 
-exports[`loader should work with a string syntax using CommonJS modules: module 1`] = `
+exports[`loader should work with "single" imports with syntax: module 1`] = `
 "/*** IMPORTS FROM imports-loader ***/
-var $ = require(\\"./lib_1\\");
-var lib_2_all = require(\\"./lib_2\\");
-var { lib2_method_1, lib2_method_2: lib_2_method_2_short } = require(\\"./lib_2\\");
-require(\\"./lib_4\\");
+var lib_1 = require(\\"lib_1\\");
 
 var someCode = {
   number: 123,
@@ -496,16 +540,32 @@ var someCode = {
 "
 `;
 
-exports[`loader should work with a string syntax using CommonJS modules: warnings 1`] = `Array []`;
+exports[`loader should work with "single" imports with syntax: warnings 1`] = `Array []`;
+
+exports[`loader should work with "single" imports without syntax: errors 1`] = `Array []`;
+
+exports[`loader should work with "single" imports without syntax: module 1`] = `
+"/*** IMPORTS FROM imports-loader ***/
+var lib_1 = require(\\"lib_1\\");
+
+var someCode = {
+  number: 123,
+  object: { existingSubProperty: 123 }
+};
+"
+`;
+
+exports[`loader should work with "single" imports without syntax: warnings 1`] = `Array []`;
 
 exports[`loader should work with a string syntax using CommonJS: errors 1`] = `Array []`;
 
 exports[`loader should work with a string syntax using CommonJS: module 1`] = `
 "/*** IMPORTS FROM imports-loader ***/
-var $ = require(\\"./lib_1\\");
-var lib_2_all = require(\\"./lib_2\\");
-var { lib2_method_1, lib2_method_2: lib_2_method_2_short } = require(\\"./lib_2\\");
-require(\\"./lib_3\\");
+var lib_1 = require(\\"lib_1\\");
+var $ = require(\\"lib_1\\");
+var lib_2_all = require(\\"lib_2\\");
+var { lib2_method_1, lib2_method_2: lib_2_method_2_short } = require(\\"lib_2\\");
+require(\\"lib_3\\");
 
 var someCode = {
   number: 123,
@@ -520,12 +580,14 @@ exports[`loader should work with a string syntax using ES modules: errors 1`] = 
 
 exports[`loader should work with a string syntax using ES modules: module 1`] = `
 "/*** IMPORTS FROM imports-loader ***/
-import $ from \\"./lib_1\\";
-import lib_2_all from \\"./lib_2\\";
-import { lib2_method_1, lib2_method_2 as lib_2_method_2_short } from \\"./lib_2\\";
-import lib_3_default from \\"./lib_3\\";
-import * as lib_3_all from \\"./lib_3\\";
-import \\"./lib_4\\";
+import lib_1 from \\"lib_1\\";
+import default_name from \\"lib_1\\";
+import $ from \\"lib_1\\";
+import lib_2_all from \\"lib_2\\";
+import { lib2_method_1, lib2_method_2 as lib_2_method_2_short } from \\"lib_2\\";
+import lib_3_default from \\"lib_3\\";
+import * as lib_3_all from \\"lib_3\\";
+import \\"lib_4\\";
 
 var someCode = {
   number: 123,
@@ -565,41 +627,6 @@ var someCode = {
 `;
 
 exports[`loader should work with a string value: warnings 1`] = `Array []`;
-
-exports[`loader should work with all CommonJS format syntaxes: errors 1`] = `Array []`;
-
-exports[`loader should work with all CommonJS format syntaxes: module 1`] = `
-"/*** IMPORTS FROM imports-loader ***/
-var lib_1 = require(\\"lib_1\\");
-var { foo, bar: baz } = require(\\"lib_1\\");
-require(\\"lib_3\\");
-
-var someCode = {
-  number: 123,
-  object: { existingSubProperty: 123 }
-};
-"
-`;
-
-exports[`loader should work with all CommonJS format syntaxes: warnings 1`] = `Array []`;
-
-exports[`loader should work with all ES format syntaxes: errors 1`] = `Array []`;
-
-exports[`loader should work with all ES format syntaxes: module 1`] = `
-"/*** IMPORTS FROM imports-loader ***/
-import lib_1 from \\"lib_1\\";
-import { foo, bar as baz } from \\"lib_1\\";
-import * as my_namespace from \\"lib_3\\";
-import \\"lib_4\\";
-
-var someCode = {
-  number: 123,
-  object: { existingSubProperty: 123 }
-};
-"
-`;
-
-exports[`loader should work with all ES format syntaxes: warnings 1`] = `Array []`;
 
 exports[`loader should work with an object value: errors 1`] = `Array []`;
 
@@ -702,8 +729,8 @@ exports[`loader should work with multiple "default" imports and different names:
 
 exports[`loader should work with multiple "default" imports and different names: module 1`] = `
 "/*** IMPORTS FROM imports-loader ***/
-import lib_2 from \\"./lib_2\\";
-import lib_3 from \\"./lib_2\\";
+import lib_2 from \\"lib_2\\";
+import lib_3 from \\"lib_2\\";
 
 var someCode = {
   number: 123,
@@ -718,7 +745,7 @@ exports[`loader should work with multiple "multiple" imports from the one lib: e
 
 exports[`loader should work with multiple "multiple" imports from the one lib: module 1`] = `
 "/*** IMPORTS FROM imports-loader ***/
-var { lib_2, lib_3: alias, lib_4 } = require(\\"./lib_2\\");
+var { lib_2, lib_3: alias, lib_4 } = require(\\"lib_2\\");
 
 var someCode = {
   number: 123,
@@ -731,10 +758,23 @@ exports[`loader should work with multiple "multiple" imports from the one lib: w
 
 exports[`loader should work with multiple "multiple" imports: errors 1`] = `Array []`;
 
+exports[`loader should work with multiple "multiple" imports: errors 2`] = `Array []`;
+
 exports[`loader should work with multiple "multiple" imports: module 1`] = `
 "/*** IMPORTS FROM imports-loader ***/
-var { lib_2, lib_3: alias } = require(\\"./lib_2\\");
-var { lib_4 } = require(\\"./lib_3\\");
+var { lib2_method_1, lib2_method_2: lib_2_method_2_short } = require(\\"lib_2\\");
+
+var someCode = {
+  number: 123,
+  object: { existingSubProperty: 123 }
+};
+"
+`;
+
+exports[`loader should work with multiple "multiple" imports: module 2`] = `
+"/*** IMPORTS FROM imports-loader ***/
+var { lib_2, lib_3: alias } = require(\\"lib_2\\");
+var { lib_4 } = require(\\"lib_3\\");
 
 var someCode = {
   number: 123,
@@ -745,11 +785,13 @@ var someCode = {
 
 exports[`loader should work with multiple "multiple" imports: warnings 1`] = `Array []`;
 
+exports[`loader should work with multiple "multiple" imports: warnings 2`] = `Array []`;
+
 exports[`loader should work with multiple "named" imports from the one lib: errors 1`] = `Array []`;
 
 exports[`loader should work with multiple "named" imports from the one lib: module 1`] = `
 "/*** IMPORTS FROM imports-loader ***/
-import { lib_2, lib_3 as alias, lib_4 } from \\"./lib_2\\";
+import { lib_2, lib_3 as alias, lib_4 } from \\"lib_2\\";
 
 var someCode = {
   number: 123,
@@ -764,8 +806,8 @@ exports[`loader should work with multiple "named" imports: errors 1`] = `Array [
 
 exports[`loader should work with multiple "named" imports: module 1`] = `
 "/*** IMPORTS FROM imports-loader ***/
-import { lib_2, lib_3 as alias } from \\"./lib_2\\";
-import { lib_4 } from \\"./lib_3\\";
+import { lib_2, lib_3 as alias } from \\"lib_2\\";
+import { lib_4 } from \\"lib_3\\";
 
 var someCode = {
   number: 123,
@@ -780,8 +822,8 @@ exports[`loader should work with multiple "namespace" imports: errors 1`] = `Arr
 
 exports[`loader should work with multiple "namespace" imports: module 1`] = `
 "/*** IMPORTS FROM imports-loader ***/
-import * as lib_2 from \\"./lib_2\\";
-import * as lib_3 from \\"./lib_2\\";
+import * as lib_2 from \\"lib_2\\";
+import * as lib_3 from \\"lib_2\\";
 
 var someCode = {
   number: 123,
@@ -792,12 +834,12 @@ var someCode = {
 
 exports[`loader should work with multiple "namespace" imports: warnings 1`] = `Array []`;
 
-exports[`loader should work with multiple "pure" import: errors 1`] = `Array []`;
+exports[`loader should work with multiple "pure" imports: errors 1`] = `Array []`;
 
-exports[`loader should work with multiple "pure" import: module 1`] = `
+exports[`loader should work with multiple "pure" imports: module 1`] = `
 "/*** IMPORTS FROM imports-loader ***/
-require(\\"./lib_2\\");
-require(\\"./lib_2\\");
+require(\\"lib_2\\");
+require(\\"lib_2\\");
 
 var someCode = {
   number: 123,
@@ -806,14 +848,14 @@ var someCode = {
 "
 `;
 
-exports[`loader should work with multiple "pure" import: warnings 1`] = `Array []`;
+exports[`loader should work with multiple "pure" imports: warnings 1`] = `Array []`;
 
-exports[`loader should work with multiple "side-effects" import: errors 1`] = `Array []`;
+exports[`loader should work with multiple "side-effects" imports: errors 1`] = `Array []`;
 
-exports[`loader should work with multiple "side-effects" import: module 1`] = `
+exports[`loader should work with multiple "side-effects" imports: module 1`] = `
 "/*** IMPORTS FROM imports-loader ***/
-import \\"./lib_2\\";
-import \\"./lib_2\\";
+import \\"lib_2\\";
+import \\"lib_2\\";
 
 var someCode = {
   number: 123,
@@ -822,14 +864,14 @@ var someCode = {
 "
 `;
 
-exports[`loader should work with multiple "side-effects" import: warnings 1`] = `Array []`;
+exports[`loader should work with multiple "side-effects" imports: warnings 1`] = `Array []`;
 
 exports[`loader should work with multiple "single" imports and different names: errors 1`] = `Array []`;
 
 exports[`loader should work with multiple "single" imports and different names: module 1`] = `
 "/*** IMPORTS FROM imports-loader ***/
-var lib_2 = require(\\"./lib_2\\");
-var lib_3 = require(\\"./lib_2\\");
+var lib_2 = require(\\"lib_2\\");
+var lib_3 = require(\\"lib_2\\");
 
 var someCode = {
   number: 123,
@@ -840,13 +882,12 @@ var someCode = {
 
 exports[`loader should work with multiple "single" imports and different names: warnings 1`] = `Array []`;
 
-exports[`loader should work with multiple CommonJS imports and union same: errors 1`] = `Array []`;
+exports[`loader should work with relative requests: errors 1`] = `Array []`;
 
-exports[`loader should work with multiple CommonJS imports and union same: module 1`] = `
+exports[`loader should work with relative requests: module 1`] = `
 "/*** IMPORTS FROM imports-loader ***/
-var $ = require(\\"./lib_1\\");
-var lib_2_all = require(\\"./lib_2\\");
-var { lib2_method_1, lib2_method_2: lib_2_method_2_short } = require(\\"./lib_2\\");
+import lib_1 from \\"./lib_1\\";
+import { lib_2_name } from \\"./lib_2\\";
 
 var someCode = {
   number: 123,
@@ -855,22 +896,7 @@ var someCode = {
 "
 `;
 
-exports[`loader should work with multiple CommonJS imports and union same: warnings 1`] = `Array []`;
-
-exports[`loader should work with multiple CommonJS imports: errors 1`] = `Array []`;
-
-exports[`loader should work with multiple CommonJS imports: module 1`] = `
-"/*** IMPORTS FROM imports-loader ***/
-var { lib2_method_1, lib2_method_2: lib_2_method_2_short } = require(\\"./lib_2\\");
-
-var someCode = {
-  number: 123,
-  object: { existingSubProperty: 123 }
-};
-"
-`;
-
-exports[`loader should work with multiple CommonJS imports: warnings 1`] = `Array []`;
+exports[`loader should work with relative requests: warnings 1`] = `Array []`;
 
 exports[`loader should work with source maps when the "devtool" option is enabled: errors 1`] = `Array []`;
 
