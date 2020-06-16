@@ -37,10 +37,10 @@ function resolveImports(type, item) {
     }
   } else {
     result = { syntax: defaultSyntax, ...item };
+  }
 
-    if (result.syntax === defaultSyntax && typeof result.name === 'undefined') {
-      result.name = result.moduleName;
-    }
+  if (result.syntax === defaultSyntax && typeof result.name === 'undefined') {
+    result.name = result.moduleName;
   }
 
   if (
@@ -130,23 +130,25 @@ function getImports(type, imports) {
     sortedResults[moduleName].push({ syntax, name, alias });
   }
 
-  if (type === 'module') {
-    for (const item of Object.entries(sortedResults)) {
-      const defaultImports = item[1].filter(
-        ({ syntax }) => syntax === 'default'
+  for (const item of Object.entries(sortedResults)) {
+    const names = item[1]
+      // TODO test
+      .filter(({ syntax }) => syntax !== 'side-effects' && syntax !== 'pure')
+      .map(({ name }) => name);
+    const duplicates = names.filter(
+      (name, index) => names.indexOf(name) !== index
+    );
+
+    if (duplicates.length > 0) {
+      throw new Error(
+        `Duplicate ${
+          duplicates.length === 1
+            ? `"${duplicates}" name`
+            : `${duplicates
+                .map((duplicate) => `"${duplicate}"`)
+                .join(', ')} names`
+        } found in "${JSON.stringify(item)}" value`
       );
-
-      [defaultImports].forEach((importsSyntax) => {
-        if (importsSyntax.length > 1) {
-          const [{ syntax }] = importsSyntax;
-
-          throw new Error(
-            `The "${syntax}" syntax format should not have multiple imports in "${JSON.stringify(
-              item
-            )}" value`
-          );
-        }
-      });
     }
   }
 
@@ -236,14 +238,15 @@ function renderImports(loaderContext, type, moduleName, imports) {
 
   // Default import
   if (defaultImports.length > 0) {
-    const [{ name }] = defaultImports;
-    const needNewline =
-      namedImports.length > 0 || namespaceImports.length > 0 ? '\n' : '';
+    defaultImports.forEach((defaultImport, i) => {
+      const { name } = defaultImport;
+      const needNewline = i < defaultImports.length - 1 ? '\n' : '';
 
-    code += `import ${name} from ${stringifyRequest(
-      loaderContext,
-      moduleName
-    )};${needNewline}`;
+      code += `import ${name} from ${stringifyRequest(
+        loaderContext,
+        moduleName
+      )};${needNewline}`;
+    });
   }
 
   // Named import
