@@ -546,13 +546,23 @@ describe('loader', () => {
     expect(getWarnings(stats)).toMatchSnapshot('warnings');
   });
 
-  it('should throw an error when "alias" can not be used for an object notation', async () => {
+  it('should throw an error when "alias" can not be set using an object notation', async () => {
     const compiler = getCompiler('some-library.js', {
       imports: {
         moduleName: './lib_1',
         syntax: 'side-effects',
         alias: 'some_alias',
       },
+    });
+    const stats = await compile(compiler);
+
+    expect(getErrors(stats)).toMatchSnapshot('errors');
+    expect(getWarnings(stats)).toMatchSnapshot('warnings');
+  });
+
+  it('should throw an error when "alias" can not be set using a string notation', async () => {
+    const compiler = getCompiler('some-library.js', {
+      imports: 'side-effects ./lib_1 name some_alias',
     });
     const stats = await compile(compiler);
 
