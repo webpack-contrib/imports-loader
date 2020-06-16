@@ -21,7 +21,7 @@ This is useful for third-party modules that rely on global variables like `$` or
 
 > ⚠ By default loader generate ES module named syntax.
 
-> ⚠ Be careful, existing imports (`import`/`require`) in the original code and importing new modules can cause failure.
+> ⚠ Be careful, existing imports (`import`/`require`) in the original code and importing new values can cause failure.
 
 ## Getting Started
 
