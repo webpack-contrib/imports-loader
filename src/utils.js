@@ -96,7 +96,7 @@ function resolveImports(type, item) {
     typeof result.name === 'undefined'
   ) {
     throw new Error(
-      `The "${result.syntax}" syntax does not support the "name" option in "${
+      `The "${result.syntax}" syntax needs the "name" option in "${
         typeof item === 'string' ? item : JSON.stringify(item)
       }" value`
     );

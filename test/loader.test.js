@@ -584,12 +584,22 @@ describe('loader', () => {
     expect(getWarnings(stats)).toMatchSnapshot('warnings');
   });
 
-  it('should throw an error when "name" do not exist', async () => {
+  it('should throw an error when "name" do not exist using an object notation', async () => {
     const compiler = getCompiler('some-library.js', {
       imports: {
         moduleName: './lib_2.js',
         syntax: 'named',
       },
+    });
+    const stats = await compile(compiler);
+
+    expect(getErrors(stats)).toMatchSnapshot('errors');
+    expect(getWarnings(stats)).toMatchSnapshot('warnings');
+  });
+
+  it('should throw an error when "name" do not exist using a string notation', async () => {
+    const compiler = getCompiler('some-library.js', {
+      imports: 'named ./lib_2.js',
     });
     const stats = await compile(compiler);
 
