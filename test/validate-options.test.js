@@ -17,19 +17,14 @@ describe('validate options', () => {
           name: '$',
         },
         {
-          syntax: 'namespace',
-          moduleName: 'jQuery',
-          name: '$',
-        },
-        {
-          syntax: 'side-effect',
-          moduleName: 'jQuery',
-        },
-        {
-          syntax: 'multiple',
+          syntax: 'default',
           moduleName: 'jQuery',
           name: 'lib',
-          alias: 'lib_alias',
+        },
+        {
+          syntax: 'named',
+          moduleName: 'jQuery',
+          name: 'lib',
         },
         {
           syntax: 'named',
@@ -38,9 +33,33 @@ describe('validate options', () => {
           alias: 'lib_alias',
         },
         {
-          syntax: 'default',
+          syntax: 'namespace',
+          moduleName: 'jQuery',
+          name: '$',
+        },
+        {
+          syntax: 'side-effects',
+          moduleName: 'jQuery',
+        },
+        {
+          syntax: 'single',
           moduleName: 'jQuery',
           name: 'lib',
+        },
+        {
+          syntax: 'multiple',
+          moduleName: 'jQuery',
+          name: 'lib',
+          alias: 'lib_alias',
+        },
+        {
+          syntax: 'multiple',
+          moduleName: 'jQuery',
+          name: 'lib',
+        },
+        {
+          syntax: 'pure',
+          moduleName: 'jQuery',
         },
       ],
       failure: [
@@ -119,6 +138,7 @@ describe('validate options', () => {
               validationErrors.push(error);
             }
           });
+
           expect(validationErrors.length).toBe(0);
         } else if (type === 'failure') {
           const {

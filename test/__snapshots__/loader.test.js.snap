@@ -19,7 +19,7 @@ exports[`loader should not work with source maps when the "devtool" options are 
 exports[`loader should throw an error on multiple "default" imports: errors 1`] = `
 Array [
   "ModuleBuildError: Module build failed (from \`replaced original path\`):
-Error: The \\"default\\" syntax format should not have multiple imports in \\"./lib_2,[object Object],[object Object]\\" value",
+Error: The \\"default\\" syntax format should not have multiple imports in \\"[\\"./lib_2\\",[{\\"syntax\\":\\"default\\",\\"name\\":\\"lib_2\\"},{\\"syntax\\":\\"default\\",\\"name\\":\\"lib_3\\"}]]\\" value",
 ]
 `;
 
@@ -34,28 +34,37 @@ Error: Invalid \\"      \\" value for import",
 
 exports[`loader should throw an error on the empty string: warnings 1`] = `Array []`;
 
-exports[`loader should throw an error when "alias" can not be used: errors 1`] = `
+exports[`loader should throw an error when "alias" can not be used for an object notation: errors 1`] = `
 Array [
   "ModuleBuildError: Module build failed (from \`replaced original path\`):
-Error: The \\"side-effects\\" syntax does not support \\"some_alias\\" alias in \\"[object Object]\\" value",
+Error: The \\"side-effects\\" syntax does not support \\"some_alias\\" alias in \\"{\\"moduleName\\":\\"./lib_1\\",\\"syntax\\":\\"side-effects\\",\\"alias\\":\\"some_alias\\"}\\" value",
 ]
 `;
 
-exports[`loader should throw an error when "alias" can not be used: warnings 1`] = `Array []`;
+exports[`loader should throw an error when "alias" can not be used for an object notation: warnings 1`] = `Array []`;
 
-exports[`loader should throw an error when "name" can not be used: errors 1`] = `
+exports[`loader should throw an error when "name" can not be used for a string notation: errors 1`] = `
 Array [
   "ModuleBuildError: Module build failed (from \`replaced original path\`):
-Error: The \\"side-effects\\" syntax does not support \\"some_name\\" name in \\"[object Object]\\" value",
+Error: The \\"side-effects\\" syntax does not support \\"some_alias\\" name in \\"side-effects ./lib_1 some_alias\\" value",
 ]
 `;
 
-exports[`loader should throw an error when "name" can not be used: warnings 1`] = `Array []`;
+exports[`loader should throw an error when "name" can not be used for a string notation: warnings 1`] = `Array []`;
+
+exports[`loader should throw an error when "name" can not be used for an object notation: errors 1`] = `
+Array [
+  "ModuleBuildError: Module build failed (from \`replaced original path\`):
+Error: The \\"side-effects\\" syntax does not support \\"some_name\\" name in \\"{\\"moduleName\\":\\"./lib_1\\",\\"syntax\\":\\"side-effects\\",\\"name\\":\\"some_name\\"}\\" value",
+]
+`;
+
+exports[`loader should throw an error when "name" can not be used for an object notation: warnings 1`] = `Array []`;
 
 exports[`loader should throw an error when "name" do not exist: errors 1`] = `
 Array [
   "ModuleBuildError: Module build failed (from \`replaced original path\`):
-Error: The \\"named\\" syntax does not support the \\"name\\" option in \\"[object Object]\\" value",
+Error: The \\"named\\" syntax does not support the \\"name\\" option in \\"{\\"moduleName\\":\\"./lib_2.js\\",\\"syntax\\":\\"named\\"}\\" value",
 ]
 `;
 
@@ -64,29 +73,29 @@ exports[`loader should throw an error when "name" do not exist: warnings 1`] = `
 exports[`loader should throw an error when "namespace" ca not be used in CommonJS: errors 1`] = `
 Array [
   "ModuleBuildError: Module build failed (from \`replaced original path\`):
-Error: The \\"commonjs\\" type not support \\"namespace\\" syntax import in \\"[object Object]\\" value",
+Error: The \\"commonjs\\" type not support \\"namespace\\" syntax import in \\"{\\"moduleName\\":\\"./lib_4\\",\\"name\\":\\"lib_4_all\\",\\"syntax\\":\\"namespace\\"}\\" value",
 ]
 `;
 
 exports[`loader should throw an error when "namespace" ca not be used in CommonJS: warnings 1`] = `Array []`;
 
+exports[`loader should throw an error when "single" ca not be used in ES module: errors 1`] = `
+Array [
+  "ModuleBuildError: Module build failed (from \`replaced original path\`):
+Error: The \\"module\\" format does not support \\"namespace\\" syntax import in \\"{\\"moduleName\\":\\"./lib_4\\",\\"name\\":\\"lib_4_all\\",\\"syntax\\":\\"single\\"}\\" value",
+]
+`;
+
+exports[`loader should throw an error when "single" ca not be used in ES module: warnings 1`] = `Array []`;
+
 exports[`loader should throw an error when invalid arguments for imports: errors 1`] = `
 Array [
   "ModuleBuildError: Module build failed (from \`replaced original path\`):
-Error: The \\"default\\" syntax does not support \\"lib_2_method_2_short\\" alias in \\"[object Object]\\" value",
+Error: The \\"default\\" syntax does not support \\"lib_2_method_2_short\\" alias in \\"{\\"moduleName\\":\\"./lib_2\\",\\"alias\\":\\"lib_2_method_2_short\\"}\\" value",
 ]
 `;
 
 exports[`loader should throw an error when invalid arguments for imports: warnings 1`] = `Array []`;
-
-exports[`loader should throw an error when multiple "namespace" imports: errors 1`] = `
-Array [
-  "ModuleBuildError: Module build failed (from \`replaced original path\`):
-Error: The \\"namespace\\" syntax format should not have multiple imports in \\"./lib_2,[object Object],[object Object]\\" value",
-]
-`;
-
-exports[`loader should throw an error when multiple "namespace" imports: warnings 1`] = `Array []`;
 
 exports[`loader should throw an error when no arguments for imports: errors 1`] = `
 Array [
@@ -142,8 +151,10 @@ exports[`loader should work with "default" imports: module 1`] = `
 "/*** IMPORTS FROM imports-loader ***/
 import lib_1 from \\"lib_1\\";
 import lib_2 from \\"./lib_2.js\\";
-import defaultExport, { lib_3_method as method } from \\"./lib_3.js\\";
-import lib_4, * as lib_4_all from \\"./lib_4\\";
+import defaultExport from \\"./lib_3.js\\";
+import { lib_3_method as method } from \\"./lib_3.js\\";
+import lib_4 from \\"./lib_4\\";
+import * as lib_4_all from \\"./lib_4\\";
 
 var someCode = {
   number: 123,
@@ -192,7 +203,8 @@ exports[`loader should work with "named" imports": errors 1`] = `Array []`;
 exports[`loader should work with "named" imports": module 1`] = `
 "/*** IMPORTS FROM imports-loader ***/
 import { lib1_method } from \\"./lib_1\\";
-import lib2_default, { lib2_method_1, lib2_method_2 as lib_2_method_2_short } from \\"./lib_2\\";
+import lib2_default from \\"./lib_2\\";
+import { lib2_method_1, lib2_method_2 as lib_2_method_2_short } from \\"./lib_2\\";
 
 var someCode = {
   number: 123,
@@ -274,8 +286,10 @@ exports[`loader should work with a string syntax using ES modules: errors 1`] = 
 exports[`loader should work with a string syntax using ES modules: module 1`] = `
 "/*** IMPORTS FROM imports-loader ***/
 import $ from \\"./lib_1\\";
-import lib_2_all, { lib2_method_1, lib2_method_2 as lib_2_method_2_short } from \\"./lib_2\\";
-import lib_3_defaul, * as lib_3_all from \\"./lib_3\\";
+import lib_2_all from \\"./lib_2\\";
+import { lib2_method_1, lib2_method_2 as lib_2_method_2_short } from \\"./lib_2\\";
+import lib_3_defaul from \\"./lib_3\\";
+import * as lib_3_all from \\"./lib_3\\";
 import \\"./lib_4\\";
 
 var someCode = {
@@ -381,6 +395,53 @@ var someCode = {
 
 exports[`loader should work with inline syntax: warnings 1`] = `Array []`;
 
+exports[`loader should work with multiple "named" imports from the one lib: errors 1`] = `Array []`;
+
+exports[`loader should work with multiple "named" imports from the one lib: module 1`] = `
+"/*** IMPORTS FROM imports-loader ***/
+import { lib_2, lib_3 as alias, lib_4 } from \\"./lib_2\\";
+
+var someCode = {
+  number: 123,
+  object: { existingSubProperty: 123 }
+};
+"
+`;
+
+exports[`loader should work with multiple "named" imports from the one lib: warnings 1`] = `Array []`;
+
+exports[`loader should work with multiple "named" imports: errors 1`] = `Array []`;
+
+exports[`loader should work with multiple "named" imports: module 1`] = `
+"/*** IMPORTS FROM imports-loader ***/
+import { lib_2, lib_3 as alias } from \\"./lib_2\\";
+import { lib_4 } from \\"./lib_3\\";
+
+var someCode = {
+  number: 123,
+  object: { existingSubProperty: 123 }
+};
+"
+`;
+
+exports[`loader should work with multiple "named" imports: warnings 1`] = `Array []`;
+
+exports[`loader should work with multiple "namespace" imports: errors 1`] = `Array []`;
+
+exports[`loader should work with multiple "namespace" imports: module 1`] = `
+"/*** IMPORTS FROM imports-loader ***/
+import * as lib_2 from \\"./lib_2\\";
+import * as lib_3 from \\"./lib_2\\";
+
+var someCode = {
+  number: 123,
+  object: { existingSubProperty: 123 }
+};
+"
+`;
+
+exports[`loader should work with multiple "namespace" imports: warnings 1`] = `Array []`;
+
 exports[`loader should work with multiple "pure" import: errors 1`] = `Array []`;
 
 exports[`loader should work with multiple "pure" import: module 1`] = `
@@ -412,6 +473,22 @@ var someCode = {
 `;
 
 exports[`loader should work with multiple "side-effects" import: warnings 1`] = `Array []`;
+
+exports[`loader should work with multiple "single" imports: errors 1`] = `Array []`;
+
+exports[`loader should work with multiple "single" imports: module 1`] = `
+"/*** IMPORTS FROM imports-loader ***/
+var lib_2 = require(\\"./lib_2\\");
+var lib_3 = require(\\"./lib_2\\");
+
+var someCode = {
+  number: 123,
+  object: { existingSubProperty: 123 }
+};
+"
+`;
+
+exports[`loader should work with multiple "single" imports: warnings 1`] = `Array []`;
 
 exports[`loader should work with multiple CommonJS imports and union same: errors 1`] = `Array []`;
 

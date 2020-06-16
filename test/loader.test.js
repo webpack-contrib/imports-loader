@@ -485,7 +485,68 @@ describe('loader', () => {
     expect(getWarnings(stats)).toMatchSnapshot('warnings');
   });
 
-  it('should throw an error when "alias" can not be used', async () => {
+  it('should work with multiple "single" imports', async () => {
+    const compiler = getCompiler('some-library.js', {
+      type: 'commonjs',
+      imports: ['single ./lib_2 lib_2', 'single ./lib_2 lib_3'],
+    });
+    const stats = await compile(compiler);
+
+    expect(getModuleSource('./some-library.js', stats)).toMatchSnapshot(
+      'module'
+    );
+    expect(getErrors(stats)).toMatchSnapshot('errors');
+    expect(getWarnings(stats)).toMatchSnapshot('warnings');
+  });
+
+  it('should work with multiple "namespace" imports', async () => {
+    const compiler = getCompiler('some-library.js', {
+      imports: ['namespace ./lib_2 lib_2', 'namespace ./lib_2 lib_3'],
+    });
+    const stats = await compile(compiler);
+
+    expect(getModuleSource('./some-library.js', stats)).toMatchSnapshot(
+      'module'
+    );
+    expect(getErrors(stats)).toMatchSnapshot('errors');
+    expect(getWarnings(stats)).toMatchSnapshot('warnings');
+  });
+
+  it('should work with multiple "named" imports', async () => {
+    const compiler = getCompiler('some-library.js', {
+      imports: [
+        'named ./lib_2 lib_2',
+        'named ./lib_2 lib_3 alias',
+        'named ./lib_3 lib_4',
+      ],
+    });
+    const stats = await compile(compiler);
+
+    expect(getModuleSource('./some-library.js', stats)).toMatchSnapshot(
+      'module'
+    );
+    expect(getErrors(stats)).toMatchSnapshot('errors');
+    expect(getWarnings(stats)).toMatchSnapshot('warnings');
+  });
+
+  it('should work with multiple "named" imports from the one lib', async () => {
+    const compiler = getCompiler('some-library.js', {
+      imports: [
+        'named ./lib_2 lib_2',
+        'named ./lib_2 lib_3 alias',
+        'named ./lib_2 lib_4',
+      ],
+    });
+    const stats = await compile(compiler);
+
+    expect(getModuleSource('./some-library.js', stats)).toMatchSnapshot(
+      'module'
+    );
+    expect(getErrors(stats)).toMatchSnapshot('errors');
+    expect(getWarnings(stats)).toMatchSnapshot('warnings');
+  });
+
+  it('should throw an error when "alias" can not be used for an object notation', async () => {
     const compiler = getCompiler('some-library.js', {
       imports: {
         moduleName: './lib_1',
@@ -499,13 +560,23 @@ describe('loader', () => {
     expect(getWarnings(stats)).toMatchSnapshot('warnings');
   });
 
-  it('should throw an error when "name" can not be used', async () => {
+  it('should throw an error when "name" can not be used for an object notation', async () => {
     const compiler = getCompiler('some-library.js', {
       imports: {
         moduleName: './lib_1',
         syntax: 'side-effects',
         name: 'some_name',
       },
+    });
+    const stats = await compile(compiler);
+
+    expect(getErrors(stats)).toMatchSnapshot('errors');
+    expect(getWarnings(stats)).toMatchSnapshot('warnings');
+  });
+
+  it('should throw an error when "name" can not be used for a string notation', async () => {
+    const compiler = getCompiler('some-library.js', {
+      imports: 'side-effects ./lib_1 some_alias',
     });
     const stats = await compile(compiler);
 
@@ -543,6 +614,23 @@ describe('loader', () => {
     expect(getWarnings(stats)).toMatchSnapshot('warnings');
   });
 
+  it('should throw an error when "single" ca not be used in ES module', async () => {
+    const compiler = getCompiler('some-library.js', {
+      type: 'module',
+      imports: [
+        {
+          moduleName: './lib_4',
+          name: 'lib_4_all',
+          syntax: 'single',
+        },
+      ],
+    });
+    const stats = await compile(compiler);
+
+    expect(getErrors(stats)).toMatchSnapshot('errors');
+    expect(getWarnings(stats)).toMatchSnapshot('warnings');
+  });
+
   it('should throw an error when invalid arguments for imports', async () => {
     const compiler = getCompiler('some-library.js', {
       imports: [
@@ -561,16 +649,6 @@ describe('loader', () => {
   it('should throw an error on multiple "default" imports', async () => {
     const compiler = getCompiler('some-library.js', {
       imports: ['default ./lib_2 lib_2', 'default ./lib_2 lib_3'],
-    });
-    const stats = await compile(compiler);
-
-    expect(getErrors(stats)).toMatchSnapshot('errors');
-    expect(getWarnings(stats)).toMatchSnapshot('warnings');
-  });
-
-  it('should throw an error when multiple "namespace" imports', async () => {
-    const compiler = getCompiler('some-library.js', {
-      imports: ['namespace ./lib_2 lib_2', 'namespace ./lib_2 lib_3'],
     });
     const stats = await compile(compiler);
 

@@ -31,7 +31,8 @@
           "type": "string",
           "minLength": 1
         }
-      }
+      },
+      "required": ["moduleName"]
     },
     "ImportItem": {
       "anyOf": [
