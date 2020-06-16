@@ -177,7 +177,7 @@ describe('loader', () => {
     expect(getWarnings(stats)).toMatchSnapshot('warnings');
   });
 
-  it('should work with "named" imports"', async () => {
+  it('should work with "default" and "named" imports"', async () => {
     const compiler = getCompiler('some-library.js', {
       imports: [
         {
@@ -458,51 +458,11 @@ describe('loader', () => {
     expect(getWarnings(stats)).toMatchSnapshot('warnings');
   });
 
-  it('should work with multiple "side-effects" import', async () => {
+  it('should work with multiple "default" imports and different names', async () => {
     const compiler = getCompiler('some-library.js', {
-      imports: ['side-effects ./lib_2', 'side-effects ./lib_2'],
+      imports: ['default ./lib_2 lib_2', 'default ./lib_2 lib_3'],
     });
-    const stats = await compile(compiler);
 
-    expect(getModuleSource('./some-library.js', stats)).toMatchSnapshot(
-      'module'
-    );
-    expect(getErrors(stats)).toMatchSnapshot('errors');
-    expect(getWarnings(stats)).toMatchSnapshot('warnings');
-  });
-
-  it('should work with multiple "pure" import', async () => {
-    const compiler = getCompiler('some-library.js', {
-      type: 'commonjs',
-      imports: ['pure ./lib_2', 'pure ./lib_2'],
-    });
-    const stats = await compile(compiler);
-
-    expect(getModuleSource('./some-library.js', stats)).toMatchSnapshot(
-      'module'
-    );
-    expect(getErrors(stats)).toMatchSnapshot('errors');
-    expect(getWarnings(stats)).toMatchSnapshot('warnings');
-  });
-
-  it('should work with multiple "single" imports', async () => {
-    const compiler = getCompiler('some-library.js', {
-      type: 'commonjs',
-      imports: ['single ./lib_2 lib_2', 'single ./lib_2 lib_3'],
-    });
-    const stats = await compile(compiler);
-
-    expect(getModuleSource('./some-library.js', stats)).toMatchSnapshot(
-      'module'
-    );
-    expect(getErrors(stats)).toMatchSnapshot('errors');
-    expect(getWarnings(stats)).toMatchSnapshot('warnings');
-  });
-
-  it('should work with multiple "namespace" imports', async () => {
-    const compiler = getCompiler('some-library.js', {
-      imports: ['namespace ./lib_2 lib_2', 'namespace ./lib_2 lib_3'],
-    });
     const stats = await compile(compiler);
 
     expect(getModuleSource('./some-library.js', stats)).toMatchSnapshot(
@@ -546,11 +506,23 @@ describe('loader', () => {
     expect(getWarnings(stats)).toMatchSnapshot('warnings');
   });
 
-  it('should work with multiple "default" imports and different names', async () => {
+  it('should work with multiple "namespace" imports', async () => {
     const compiler = getCompiler('some-library.js', {
-      imports: ['default lib_1', 'default lib_1 foo'],
+      imports: ['namespace ./lib_2 lib_2', 'namespace ./lib_2 lib_3'],
     });
+    const stats = await compile(compiler);
 
+    expect(getModuleSource('./some-library.js', stats)).toMatchSnapshot(
+      'module'
+    );
+    expect(getErrors(stats)).toMatchSnapshot('errors');
+    expect(getWarnings(stats)).toMatchSnapshot('warnings');
+  });
+
+  it('should work with multiple "side-effects" import', async () => {
+    const compiler = getCompiler('some-library.js', {
+      imports: ['side-effects ./lib_2', 'side-effects ./lib_2'],
+    });
     const stats = await compile(compiler);
 
     expect(getModuleSource('./some-library.js', stats)).toMatchSnapshot(
@@ -563,9 +535,58 @@ describe('loader', () => {
   it('should work with multiple "single" imports and different names', async () => {
     const compiler = getCompiler('some-library.js', {
       type: 'commonjs',
-      imports: ['single lib_1', 'single lib_1 foo'],
+      imports: ['single ./lib_2 lib_2', 'single ./lib_2 lib_3'],
     });
+    const stats = await compile(compiler);
 
+    expect(getModuleSource('./some-library.js', stats)).toMatchSnapshot(
+      'module'
+    );
+    expect(getErrors(stats)).toMatchSnapshot('errors');
+    expect(getWarnings(stats)).toMatchSnapshot('warnings');
+  });
+
+  it('should work with multiple "multiple" imports', async () => {
+    const compiler = getCompiler('some-library.js', {
+      type: 'commonjs',
+      imports: [
+        'multiple ./lib_2 lib_2',
+        'multiple ./lib_2 lib_3 alias',
+        'multiple ./lib_3 lib_4',
+      ],
+    });
+    const stats = await compile(compiler);
+
+    expect(getModuleSource('./some-library.js', stats)).toMatchSnapshot(
+      'module'
+    );
+    expect(getErrors(stats)).toMatchSnapshot('errors');
+    expect(getWarnings(stats)).toMatchSnapshot('warnings');
+  });
+
+  it('should work with multiple "multiple" imports from the one lib', async () => {
+    const compiler = getCompiler('some-library.js', {
+      type: 'commonjs',
+      imports: [
+        'multiple ./lib_2 lib_2',
+        'multiple ./lib_2 lib_3 alias',
+        'multiple ./lib_2 lib_4',
+      ],
+    });
+    const stats = await compile(compiler);
+
+    expect(getModuleSource('./some-library.js', stats)).toMatchSnapshot(
+      'module'
+    );
+    expect(getErrors(stats)).toMatchSnapshot('errors');
+    expect(getWarnings(stats)).toMatchSnapshot('warnings');
+  });
+
+  it('should work with multiple "pure" import', async () => {
+    const compiler = getCompiler('some-library.js', {
+      type: 'commonjs',
+      imports: ['pure ./lib_2', 'pure ./lib_2'],
+    });
     const stats = await compile(compiler);
 
     expect(getModuleSource('./some-library.js', stats)).toMatchSnapshot(
