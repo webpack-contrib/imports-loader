@@ -224,7 +224,7 @@ String syntax - `[[syntax] [moduleName] [name] [alias]]`, where:
 
 - `[syntax]`:
 
-  - if type `module`- can be `default`, `named`, `namespace` or `side-effect`
+  - if type `module`- can be `default`, `named`, `namespace` or `side-effects`
   - if type `commonjs`- can be `single`, `multiple` or `pure`
 
 - `[moduleName]` - name of an imported module (**required**)
@@ -243,7 +243,7 @@ If type `module`:
 - `[[default Foo] [named Foo Bar BarA]]` - generates `import Foo, { Bar as BarA } from "Foo";`.
 - `[namespace Foo FooA]` - generates `import * as FooA from "Foo";`.
 - `[[default Foo] [namespace Foo FooA]]` - generates `import Foo, * as FooA from "Foo";`.
-- `[side-effect Foo]` - generates `import "Foo";`.
+- `[side-effects Foo]` - generates `import "Foo";`.
 
 If type `commonjs`:
 
@@ -253,7 +253,7 @@ If type `commonjs`:
 - `[multiple Foo FooA Bar]` - generates `const { FooA:Bar } = require("Foo");`.
 - `[pure Foo]` - generates `require("Foo");`.
 
-> ⚠ Aliases can't be used together with `default` or `side-effect` syntax.
+> ⚠ Aliases can't be used together with `default` or `side-effects` syntax.
 
 ###### Examples
 
@@ -290,7 +290,7 @@ Allows to use an object to describe an import.
 
 Properties:
 
-- `[syntax]` - can be `default`, `named`, `namespace` or `side-effect`
+- `[syntax]` - can be `default`, `named`, `namespace` or `side-effects`
 - `moduleName` - name of an imported module (**required**)
 - `name` - name of an exported value (**required**)
 - `alias` - alias of an exported value (**may be omitted**)
@@ -360,7 +360,7 @@ module.exports = {
                 'named ./lib_2 lib2_method_2 lib_2_method_2_alias',
                 'default ./lib_3 lib_3_default',
                 'namespace ./lib_3 lib_3_all',
-                'side-effect ./lib_4',
+                'side-effects ./lib_4',
               ],
             },
           },
