@@ -958,4 +958,37 @@ describe('loader', () => {
     expect(getErrors(stats)).toMatchSnapshot('errors');
     expect(getWarnings(stats)).toMatchSnapshot('warnings');
   });
+
+  it('should throw an error when duplicate of alias and name found in "named"', async () => {
+    const compiler = getCompiler('some-library.js', {
+      imports: [
+        'named lib_1 lib1',
+        'named lib_1 lib2 lib1',
+        'named lib_1 lib3',
+        'named lib_1 lib3 foo',
+        'named lib_2 lib1',
+      ],
+    });
+    const stats = await compile(compiler);
+
+    expect(getErrors(stats)).toMatchSnapshot('errors');
+    expect(getWarnings(stats)).toMatchSnapshot('warnings');
+  });
+
+  it('should throw an error when duplicate of alias and name found in "multiple"', async () => {
+    const compiler = getCompiler('some-library.js', {
+      type: 'commonjs',
+      imports: [
+        'multiple lib_1 lib1',
+        'multiple lib_1 lib2 lib1',
+        'multiple lib_1 lib3',
+        'multiple lib_1 lib3 foo',
+        'multiple lib_2 lib1',
+      ],
+    });
+    const stats = await compile(compiler);
+
+    expect(getErrors(stats)).toMatchSnapshot('errors');
+    expect(getWarnings(stats)).toMatchSnapshot('warnings');
+  });
 });
