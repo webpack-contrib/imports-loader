@@ -117,16 +117,55 @@ function resolveImports(type, item) {
   return result;
 }
 
+function getIdentifiers(array) {
+  return array.reduce((accumulator, item) => {
+    if (typeof item.alias !== 'undefined') {
+      accumulator.push({ type: 'alias', value: item.alias });
+
+      return accumulator;
+    }
+
+    if (typeof item.name !== 'undefined') {
+      accumulator.push({ type: 'name', value: item.name });
+    }
+
+    return accumulator;
+  }, []);
+}
+
+function duplicateBy(array, key) {
+  return array.filter(
+    (a, aIndex) =>
+      array.filter((b, bIndex) => b[key] === a[key] && aIndex !== bIndex)
+        .length > 0
+  );
+}
+
 function getImports(type, imports) {
-  let result = [];
+  let result;
 
   if (typeof imports === 'string') {
-    result.push(resolveImports(type, imports));
+    result = [resolveImports(type, imports)];
   } else {
     result = [].concat(imports).map((item) => resolveImports(type, item));
   }
 
-  const sortedResults = {};
+  const identifiers = getIdentifiers(result);
+  const duplicates = duplicateBy(identifiers, 'value');
+
+  if (duplicates.length > 0) {
+    throw new Error(
+      `Duplicate ${duplicates
+        .map((identifier) => `"${identifier.value}" (as "${identifier.type}")`)
+        .join(', ')} identifiers found in "\n${JSON.stringify(
+        imports,
+        null,
+        ' '
+      )}\n" value`
+    );
+  }
+
+  const sortedResults = Object.create(null);
 
   for (const item of result) {
     const { moduleName } = item;
@@ -138,27 +177,6 @@ function getImports(type, imports) {
     const { syntax, name, alias } = item;
 
     sortedResults[moduleName].push({ syntax, name, alias });
-  }
-
-  for (const item of Object.entries(sortedResults)) {
-    const names = item[1]
-      .filter(({ syntax }) => syntax !== 'side-effects' && syntax !== 'pure')
-      .map(({ name }) => name);
-    const duplicates = names.filter(
-      (name, index) => names.indexOf(name) !== index
-    );
-
-    if (duplicates.length > 0) {
-      throw new Error(
-        `Duplicate ${
-          duplicates.length === 1
-            ? `"${duplicates}" name`
-            : `${duplicates
-                .map((duplicate) => `"${duplicate}"`)
-                .join(', ')} names`
-        } found in "\n${JSON.stringify(item, null, ' ')}\n" value`
-      );
-    }
   }
 
   return sortedResults;

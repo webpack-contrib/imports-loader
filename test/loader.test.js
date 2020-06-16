@@ -181,13 +181,13 @@ describe('loader', () => {
     const compiler = getCompiler('some-library.js', {
       imports: [
         {
+          moduleName: './lib_2',
+          name: 'lib2_default',
+        },
+        {
           syntax: 'named',
           moduleName: './lib_1',
           name: 'lib1_method',
-        },
-        {
-          moduleName: './lib_2',
-          name: 'lib2_default',
         },
         {
           syntax: 'named',
@@ -211,12 +211,84 @@ describe('loader', () => {
     expect(getWarnings(stats)).toMatchSnapshot('warnings');
   });
 
+  it('should work with "default" and "namespace" imports"', async () => {
+    const compiler = getCompiler('some-library.js', {
+      imports: [
+        {
+          moduleName: './lib_2',
+          name: 'lib2_default',
+        },
+        {
+          syntax: 'namespace',
+          moduleName: './lib_1',
+          name: 'lib1_method',
+        },
+        {
+          syntax: 'namespace',
+          moduleName: './lib_2',
+          name: 'lib2_method_1',
+        },
+        {
+          syntax: 'namespace',
+          moduleName: './lib_2',
+          name: 'lib2_method_2',
+        },
+      ],
+    });
+    const stats = await compile(compiler);
+
+    expect(getModuleSource('./some-library.js', stats)).toMatchSnapshot(
+      'module'
+    );
+    expect(getErrors(stats)).toMatchSnapshot('errors');
+    expect(getWarnings(stats)).toMatchSnapshot('warnings');
+  });
+
   it('should work with "side-effects" imports', async () => {
     const compiler = getCompiler('some-library.js', {
       imports: {
         moduleName: './lib_1',
         syntax: 'side-effects',
       },
+    });
+    const stats = await compile(compiler);
+
+    expect(getModuleSource('./some-library.js', stats)).toMatchSnapshot(
+      'module'
+    );
+    expect(getErrors(stats)).toMatchSnapshot('errors');
+    expect(getWarnings(stats)).toMatchSnapshot('warnings');
+  });
+
+  it('should work with "side-effects" and "default" imports', async () => {
+    const compiler = getCompiler('some-library.js', {
+      imports: ['side-effects lib_1', 'default lib_2'],
+    });
+    const stats = await compile(compiler);
+
+    expect(getModuleSource('./some-library.js', stats)).toMatchSnapshot(
+      'module'
+    );
+    expect(getErrors(stats)).toMatchSnapshot('errors');
+    expect(getWarnings(stats)).toMatchSnapshot('warnings');
+  });
+
+  it('should work with "side-effects" and "named" imports', async () => {
+    const compiler = getCompiler('some-library.js', {
+      imports: ['side-effects lib_1', 'named lib_2 lib_2'],
+    });
+    const stats = await compile(compiler);
+
+    expect(getModuleSource('./some-library.js', stats)).toMatchSnapshot(
+      'module'
+    );
+    expect(getErrors(stats)).toMatchSnapshot('errors');
+    expect(getWarnings(stats)).toMatchSnapshot('warnings');
+  });
+
+  it('should work with "side-effects" and "namespace" imports', async () => {
+    const compiler = getCompiler('some-library.js', {
+      imports: ['side-effects lib_1', 'namespace lib_2 lib_2'],
     });
     const stats = await compile(compiler);
 
@@ -301,7 +373,7 @@ describe('loader', () => {
     expect(getWarnings(stats)).toMatchSnapshot('warnings');
   });
 
-  it('should work with "default" CommonJS imports', async () => {
+  it('should work with "single" CommonJS imports', async () => {
     const compiler = getCompiler('some-library.js', {
       type: 'commonjs',
       imports: {
@@ -386,6 +458,34 @@ describe('loader', () => {
         syntax: 'pure',
         moduleName: './lib_1',
       },
+    });
+    const stats = await compile(compiler);
+
+    expect(getModuleSource('./some-library.js', stats)).toMatchSnapshot(
+      'module'
+    );
+    expect(getErrors(stats)).toMatchSnapshot('errors');
+    expect(getWarnings(stats)).toMatchSnapshot('warnings');
+  });
+
+  it('should work "pure" and "single" CommonJS imports', async () => {
+    const compiler = getCompiler('some-library.js', {
+      type: 'commonjs',
+      imports: ['pure lib_1', 'single lib_2'],
+    });
+    const stats = await compile(compiler);
+
+    expect(getModuleSource('./some-library.js', stats)).toMatchSnapshot(
+      'module'
+    );
+    expect(getErrors(stats)).toMatchSnapshot('errors');
+    expect(getWarnings(stats)).toMatchSnapshot('warnings');
+  });
+
+  it('should work "pure" and "multiple" CommonJS imports', async () => {
+    const compiler = getCompiler('some-library.js', {
+      type: 'commonjs',
+      imports: ['pure lib_1', 'multiple lib_2 lib_2'],
     });
     const stats = await compile(compiler);
 
@@ -967,6 +1067,8 @@ describe('loader', () => {
         'named lib_1 lib3',
         'named lib_1 lib3 foo',
         'named lib_2 lib1',
+        'named lib_3 toString',
+        'named lib_3 toString',
       ],
     });
     const stats = await compile(compiler);
@@ -984,6 +1086,8 @@ describe('loader', () => {
         'multiple lib_1 lib3',
         'multiple lib_1 lib3 foo',
         'multiple lib_2 lib1',
+        'multiple lib_3 toString',
+        'multiple lib_3 toString',
       ],
     });
     const stats = await compile(compiler);

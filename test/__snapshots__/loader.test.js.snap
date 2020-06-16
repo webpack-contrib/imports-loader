@@ -115,10 +115,46 @@ Error: The \\"module\\" format does not support the \\"single\\" syntax in \\"",
 
 exports[`loader should throw an error when "single" ca not be used in ES module using an object notation: warnings 1`] = `Array []`;
 
+exports[`loader should throw an error when duplicate of alias and name found in "multiple": errors 1`] = `
+Array [
+  "ModuleBuildError: Module build failed (from \`replaced original path\`):
+Error: Duplicate \\"lib1\\" (as \\"name\\"), \\"lib1\\" (as \\"alias\\"), \\"lib1\\" (as \\"name\\"), \\"toString\\" (as \\"name\\"), \\"toString\\" (as \\"name\\") identifiers found in \\"",
+]
+`;
+
+exports[`loader should throw an error when duplicate of alias and name found in "multiple": warnings 1`] = `Array []`;
+
+exports[`loader should throw an error when duplicate of alias and name found in "named": errors 1`] = `
+Array [
+  "ModuleBuildError: Module build failed (from \`replaced original path\`):
+Error: Duplicate \\"lib1\\" (as \\"name\\"), \\"lib1\\" (as \\"alias\\"), \\"lib1\\" (as \\"name\\"), \\"toString\\" (as \\"name\\"), \\"toString\\" (as \\"name\\") identifiers found in \\"",
+]
+`;
+
+exports[`loader should throw an error when duplicate of alias and name found in "named": warnings 1`] = `Array []`;
+
+exports[`loader should throw an error when duplicate of aliases found in "multiple": errors 1`] = `
+Array [
+  "ModuleBuildError: Module build failed (from \`replaced original path\`):
+Error: Duplicate \\"alias1\\" (as \\"alias\\"), \\"alias1\\" (as \\"alias\\") identifiers found in \\"",
+]
+`;
+
+exports[`loader should throw an error when duplicate of aliases found in "multiple": warnings 1`] = `Array []`;
+
+exports[`loader should throw an error when duplicate of aliases found in "named": errors 1`] = `
+Array [
+  "ModuleBuildError: Module build failed (from \`replaced original path\`):
+Error: Duplicate \\"alias1\\" (as \\"alias\\"), \\"alias1\\" (as \\"alias\\") identifiers found in \\"",
+]
+`;
+
+exports[`loader should throw an error when duplicate of aliases found in "named": warnings 1`] = `Array []`;
+
 exports[`loader should throw an error when duplicate of names found in "default" format: errors 1`] = `
 Array [
   "ModuleBuildError: Module build failed (from \`replaced original path\`):
-Error: Duplicate \\"lib_1\\" name found in \\"",
+Error: Duplicate \\"lib_1\\" (as \\"name\\"), \\"lib_1\\" (as \\"name\\") identifiers found in \\"",
 ]
 `;
 
@@ -127,7 +163,7 @@ exports[`loader should throw an error when duplicate of names found in "default"
 exports[`loader should throw an error when duplicate of names found in "multiple" format with other syntaxes: errors 1`] = `
 Array [
   "ModuleBuildError: Module build failed (from \`replaced original path\`):
-Error: Duplicate \\"lib1\\", \\"lib2\\" names found in \\"",
+Error: Duplicate \\"lib1\\" (as \\"name\\"), \\"lib1\\" (as \\"name\\"), \\"lib2\\" (as \\"name\\"), \\"lib2\\" (as \\"name\\") identifiers found in \\"",
 ]
 `;
 
@@ -136,7 +172,7 @@ exports[`loader should throw an error when duplicate of names found in "multiple
 exports[`loader should throw an error when duplicate of names found in "named" format with other syntaxes: errors 1`] = `
 Array [
   "ModuleBuildError: Module build failed (from \`replaced original path\`):
-Error: Duplicate \\"lib1\\", \\"lib2\\" names found in \\"",
+Error: Duplicate \\"lib1\\" (as \\"name\\"), \\"lib1\\" (as \\"name\\"), \\"lib2\\" (as \\"name\\"), \\"lib2\\" (as \\"name\\") identifiers found in \\"",
 ]
 `;
 
@@ -145,7 +181,7 @@ exports[`loader should throw an error when duplicate of names found in "named" f
 exports[`loader should throw an error when duplicate of names found in "named" format: errors 1`] = `
 Array [
   "ModuleBuildError: Module build failed (from \`replaced original path\`):
-Error: Duplicate \\"foo\\" name found in \\"",
+Error: Duplicate \\"foo\\" (as \\"name\\"), \\"foo\\" (as \\"name\\") identifiers found in \\"",
 ]
 `;
 
@@ -154,7 +190,7 @@ exports[`loader should throw an error when duplicate of names found in "named" f
 exports[`loader should throw an error when duplicate of names found in "namespace" format: errors 1`] = `
 Array [
   "ModuleBuildError: Module build failed (from \`replaced original path\`):
-Error: Duplicate \\"foo\\" name found in \\"",
+Error: Duplicate \\"foo\\" (as \\"name\\"), \\"foo\\" (as \\"name\\") identifiers found in \\"",
 ]
 `;
 
@@ -163,7 +199,7 @@ exports[`loader should throw an error when duplicate of names found in "namespac
 exports[`loader should throw an error when duplicate of names found in "single" format: errors 1`] = `
 Array [
   "ModuleBuildError: Module build failed (from \`replaced original path\`):
-Error: Duplicate \\"lib_1\\" name found in \\"",
+Error: Duplicate \\"lib_1\\" (as \\"name\\"), \\"lib_1\\" (as \\"name\\") identifiers found in \\"",
 ]
 `;
 
@@ -181,7 +217,7 @@ exports[`loader should throw an error when invalid arguments for imports: warnin
 exports[`loader should throw an error when multiple duplicate of names found in "multiple" format: errors 1`] = `
 Array [
   "ModuleBuildError: Module build failed (from \`replaced original path\`):
-Error: Duplicate \\"lib1\\", \\"lib2\\" names found in \\"",
+Error: Duplicate \\"lib1\\" (as \\"name\\"), \\"lib1\\" (as \\"name\\"), \\"lib2\\" (as \\"name\\"), \\"lib2\\" (as \\"name\\") identifiers found in \\"",
 ]
 `;
 
@@ -220,11 +256,12 @@ var someCode = {
 
 exports[`loader should work "pure" CommonJS imports: warnings 1`] = `Array []`;
 
-exports[`loader should work with "default" CommonJS imports: errors 1`] = `Array []`;
+exports[`loader should work "pure" and "multiple" CommonJS imports: errors 1`] = `Array []`;
 
-exports[`loader should work with "default" CommonJS imports: module 1`] = `
+exports[`loader should work "pure" and "multiple" CommonJS imports: module 1`] = `
 "/*** IMPORTS FROM imports-loader ***/
-var $ = require(\\"./lib_1\\");
+require(\\"lib_1\\");
+var { lib_2 } = require(\\"lib_2\\");
 
 var someCode = {
   number: 123,
@@ -233,15 +270,31 @@ var someCode = {
 "
 `;
 
-exports[`loader should work with "default" CommonJS imports: warnings 1`] = `Array []`;
+exports[`loader should work "pure" and "multiple" CommonJS imports: warnings 1`] = `Array []`;
+
+exports[`loader should work "pure" and "single" CommonJS imports: errors 1`] = `Array []`;
+
+exports[`loader should work "pure" and "single" CommonJS imports: module 1`] = `
+"/*** IMPORTS FROM imports-loader ***/
+require(\\"lib_1\\");
+var lib_2 = require(\\"lib_2\\");
+
+var someCode = {
+  number: 123,
+  object: { existingSubProperty: 123 }
+};
+"
+`;
+
+exports[`loader should work "pure" and "single" CommonJS imports: warnings 1`] = `Array []`;
 
 exports[`loader should work with "default" and "named" imports": errors 1`] = `Array []`;
 
 exports[`loader should work with "default" and "named" imports": module 1`] = `
 "/*** IMPORTS FROM imports-loader ***/
-import { lib1_method } from \\"./lib_1\\";
 import lib2_default from \\"./lib_2\\";
 import { lib2_method_1, lib2_method_2 as lib_2_method_2_short } from \\"./lib_2\\";
+import { lib1_method } from \\"./lib_1\\";
 
 var someCode = {
   number: 123,
@@ -251,6 +304,24 @@ var someCode = {
 `;
 
 exports[`loader should work with "default" and "named" imports": warnings 1`] = `Array []`;
+
+exports[`loader should work with "default" and "namespace" imports": errors 1`] = `Array []`;
+
+exports[`loader should work with "default" and "namespace" imports": module 1`] = `
+"/*** IMPORTS FROM imports-loader ***/
+import lib2_default from \\"./lib_2\\";
+import * as lib2_method_1 from \\"./lib_2\\";
+import * as lib2_method_2 from \\"./lib_2\\";
+import * as lib1_method from \\"./lib_1\\";
+
+var someCode = {
+  number: 123,
+  object: { existingSubProperty: 123 }
+};
+"
+`;
+
+exports[`loader should work with "default" and "namespace" imports": warnings 1`] = `Array []`;
 
 exports[`loader should work with "default" imports: errors 1`] = `Array []`;
 
@@ -321,6 +392,54 @@ var someCode = {
 
 exports[`loader should work with "namespace" imports: warnings 1`] = `Array []`;
 
+exports[`loader should work with "side-effects" and "default" imports: errors 1`] = `Array []`;
+
+exports[`loader should work with "side-effects" and "default" imports: module 1`] = `
+"/*** IMPORTS FROM imports-loader ***/
+import \\"lib_1\\";
+import lib_2 from \\"lib_2\\";
+
+var someCode = {
+  number: 123,
+  object: { existingSubProperty: 123 }
+};
+"
+`;
+
+exports[`loader should work with "side-effects" and "default" imports: warnings 1`] = `Array []`;
+
+exports[`loader should work with "side-effects" and "named" imports: errors 1`] = `Array []`;
+
+exports[`loader should work with "side-effects" and "named" imports: module 1`] = `
+"/*** IMPORTS FROM imports-loader ***/
+import \\"lib_1\\";
+import { lib_2 } from \\"lib_2\\";
+
+var someCode = {
+  number: 123,
+  object: { existingSubProperty: 123 }
+};
+"
+`;
+
+exports[`loader should work with "side-effects" and "named" imports: warnings 1`] = `Array []`;
+
+exports[`loader should work with "side-effects" and "namespace" imports: errors 1`] = `Array []`;
+
+exports[`loader should work with "side-effects" and "namespace" imports: module 1`] = `
+"/*** IMPORTS FROM imports-loader ***/
+import \\"lib_1\\";
+import * as lib_2 from \\"lib_2\\";
+
+var someCode = {
+  number: 123,
+  object: { existingSubProperty: 123 }
+};
+"
+`;
+
+exports[`loader should work with "side-effects" and "namespace" imports: warnings 1`] = `Array []`;
+
 exports[`loader should work with "side-effects" imports: errors 1`] = `Array []`;
 
 exports[`loader should work with "side-effects" imports: module 1`] = `
@@ -335,6 +454,21 @@ var someCode = {
 `;
 
 exports[`loader should work with "side-effects" imports: warnings 1`] = `Array []`;
+
+exports[`loader should work with "single" CommonJS imports: errors 1`] = `Array []`;
+
+exports[`loader should work with "single" CommonJS imports: module 1`] = `
+"/*** IMPORTS FROM imports-loader ***/
+var $ = require(\\"./lib_1\\");
+
+var someCode = {
+  number: 123,
+  object: { existingSubProperty: 123 }
+};
+"
+`;
+
+exports[`loader should work with "single" CommonJS imports: warnings 1`] = `Array []`;
 
 exports[`loader should work with a string syntax using CommonJS modules: errors 1`] = `Array []`;
 
