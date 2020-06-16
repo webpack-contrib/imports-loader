@@ -13,7 +13,7 @@
             "default",
             "named",
             "namespace",
-            "side-effect",
+            "side-effects",
             "single",
             "multiple",
             "pure"

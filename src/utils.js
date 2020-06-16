@@ -50,7 +50,7 @@ function resolveImports(type, item) {
   }
 
   if (
-    ['default', 'single', 'side-effects', 'pure'].includes(result.syntax) &&
+    ['default', 'side-effects', 'single', 'pure'].includes(result.syntax) &&
     typeof result.alias !== 'undefined'
   ) {
     throw new Error(
@@ -68,7 +68,7 @@ function resolveImports(type, item) {
   }
 
   if (
-    ['default', 'namespace', 'named', 'side-effect'].includes(result.syntax) &&
+    ['default', 'namespace', 'named', 'side-effects'].includes(result.syntax) &&
     type === 'commonjs'
   ) {
     throw new Error(
@@ -152,48 +152,72 @@ function getImports(type, imports) {
   return sortedResults;
 }
 
-function renderImports(loaderContext, type, imports) {
-  const [{ moduleName }] = imports;
-  const defaultImports = imports.filter((item) => item.syntax === 'default');
-  const singleImports = imports.filter((item) => item.syntax === 'single');
-  const namedImports = imports.filter((item) => item.syntax === 'named');
-  const multipleImports = imports.filter((item) => item.syntax === 'multiple');
+function renderImports(loaderContext, type, moduleName, imports) {
+  let code = '';
+
+  if (type === 'commonjs') {
+    const pure = imports.filter(({ syntax }) => syntax === 'pure');
+    const singleImports = imports.filter(({ syntax }) => syntax === 'single');
+    const multipleImports = imports.filter(
+      ({ syntax }) => syntax === 'multiple'
+    );
+
+    // Pure
+    if (pure.length > 0) {
+      return `require(${stringifyRequest(loaderContext, moduleName)});`;
+    }
+
+    // Single
+    if (singleImports.length > 0) {
+      const [{ name }] = singleImports;
+
+      code += `var ${name} = require(${stringifyRequest(
+        loaderContext,
+        moduleName
+      )});`;
+    }
+
+    // Multiple
+    if (multipleImports.length > 0) {
+      code += `${singleImports.length > 0 ? '\n' : ''}var { `;
+
+      multipleImports.forEach((multipleImport, i) => {
+        const needComma = i > 0 ? ', ' : '';
+        const { name, alias } = multipleImport;
+        const separator = ': ';
+
+        code += alias
+          ? `${needComma}${name}${separator}${alias}`
+          : `${needComma}${name}`;
+      });
+
+      code += ` } = require(${stringifyRequest(loaderContext, moduleName)});`;
+    }
+
+    return code;
+  }
+
+  const defaultImports = imports.filter(({ syntax }) => syntax === 'default');
+  const namedImports = imports.filter(({ syntax }) => syntax === 'named');
   const namespaceImports = imports.filter(
     ({ syntax }) => syntax === 'namespace'
   );
   const sideEffectImports = imports.filter(
-    ({ syntax }) => syntax === 'side-effect'
+    ({ syntax }) => syntax === 'side-effects'
   );
-  const pure = imports.filter((item) => item.syntax === 'pure');
-  const isModule = type === 'module';
 
-  // Import-side-effect
+  // Side-effects
   if (sideEffectImports.length > 0) {
     return `import ${stringifyRequest(loaderContext, moduleName)};`;
   }
 
-  // 2. CommonJs pure
-  if (pure.length > 0) {
-    return `require(${stringifyRequest(loaderContext, moduleName)});`;
-  }
-
-  let code = isModule ? 'import' : '';
+  code += 'import';
 
   // Default import
   if (defaultImports.length > 0) {
     const [{ name }] = defaultImports;
 
     code += ` ${name}`;
-  }
-
-  // 4. CommonJs single import
-  if (singleImports.length > 0) {
-    const [{ name }] = singleImports;
-
-    code += `var ${name} = require(${stringifyRequest(
-      loaderContext,
-      moduleName
-    )});`;
   }
 
   // Namespace import
@@ -209,44 +233,19 @@ function renderImports(loaderContext, type, imports) {
 
   // Named import
   if (namedImports.length > 0) {
-    if (defaultImports.length > 0) {
-      code += ', { ';
-    } else {
-      code += ' { ';
-    }
+    code += `${defaultImports.length > 0 ? ',' : ''} { `;
 
     namedImports.forEach((namedImport, i) => {
-      const comma = i > 0 ? ', ' : '';
+      const needComma = i > 0 ? ', ' : '';
       const { name, alias } = namedImport;
-      const sep = ' as ';
+      const separator = ' as ';
 
-      code += alias ? `${comma}${name}${sep}${alias}` : `${comma}${name}`;
+      code += alias
+        ? `${needComma}${name}${separator}${alias}`
+        : `${needComma}${name}`;
     });
 
     code += ' }';
-  }
-
-  // 7. CommonJs multiple import
-  if (multipleImports.length > 0) {
-    if (singleImports.length > 0) {
-      code += '\nvar { ';
-    } else {
-      code += 'var { ';
-    }
-
-    multipleImports.forEach((multipleImport, i) => {
-      const comma = i > 0 ? ', ' : '';
-      const { name, alias } = multipleImport;
-      const sep = ': ';
-
-      code += alias ? `${comma}${name}${sep}${alias}` : `${comma}${name}`;
-    });
-
-    code += ` } = require(${stringifyRequest(loaderContext, moduleName)});`;
-  }
-
-  if (!isModule) {
-    return code;
   }
 
   code += ` from ${stringifyRequest(loaderContext, moduleName)};`;
