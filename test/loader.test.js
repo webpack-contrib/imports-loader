@@ -91,6 +91,64 @@ describe('loader', () => {
     expect(getWarnings(stats)).toMatchSnapshot('warnings');
   });
 
+  it('should work and prefer "default" syntax for ES modules using a string notation', async () => {
+    const compiler = getCompiler('some-library.js', {
+      imports: ['lib_1'],
+    });
+    const stats = await compile(compiler);
+
+    expect(getModuleSource('./some-library.js', stats)).toMatchSnapshot(
+      'module'
+    );
+    expect(getErrors(stats)).toMatchSnapshot('errors');
+    expect(getWarnings(stats)).toMatchSnapshot('warnings');
+  });
+
+  it('should work and prefer "default" syntax for ES modules using an object notation', async () => {
+    const compiler = getCompiler('some-library.js', {
+      imports: { moduleName: 'lib_1' },
+    });
+    const stats = await compile(compiler);
+
+    expect(getModuleSource('./some-library.js', stats)).toMatchSnapshot(
+      'module'
+    );
+    expect(getErrors(stats)).toMatchSnapshot('errors');
+    expect(getWarnings(stats)).toMatchSnapshot('warnings');
+  });
+
+  it('should work and prefer "default" syntax for CommonJS modules using a string notation', async () => {
+    const compiler = getCompiler('some-library.js', {
+      type: 'commonjs',
+      imports: ['lib_1'],
+    });
+    const stats = await compile(compiler);
+
+    expect(getModuleSource('./some-library.js', stats)).toMatchSnapshot(
+      'module'
+    );
+    expect(getErrors(stats)).toMatchSnapshot('errors');
+    expect(getWarnings(stats)).toMatchSnapshot('warnings');
+  });
+
+  it('should work and prefer "default" syntax for CommonJS modules using an object notation', async () => {
+    const compiler = getCompiler('some-library.js', {
+      type: 'commonjs',
+      imports: [
+        {
+          moduleName: 'lib_1',
+        },
+      ],
+    });
+    const stats = await compile(compiler);
+
+    expect(getModuleSource('./some-library.js', stats)).toMatchSnapshot(
+      'module'
+    );
+    expect(getErrors(stats)).toMatchSnapshot('errors');
+    expect(getWarnings(stats)).toMatchSnapshot('warnings');
+  });
+
   it('should work with "imports", "wrapper" and "additionalCode" options', async () => {
     const compiler = getCompiler('some-library.js', {
       imports: {
