@@ -88,15 +88,6 @@ Error: The \\"namespace\\" syntax format should not have multiple imports in \\"
 
 exports[`loader should throw an error when multiple "namespace" imports: warnings 1`] = `Array []`;
 
-exports[`loader should throw an error when multiple "side-effects" import: errors 1`] = `
-Array [
-  "ModuleBuildError: Module build failed (from \`replaced original path\`):
-Error: The \\"side-effects\\" syntax format should not have multiple imports in \\"./lib_2,[object Object],[object Object]\\" value",
-]
-`;
-
-exports[`loader should throw an error when multiple "side-effects" import: warnings 1`] = `Array []`;
-
 exports[`loader should throw an error when no arguments for imports: errors 1`] = `
 Array [
   "ModuleBuildError: Module build failed (from \`replaced original path\`):
@@ -389,6 +380,38 @@ var someCode = {
 `;
 
 exports[`loader should work with inline syntax: warnings 1`] = `Array []`;
+
+exports[`loader should work with multiple "pure" import: errors 1`] = `Array []`;
+
+exports[`loader should work with multiple "pure" import: module 1`] = `
+"/*** IMPORTS FROM imports-loader ***/
+require(\\"./lib_2\\");
+require(\\"./lib_2\\");
+
+var someCode = {
+  number: 123,
+  object: { existingSubProperty: 123 }
+};
+"
+`;
+
+exports[`loader should work with multiple "pure" import: warnings 1`] = `Array []`;
+
+exports[`loader should work with multiple "side-effects" import: errors 1`] = `Array []`;
+
+exports[`loader should work with multiple "side-effects" import: module 1`] = `
+"/*** IMPORTS FROM imports-loader ***/
+import \\"./lib_2\\";
+import \\"./lib_2\\";
+
+var someCode = {
+  number: 123,
+  object: { existingSubProperty: 123 }
+};
+"
+`;
+
+exports[`loader should work with multiple "side-effects" import: warnings 1`] = `Array []`;
 
 exports[`loader should work with multiple CommonJS imports and union same: errors 1`] = `Array []`;
 

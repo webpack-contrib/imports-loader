@@ -126,27 +126,19 @@ function getImports(type, imports) {
     const defaultImports = item[1].filter(
       ({ syntax }) => syntax === defaultSyntax
     );
-
     const namespaceImports = item[1].filter(
       ({ syntax }) => syntax === 'namespace'
     );
-    const sideEffectImports = item[1].filter(
-      ({ syntax }) => syntax === 'side-effects'
-    );
 
-    const pure = item[1].filter((entry) => entry.syntax === 'pure');
+    [defaultImports, namespaceImports].forEach((importsSyntax) => {
+      if (importsSyntax.length > 1) {
+        const [{ syntax }] = importsSyntax;
 
-    [defaultImports, namespaceImports, sideEffectImports, pure].forEach(
-      (importsSyntax) => {
-        if (importsSyntax.length > 1) {
-          const [{ syntax }] = importsSyntax;
-
-          throw new Error(
-            `The "${syntax}" syntax format should not have multiple imports in "${item}" value`
-          );
-        }
+        throw new Error(
+          `The "${syntax}" syntax format should not have multiple imports in "${item}" value`
+        );
       }
-    );
+    });
   }
 
   return sortedResults;
@@ -164,7 +156,16 @@ function renderImports(loaderContext, type, moduleName, imports) {
 
     // Pure
     if (pure.length > 0) {
-      return `require(${stringifyRequest(loaderContext, moduleName)});`;
+      pure.forEach((_, i) => {
+        const needNewline = i < pure.length - 1 ? '\n' : '';
+
+        code += `require(${stringifyRequest(
+          loaderContext,
+          moduleName
+        )});${needNewline}`;
+      });
+
+      return code;
     }
 
     // Single
@@ -208,7 +209,16 @@ function renderImports(loaderContext, type, moduleName, imports) {
 
   // Side-effects
   if (sideEffectImports.length > 0) {
-    return `import ${stringifyRequest(loaderContext, moduleName)};`;
+    sideEffectImports.forEach((_, i) => {
+      const needNewline = i < sideEffectImports.length - 1 ? '\n' : '';
+
+      code += `import ${stringifyRequest(
+        loaderContext,
+        moduleName
+      )};${needNewline}`;
+    });
+
+    return code;
   }
 
   code += 'import';
