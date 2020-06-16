@@ -43,8 +43,6 @@ function resolveImports(type, item) {
     result.name = result.moduleName;
   }
 
-  // TODO Validate "name" and "alias" for better reporting
-
   if (
     ['default', 'side-effects', 'single', 'pure'].includes(result.syntax) &&
     typeof result.alias !== 'undefined'

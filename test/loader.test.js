@@ -1099,4 +1099,30 @@ describe('loader', () => {
     expect(getErrors(stats)).toMatchSnapshot('errors');
     expect(getWarnings(stats)).toMatchSnapshot('warnings');
   });
+
+  it('should work and union "default" with "named"', async () => {
+    const compiler = getCompiler('some-library.js', {
+      imports: ['default lib_1', 'named lib_1 lib_method'],
+    });
+    const stats = await compile(compiler);
+
+    expect(getModuleSource('./some-library.js', stats)).toMatchSnapshot(
+      'module'
+    );
+    expect(getErrors(stats)).toMatchSnapshot('errors');
+    expect(getWarnings(stats)).toMatchSnapshot('warnings');
+  });
+
+  it.only('should work and union "default" with "namespace"', async () => {
+    const compiler = getCompiler('some-library.js', {
+      imports: ['default lib_1', 'namespace lib_1 ns'],
+    });
+    const stats = await compile(compiler);
+
+    expect(getModuleSource('./some-library.js', stats)).toMatchSnapshot(
+      'module'
+    );
+    expect(getErrors(stats)).toMatchSnapshot('errors');
+    expect(getWarnings(stats)).toMatchSnapshot('warnings');
+  });
 });
