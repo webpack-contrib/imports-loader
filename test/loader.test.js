@@ -698,14 +698,6 @@ describe('loader', () => {
     expect(getWarnings(stats)).toMatchSnapshot('warnings');
   });
 
-  it('should throw an error when no arguments for imports', async () => {
-    const compiler = getCompiler('some-library.js', {});
-    const stats = await compile(compiler);
-
-    expect(getErrors(stats)).toMatchSnapshot('errors');
-    expect(getWarnings(stats)).toMatchSnapshot('warnings');
-  });
-
   it('should work with inline syntax', async () => {
     const compiler = getCompiler('inline.js', {}, {}, true);
     const stats = await compile(compiler);
@@ -764,6 +756,14 @@ describe('loader', () => {
     const compiler = getCompiler('some-library.js', {
       imports: '      ',
     });
+    const stats = await compile(compiler);
+
+    expect(getErrors(stats)).toMatchSnapshot('errors');
+    expect(getWarnings(stats)).toMatchSnapshot('warnings');
+  });
+
+  it('should throw an error when no arguments for imports', async () => {
+    const compiler = getCompiler('some-library.js', {});
     const stats = await compile(compiler);
 
     expect(getErrors(stats)).toMatchSnapshot('errors');
