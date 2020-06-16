@@ -25,7 +25,7 @@ describe('loader', () => {
   it('should work with an object value', async () => {
     const compiler = getCompiler('some-library.js', {
       imports: {
-        moduleName: './lib_1',
+        moduleName: 'lib_1',
         name: '$',
       },
     });
@@ -38,9 +38,29 @@ describe('loader', () => {
     expect(getWarnings(stats)).toMatchSnapshot('warnings');
   });
 
-  it('should work with string arrays', async () => {
+  it('should work with array of strings', async () => {
     const compiler = getCompiler('some-library.js', {
       imports: ['lib_1', 'lib_2'],
+    });
+    const stats = await compile(compiler);
+
+    expect(getModuleSource('./some-library.js', stats)).toMatchSnapshot(
+      'module'
+    );
+    expect(getErrors(stats)).toMatchSnapshot('errors');
+    expect(getWarnings(stats)).toMatchSnapshot('warnings');
+  });
+
+  it('should work with array of objects and strings', async () => {
+    const compiler = getCompiler('some-library.js', {
+      imports: [
+        'lib_1',
+        {
+          syntax: 'named',
+          moduleName: 'lib_2',
+          name: 'lib_2_name',
+        },
+      ],
     });
     const stats = await compile(compiler);
 
@@ -117,37 +137,22 @@ describe('loader', () => {
     expect(getWarnings(stats)).toMatchSnapshot('warnings');
   });
 
-  it('should work with "default" imports', async () => {
+  it('should work with "default" imports without syntax', async () => {
     const compiler = getCompiler('some-library.js', {
-      imports: [
-        'lib_1',
-        {
-          syntax: 'default',
-          moduleName: './lib_2.js',
-          name: 'lib_2',
-        },
-        {
-          syntax: 'default',
-          moduleName: './lib_3.js',
-          name: 'defaultExport',
-        },
-        {
-          syntax: 'named',
-          moduleName: './lib_3.js',
-          name: 'lib_3_method',
-          alias: 'method',
-        },
-        {
-          syntax: 'default',
-          moduleName: './lib_4',
-          name: 'lib_4',
-        },
-        {
-          syntax: 'namespace',
-          moduleName: './lib_4',
-          name: 'lib_4_all',
-        },
-      ],
+      imports: 'lib_1',
+    });
+    const stats = await compile(compiler);
+
+    expect(getModuleSource('./some-library.js', stats)).toMatchSnapshot(
+      'module'
+    );
+    expect(getErrors(stats)).toMatchSnapshot('errors');
+    expect(getWarnings(stats)).toMatchSnapshot('warnings');
+  });
+
+  it('should work with "default" imports with syntax', async () => {
+    const compiler = getCompiler('some-library.js', {
+      imports: 'default lib_1',
     });
     const stats = await compile(compiler);
 

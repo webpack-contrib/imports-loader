@@ -323,16 +323,11 @@ var someCode = {
 
 exports[`loader should work with "default" and "namespace" imports": warnings 1`] = `Array []`;
 
-exports[`loader should work with "default" imports: errors 1`] = `Array []`;
+exports[`loader should work with "default" imports with syntax: errors 1`] = `Array []`;
 
-exports[`loader should work with "default" imports: module 1`] = `
+exports[`loader should work with "default" imports with syntax: module 1`] = `
 "/*** IMPORTS FROM imports-loader ***/
 import lib_1 from \\"lib_1\\";
-import lib_2 from \\"./lib_2.js\\";
-import defaultExport from \\"./lib_3.js\\";
-import { lib_3_method as method } from \\"./lib_3.js\\";
-import lib_4 from \\"./lib_4\\";
-import * as lib_4_all from \\"./lib_4\\";
 
 var someCode = {
   number: 123,
@@ -341,7 +336,22 @@ var someCode = {
 "
 `;
 
-exports[`loader should work with "default" imports: warnings 1`] = `Array []`;
+exports[`loader should work with "default" imports with syntax: warnings 1`] = `Array []`;
+
+exports[`loader should work with "default" imports without syntax: errors 1`] = `Array []`;
+
+exports[`loader should work with "default" imports without syntax: module 1`] = `
+"/*** IMPORTS FROM imports-loader ***/
+import lib_1 from \\"lib_1\\";
+
+var someCode = {
+  number: 123,
+  object: { existingSubProperty: 123 }
+};
+"
+`;
+
+exports[`loader should work with "default" imports without syntax: warnings 1`] = `Array []`;
 
 exports[`loader should work with "imports", "wrapper" and "additionalCode" options: errors 1`] = `Array []`;
 
@@ -595,7 +605,7 @@ exports[`loader should work with an object value: errors 1`] = `Array []`;
 
 exports[`loader should work with an object value: module 1`] = `
 "/*** IMPORTS FROM imports-loader ***/
-import $ from \\"./lib_1\\";
+import $ from \\"lib_1\\";
 
 var someCode = {
   number: 123,
@@ -605,6 +615,38 @@ var someCode = {
 `;
 
 exports[`loader should work with an object value: warnings 1`] = `Array []`;
+
+exports[`loader should work with array of objects and strings: errors 1`] = `Array []`;
+
+exports[`loader should work with array of objects and strings: module 1`] = `
+"/*** IMPORTS FROM imports-loader ***/
+import lib_1 from \\"lib_1\\";
+import { lib_2_name } from \\"lib_2\\";
+
+var someCode = {
+  number: 123,
+  object: { existingSubProperty: 123 }
+};
+"
+`;
+
+exports[`loader should work with array of objects and strings: warnings 1`] = `Array []`;
+
+exports[`loader should work with array of strings: errors 1`] = `Array []`;
+
+exports[`loader should work with array of strings: module 1`] = `
+"/*** IMPORTS FROM imports-loader ***/
+import lib_1 from \\"lib_1\\";
+import lib_2 from \\"lib_2\\";
+
+var someCode = {
+  number: 123,
+  object: { existingSubProperty: 123 }
+};
+"
+`;
+
+exports[`loader should work with array of strings: warnings 1`] = `Array []`;
 
 exports[`loader should work with inline syntax #1: errors 1`] = `Array []`;
 
@@ -845,22 +887,6 @@ var someCode = {
 `;
 
 exports[`loader should work with source maps when the "devtool" option is enabled: warnings 1`] = `Array []`;
-
-exports[`loader should work with string arrays: errors 1`] = `Array []`;
-
-exports[`loader should work with string arrays: module 1`] = `
-"/*** IMPORTS FROM imports-loader ***/
-import lib_1 from \\"lib_1\\";
-import lib_2 from \\"lib_2\\";
-
-var someCode = {
-  number: 123,
-  object: { existingSubProperty: 123 }
-};
-"
-`;
-
-exports[`loader should work with string arrays: warnings 1`] = `Array []`;
 
 exports[`loader should work with the "additionalCode" option: errors 1`] = `Array []`;
 
