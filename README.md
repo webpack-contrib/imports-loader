@@ -66,6 +66,15 @@ import myLib from 'imports-loader?imports[]=default%20jquery%20$&imports[]=angul
 ```
 
 ```js
+import myLib from 'imports-loader?imports[]=named%20library%20myMethod&imports[]=angular!./example.js';
+// `%20` is space in a query string, equivalently `default jquery $` and `angular`
+// Adds the following code to the beginning of example.js:
+//
+// import { myMethod } from "library";
+// import angular from "angular";
+```
+
+```js
 const myLib = require(`imports-loader?type=commonjs&imports[]=single%20jquery%20$&imports[]=angular!./example.js`);
 // `%20` is space in a query string, equivalently `single jquery $` and `angular`
 // Adds the following code to the beginning of example.js:
@@ -75,14 +84,11 @@ const myLib = require(`imports-loader?type=commonjs&imports[]=single%20jquery%20
 ```
 
 ```js
-import(
-  `imports-loader?wrapper=window&imports[]=default%20jquery%20$&imports[]=angular!./example.js`
-);
+const myLib = require(`imports-loader?type=commonjs&imports=single%20myLib%20myMethod&&wrapper=window&!./example.js`);
 // `%20` is space in a query string, equivalently `single jquery $` and `angular`
 // Adds the following code to the example.js:
 //
-// import $ from "jquery";
-// import angular from "angular";
+// const myMethod = require('myLib');
 //
 // (function () {
 // ...
@@ -461,6 +467,8 @@ Closes the module code in a function with a given `thisArg` and `args` (`(functi
 
 #### `Boolean`
 
+**webpack.config.js**
+
 ```js
 module.exports = {
   module: {
@@ -499,6 +507,8 @@ import $ from 'jquery';
 
 #### `String`
 
+**webpack.config.js**
+
 ```js
 module.exports = {
   module: {
@@ -536,6 +546,8 @@ import $ from 'jquery';
 ```
 
 #### `Object`
+
+**webpack.config.js**
 
 ```js
 module.exports = {
@@ -583,6 +595,8 @@ Default: `undefined`
 
 Adds custom code.
 
+**webpack.config.js**
+
 ```js
 module.exports = {
   module: {
@@ -597,7 +611,7 @@ module.exports = {
                 moduleName: 'jquery',
                 name: '$',
               },
-              additionalCode: 'var define = false;',
+              additionalCode: 'var myVariable = false;',
             },
           },
         ],
@@ -612,7 +626,7 @@ Generate output:
 ```js
 import $ from 'jquery';
 
-var define = false;
+var myVariable = false;
 
 // ...
 // Code
