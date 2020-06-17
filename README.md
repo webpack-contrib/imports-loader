@@ -486,6 +486,8 @@ import $ from 'jquery';
 }.call(window, document));
 ```
 
+> ⚠ Do not use this option if source code contains ES module import(s)
+
 ### additionalCode
 
 Type: `String`
@@ -507,7 +509,7 @@ module.exports = {
                 moduleName: 'jquery',
                 name: '$',
               },
-              additionalCode: 'var someVariable = 1;',
+              additionalCode: 'var define = false;',
             },
           },
         ],
@@ -522,7 +524,7 @@ Generate output:
 ```js
 import $ from 'jquery';
 
-var someVariable = 1;
+var define = false;
 
 // ...
 // Code

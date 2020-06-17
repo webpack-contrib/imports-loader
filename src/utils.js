@@ -1,4 +1,17 @@
 import { stringifyRequest } from 'loader-utils';
+import strip from 'strip-comments';
+
+function forError(item) {
+  return typeof item === 'string'
+    ? item
+    : `\n${JSON.stringify(item, null, ' ')}\n`;
+}
+
+function sourceHasUseStrict(source) {
+  const str = strip(source).trim();
+
+  return str.startsWith("'use strict'") || str.startsWith('"use strict"');
+}
 
 function resolveImports(type, item) {
   const defaultSyntax = type === 'module' ? 'default' : 'single';
@@ -50,11 +63,7 @@ function resolveImports(type, item) {
     throw new Error(
       `The "${result.syntax}" syntax does not support "${
         result.alias
-      }" alias in "${
-        typeof item === 'string'
-          ? item
-          : `\n${JSON.stringify(item, null, ' ')}\n`
-      }" value`
+      }" alias in "${forError(item)}" value`
     );
   }
 
@@ -65,11 +74,7 @@ function resolveImports(type, item) {
     throw new Error(
       `The "${result.syntax}" syntax does not support "${
         result.name
-      }" name in "${
-        typeof item === 'string'
-          ? item
-          : `\n${JSON.stringify(item, null, ' ')}\n`
-      }" value`
+      }" name in "${forError(item)}" value`
     );
   }
 
@@ -78,11 +83,9 @@ function resolveImports(type, item) {
     type === 'commonjs'
   ) {
     throw new Error(
-      `The "${type}" type does not support the "${result.syntax}" syntax in "${
-        typeof item === 'string'
-          ? item
-          : `\n${JSON.stringify(item, null, ' ')}\n`
-      }" value`
+      `The "${type}" type does not support the "${
+        result.syntax
+      }" syntax in "${forError(item)}" value`
     );
   }
 
@@ -93,11 +96,7 @@ function resolveImports(type, item) {
     throw new Error(
       `The "${type}" format does not support the "${
         result.syntax
-      }" syntax in "${
-        typeof item === 'string'
-          ? item
-          : `\n${JSON.stringify(item, null, ' ')}\n`
-      }" value`
+      }" syntax in "${forError(item)}" value`
     );
   }
 
@@ -106,11 +105,9 @@ function resolveImports(type, item) {
     typeof result.name === 'undefined'
   ) {
     throw new Error(
-      `The "${result.syntax}" syntax needs the "name" option in "${
-        typeof item === 'string'
-          ? item
-          : `\n${JSON.stringify(item, null, ' ')}\n`
-      }" value`
+      `The "${result.syntax}" syntax needs the "name" option in "${forError(
+        item
+      )}" value`
     );
   }
 
@@ -315,4 +312,4 @@ function renderImports(loaderContext, type, moduleName, imports) {
   return code;
 }
 
-export { getImports, renderImports };
+export { sourceHasUseStrict, getImports, renderImports };
