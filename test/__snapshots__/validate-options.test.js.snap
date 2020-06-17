@@ -229,32 +229,63 @@ exports[`validate options should throw an error on the "unknown" option with "tr
     * options misses the property 'additionalCode' | should be any non-object."
 `;
 
+exports[`validate options should throw an error on the "wrapper" option with "/test/" value 1`] = `
+"Invalid options object. Imports Loader has been initialized using an options object that does not match the API schema.
+ - options.wrapper misses the property 'thisArg'. Should be:
+   non-empty string"
+`;
+
 exports[`validate options should throw an error on the "wrapper" option with "[""]" value 1`] = `
 "Invalid options object. Imports Loader has been initialized using an options object that does not match the API schema.
- - options.wrapper[0] should be an non-empty string."
+ - options.wrapper should be one of these:
+   boolean | non-empty string | object { thisArg, args? }
+   Details:
+    * options.wrapper should be a boolean.
+    * options.wrapper should be a non-empty string.
+    * options.wrapper should be an object:
+      object { thisArg, args? }"
 `;
 
 exports[`validate options should throw an error on the "wrapper" option with "[]" value 1`] = `
 "Invalid options object. Imports Loader has been initialized using an options object that does not match the API schema.
- - options.wrapper should be an non-empty array."
+ - options.wrapper should be one of these:
+   boolean | non-empty string | object { thisArg, args? }
+   Details:
+    * options.wrapper should be a boolean.
+    * options.wrapper should be a non-empty string.
+    * options.wrapper should be an object:
+      object { thisArg, args? }"
 `;
 
-exports[`validate options should throw an error on the "wrapper" option with "false" value 1`] = `
+exports[`validate options should throw an error on the "wrapper" option with "{"thisArg":"window","args":[1,"bar"]}" value 1`] = `
 "Invalid options object. Imports Loader has been initialized using an options object that does not match the API schema.
- - options.wrapper should be one of these:
-   non-empty string | [non-empty string, ...] (should not have fewer than 1 item)
-   Details:
-    * options.wrapper should be a non-empty string.
-    * options.wrapper should be an array:
-      [non-empty string, ...] (should not have fewer than 1 item)"
+ - options.wrapper.args[0] should be a non-empty string."
 `;
 
-exports[`validate options should throw an error on the "wrapper" option with "true" value 1`] = `
+exports[`validate options should throw an error on the "wrapper" option with "{"thisArg":"window","args":true}" value 1`] = `
+"Invalid options object. Imports Loader has been initialized using an options object that does not match the API schema.
+ - options.wrapper.args should be an array:
+   [non-empty string, ...] (should not have fewer than 1 item)"
+`;
+
+exports[`validate options should throw an error on the "wrapper" option with "{"thisArg":1}" value 1`] = `
+"Invalid options object. Imports Loader has been initialized using an options object that does not match the API schema.
+ - options.wrapper.thisArg should be a non-empty string."
+`;
+
+exports[`validate options should throw an error on the "wrapper" option with "{"unknown":true}" value 1`] = `
 "Invalid options object. Imports Loader has been initialized using an options object that does not match the API schema.
  - options.wrapper should be one of these:
-   non-empty string | [non-empty string, ...] (should not have fewer than 1 item)
+   boolean | non-empty string | object { thisArg, args? }
    Details:
-    * options.wrapper should be a non-empty string.
-    * options.wrapper should be an array:
-      [non-empty string, ...] (should not have fewer than 1 item)"
+    * options.wrapper has an unknown property 'unknown'. These properties are valid:
+      object { thisArg, args? }
+    * options.wrapper misses the property 'thisArg'. Should be:
+      non-empty string"
+`;
+
+exports[`validate options should throw an error on the "wrapper" option with "{}" value 1`] = `
+"Invalid options object. Imports Loader has been initialized using an options object that does not match the API schema.
+ - options.wrapper misses the property 'thisArg'. Should be:
+   non-empty string"
 `;

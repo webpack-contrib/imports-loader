@@ -4,7 +4,7 @@
 */
 
 import { SourceNode, SourceMapConsumer } from 'source-map';
-import { getOptions, getCurrentRequest } from 'loader-utils';
+import { getOptions } from 'loader-utils';
 import validateOptions from 'schema-utils';
 
 import schema from './options.json';
@@ -54,8 +54,22 @@ export default function loader(content, sourceMap) {
   let codeAfterModule = '';
 
   if (typeof options.wrapper !== 'undefined') {
-    importsCode += '\n(function() {';
-    codeAfterModule += `\n}.call(${options.wrapper.toString()}));\n`;
+    let thisArg;
+    let args;
+
+    if (typeof options.wrapper === 'boolean') {
+      thisArg = '';
+      args = '';
+    } else if (typeof options.wrapper === 'string') {
+      thisArg = options.wrapper;
+      args = '';
+    } else {
+      ({ thisArg, args } = options.wrapper);
+      args = args.join(', ');
+    }
+
+    importsCode += `\n(function(${args}) {`;
+    codeAfterModule += `\n}.call(${thisArg}${args ? `, ${args}` : ''}));\n`;
   }
 
   if (this.sourceMap && sourceMap) {
@@ -67,9 +81,7 @@ export default function loader(content, sourceMap) {
     node.prepend(`${importsCode}\n`);
     node.add(codeAfterModule);
 
-    const result = node.toStringWithSourceMap({
-      file: getCurrentRequest(this),
-    });
+    const result = node.toStringWithSourceMap({ file: this.resourcePath });
 
     callback(null, result.code, result.map.toJSON());
 

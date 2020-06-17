@@ -217,7 +217,20 @@ describe('loader', () => {
     expect(getWarnings(stats)).toMatchSnapshot('warnings');
   });
 
-  it('should work with the "wrapper" option', async () => {
+  it('should work with the "wrapper" option as a boolean notation', async () => {
+    const compiler = getCompiler('some-library.js', {
+      wrapper: true,
+    });
+    const stats = await compile(compiler);
+
+    expect(getModuleSource('./some-library.js', stats)).toMatchSnapshot(
+      'module'
+    );
+    expect(getErrors(stats)).toMatchSnapshot('errors');
+    expect(getWarnings(stats)).toMatchSnapshot('warnings');
+  });
+
+  it('should work with the "wrapper" option as a string notation', async () => {
     const compiler = getCompiler('some-library.js', {
       wrapper: 'window',
     });
@@ -230,9 +243,12 @@ describe('loader', () => {
     expect(getWarnings(stats)).toMatchSnapshot('warnings');
   });
 
-  it('should work with the "wrapper" options and arguments', async () => {
+  it('should work with the "wrapper" options as an object notation', async () => {
     const compiler = getCompiler('some-library.js', {
-      wrapper: ['window', 'document'],
+      wrapper: {
+        thisArg: 'window',
+        args: ['myGlobalVariable', 'myOtherGlobalVariable'],
+      },
     });
     const stats = await compile(compiler);
 
