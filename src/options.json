@@ -67,16 +67,30 @@
     "wrapper": {
       "anyOf": [
         {
+          "type": "boolean"
+        },
+        {
           "type": "string",
           "minLength": 1
         },
         {
-          "type": "array",
-          "minItems": 1,
-          "items": {
-            "type": "string",
-            "minLength": 1
-          }
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "thisArg": {
+              "type": "string",
+              "minLength": 1
+            },
+            "args": {
+              "type": "array",
+              "minItems": 1,
+              "items": {
+                "type": "string",
+                "minLength": 1
+              }
+            }
+          },
+          "required": ["thisArg"]
         }
       ]
     },

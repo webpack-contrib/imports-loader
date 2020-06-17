@@ -1103,9 +1103,26 @@ var someCode = {
 
 exports[`loader should work with the "additionalCode" option: warnings 1`] = `Array []`;
 
-exports[`loader should work with the "wrapper" option: errors 1`] = `Array []`;
+exports[`loader should work with the "wrapper" option as a boolean notation: errors 1`] = `Array []`;
 
-exports[`loader should work with the "wrapper" option: module 1`] = `
+exports[`loader should work with the "wrapper" option as a boolean notation: module 1`] = `
+"/*** IMPORTS FROM imports-loader ***/
+
+(function() {
+var someCode = {
+  number: 123,
+  object: { existingSubProperty: 123 }
+};
+
+}.call());
+"
+`;
+
+exports[`loader should work with the "wrapper" option as a boolean notation: warnings 1`] = `Array []`;
+
+exports[`loader should work with the "wrapper" option as a string notation: errors 1`] = `Array []`;
+
+exports[`loader should work with the "wrapper" option as a string notation: module 1`] = `
 "/*** IMPORTS FROM imports-loader ***/
 
 (function() {
@@ -1118,21 +1135,21 @@ var someCode = {
 "
 `;
 
-exports[`loader should work with the "wrapper" option: warnings 1`] = `Array []`;
+exports[`loader should work with the "wrapper" option as a string notation: warnings 1`] = `Array []`;
 
-exports[`loader should work with the "wrapper" options and arguments: errors 1`] = `Array []`;
+exports[`loader should work with the "wrapper" options as an object notation: errors 1`] = `Array []`;
 
-exports[`loader should work with the "wrapper" options and arguments: module 1`] = `
+exports[`loader should work with the "wrapper" options as an object notation: module 1`] = `
 "/*** IMPORTS FROM imports-loader ***/
 
-(function() {
+(function(myGlobalVariable, myOtherGlobalVariable) {
 var someCode = {
   number: 123,
   object: { existingSubProperty: 123 }
 };
 
-}.call(window,document));
+}.call(window, myGlobalVariable, myOtherGlobalVariable));
 "
 `;
 
-exports[`loader should work with the "wrapper" options and arguments: warnings 1`] = `Array []`;
+exports[`loader should work with the "wrapper" options as an object notation: warnings 1`] = `Array []`;

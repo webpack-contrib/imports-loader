@@ -17,7 +17,10 @@
 
 The imports loader allows you to use modules that depend on specific global variables.
 
-This is useful for third-party modules that rely on global variables like `$` or `this` being the `window` object. The imports loader can add the necessary `require('whatever')` calls, so those modules work with webpack.
+This is useful for third-party modules that rely on global variables like `$` or `this` being the `window` object.
+The imports loader can add the necessary `require('whatever')` calls, so those modules work with webpack.
+
+For further hints on compatibility issues, check out [Shimming](https://webpack.js.org/guides/shimming/) of the official docs.
 
 > ⚠ By default loader generate ES module named syntax.
 
@@ -39,7 +42,7 @@ Given you have this file:
 $('img').doSomeAwesomeJqueryPluginStuff();
 ```
 
-then you can inject the `jquery` value into the module by configuring the `imports-loader` using two approaches.
+Then you can inject the `jquery` value into the module by configuring the `imports-loader` using two approaches.
 
 ### Inline
 
@@ -82,7 +85,9 @@ import(
 // import angular from "angular";
 //
 // (function () {
-//   code from example.js
+// ...
+// Code
+// ...
 // }.call(window));
 ```
 
@@ -139,10 +144,12 @@ And run `webpack` via your preferred method.
 
 ## Options
 
-|           Name            |                   Type                    |   Default   | Description                 |
-| :-----------------------: | :---------------------------------------: | :---------: | :-------------------------- |
-|    **[`type`](#type)**    |                `{String}`                 |  `module`   | Format of generated imports |
-| **[`imports`](#imports)** | `{String\|Object\|Array<String\|Object>}` | `undefined` | List of imports             |
+|                  Name                   |                   Type                    |   Default   | Description                                                            |
+| :-------------------------------------: | :---------------------------------------: | :---------: | :--------------------------------------------------------------------- |
+|           **[`type`](#type)**           |                `{String}`                 |  `module`   | Format of generated imports                                            |
+|        **[`imports`](#imports)**        | `{String\|Object\|Array<String\|Object>}` | `undefined` | List of imports                                                        |
+|        **[`wrapper`](#wrapper)**        |        `{Boolean\|String\|Object}`        | `undefined` | Closes the module code in a function (`(function () { ... }).call();`) |
+| **[`additionalCode`](#additionalcode)** |                `{String}`                 | `undefined` | Adds custom code                                                       |
 
 ### `type`
 
@@ -443,12 +450,16 @@ import 'lib_4';
 // ...
 ```
 
-### wrapper
+### `wrapper`
 
-Type: `String|Array`
+Type: `Boolean|String|Object`
 Default: `undefined`
 
-Closes the module code in a function with a given `this` (`(function () { ... }).call(window);`).
+Closes the module code in a function with a given `thisArg` and `args` (`(function () { ... }).call();`).
+
+> ⚠ Do not use this option if source code contains ES module import(s)
+
+#### `Boolean`
 
 ```js
 module.exports = {
@@ -464,7 +475,7 @@ module.exports = {
                 moduleName: 'jquery',
                 name: '$',
               },
-              wrapper: ['window', 'document'],
+              wrapper: true,
             },
           },
         ],
@@ -483,12 +494,89 @@ import $ from 'jquery';
   // ...
   // Code
   // ...
-}.call(window, document));
+}.call());
 ```
 
-> ⚠ Do not use this option if source code contains ES module import(s)
+#### `String`
 
-### additionalCode
+```js
+module.exports = {
+  module: {
+    rules: [
+      {
+        test: require.resolve('example.js'),
+        use: [
+          {
+            loader: 'imports-loader',
+            options: {
+              imports: {
+                moduleName: 'jquery',
+                name: '$',
+              },
+              wrapper: 'window',
+            },
+          },
+        ],
+      },
+    ],
+  },
+};
+```
+
+Generate output:
+
+```js
+import $ from 'jquery';
+
+(function () {
+  // ...
+  // Code
+  // ...
+}.call(window));
+```
+
+#### `Object`
+
+```js
+module.exports = {
+  module: {
+    rules: [
+      {
+        test: require.resolve('example.js'),
+        use: [
+          {
+            loader: 'imports-loader',
+            options: {
+              imports: {
+                moduleName: 'jquery',
+                name: '$',
+              },
+              wrapper: {
+                thisArg: 'window',
+                args: ['myVariable', 'myOtherVariable'],
+              },
+            },
+          },
+        ],
+      },
+    ],
+  },
+};
+```
+
+Generate output:
+
+```js
+import $ from 'jquery';
+
+(function (myVariable, myOtherVariable) {
+  // ...
+  // Code
+  // ...
+}.call(window, myVariable, myOtherVariable));
+```
+
+### `additionalCode`
 
 Type: `String`
 Default: `undefined`

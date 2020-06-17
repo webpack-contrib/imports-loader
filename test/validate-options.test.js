@@ -84,8 +84,23 @@ describe('validate options', () => {
       ],
     },
     wrapper: {
-      success: ['window', ['window', 'document']],
-      failure: [false, true, [], ['']],
+      success: [
+        true,
+        false,
+        'window',
+        { thisArg: 'window' },
+        { thisArg: 'window', args: ['foo', 'bar'] },
+      ],
+      failure: [
+        [],
+        [''],
+        /test/,
+        {},
+        { unknown: true },
+        { thisArg: 1 },
+        { thisArg: 'window', args: true },
+        { thisArg: 'window', args: [1, 'bar'] },
+      ],
     },
     additionalCode: {
       success: ['var x = 2;'],
