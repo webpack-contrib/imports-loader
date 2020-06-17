@@ -649,6 +649,88 @@ var someCode = {
 
 exports[`loader should work with "single" imports without syntax: warnings 1`] = `Array []`;
 
+exports[`loader should work with "use-strict" not in program with CommonJS modules: errors 1`] = `Array []`;
+
+exports[`loader should work with "use-strict" not in program with CommonJS modules: module 1`] = `
+"/*** IMPORTS FROM imports-loader ***/
+var lib_1 = require(\\"lib_1\\");
+
+var myObject = { foo: 'bar' };
+
+function test() {
+  'use strict';
+
+  return 'test';
+}
+"
+`;
+
+exports[`loader should work with "use-strict" not in program with CommonJS modules: warnings 1`] = `Array []`;
+
+exports[`loader should work with "use-strict" not in program with ES modules: errors 1`] = `Array []`;
+
+exports[`loader should work with "use-strict" not in program with ES modules: module 1`] = `
+"/*** IMPORTS FROM imports-loader ***/
+import lib_1 from \\"lib_1\\";
+
+var myObject = { foo: 'bar' };
+
+function test() {
+  'use strict';
+
+  return 'test';
+}
+"
+`;
+
+exports[`loader should work with "use-strict" not in program with ES modules: warnings 1`] = `Array []`;
+
+exports[`loader should work with "use-strict" with CommonJS modules: errors 1`] = `Array []`;
+
+exports[`loader should work with "use-strict" with CommonJS modules: module 1`] = `
+"/*** IMPORTS FROM imports-loader ***/
+'use strict';
+var lib_1 = require(\\"lib_1\\");
+
+/* Comment */
+
+'use strict';
+
+var myObject = { foo: 'bar' };
+
+function test() {
+  'use strict';
+
+  return 'test';
+}
+"
+`;
+
+exports[`loader should work with "use-strict" with CommonJS modules: warnings 1`] = `Array []`;
+
+exports[`loader should work with "use-strict" with ES modules: errors 1`] = `Array []`;
+
+exports[`loader should work with "use-strict" with ES modules: module 1`] = `
+"/*** IMPORTS FROM imports-loader ***/
+'use strict';
+import lib_1 from \\"lib_1\\";
+
+/* Comment */
+
+'use strict';
+
+var myObject = { foo: 'bar' };
+
+function test() {
+  'use strict';
+
+  return 'test';
+}
+"
+`;
+
+exports[`loader should work with "use-strict" with ES modules: warnings 1`] = `Array []`;
+
 exports[`loader should work with a string syntax using CommonJS: errors 1`] = `Array []`;
 
 exports[`loader should work with a string syntax using CommonJS: module 1`] = `

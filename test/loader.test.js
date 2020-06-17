@@ -149,6 +149,56 @@ describe('loader', () => {
     expect(getWarnings(stats)).toMatchSnapshot('warnings');
   });
 
+  it('should work with "use-strict" with ES modules', async () => {
+    const compiler = getCompiler('use-strict.js', {
+      imports: 'lib_1',
+    });
+    const stats = await compile(compiler);
+
+    expect(getModuleSource('./use-strict.js', stats)).toMatchSnapshot('module');
+    expect(getErrors(stats)).toMatchSnapshot('errors');
+    expect(getWarnings(stats)).toMatchSnapshot('warnings');
+  });
+
+  it('should work with "use-strict" with CommonJS modules', async () => {
+    const compiler = getCompiler('use-strict.js', {
+      type: 'commonjs',
+      imports: 'lib_1',
+    });
+    const stats = await compile(compiler);
+
+    expect(getModuleSource('./use-strict.js', stats)).toMatchSnapshot('module');
+    expect(getErrors(stats)).toMatchSnapshot('errors');
+    expect(getWarnings(stats)).toMatchSnapshot('warnings');
+  });
+
+  it('should work with "use-strict" not in program with ES modules', async () => {
+    const compiler = getCompiler('use-strict-in-function.js', {
+      imports: 'lib_1',
+    });
+    const stats = await compile(compiler);
+
+    expect(
+      getModuleSource('./use-strict-in-function.js', stats)
+    ).toMatchSnapshot('module');
+    expect(getErrors(stats)).toMatchSnapshot('errors');
+    expect(getWarnings(stats)).toMatchSnapshot('warnings');
+  });
+
+  it('should work with "use-strict" not in program with CommonJS modules', async () => {
+    const compiler = getCompiler('use-strict-in-function.js', {
+      type: 'commonjs',
+      imports: 'lib_1',
+    });
+    const stats = await compile(compiler);
+
+    expect(
+      getModuleSource('./use-strict-in-function.js', stats)
+    ).toMatchSnapshot('module');
+    expect(getErrors(stats)).toMatchSnapshot('errors');
+    expect(getWarnings(stats)).toMatchSnapshot('warnings');
+  });
+
   it('should work with "imports", "wrapper" and "additionalCode" options', async () => {
     const compiler = getCompiler('some-library.js', {
       imports: {

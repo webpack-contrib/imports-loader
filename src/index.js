@@ -9,7 +9,7 @@ import validateOptions from 'schema-utils';
 
 import schema from './options.json';
 
-import { getImports, renderImports } from './utils';
+import { getImports, renderImports, sourceHasUseStrict } from './utils';
 
 const HEADER = '/*** IMPORTS FROM imports-loader ***/\n';
 
@@ -37,10 +37,13 @@ export default function loader(content, sourceMap) {
       return;
     }
 
+    // We don't need to remove 'use strict' manually, because `terser` do it
+    const directive = sourceHasUseStrict(content);
+
     importsCode += Object.entries(imports).reduce(
       (accumulator, item) =>
         `${accumulator}${renderImports(this, type, item[0], item[1])}\n`,
-      ''
+      directive ? "'use strict';\n" : ''
     );
   }
 
