@@ -1,1 +1,1 @@
-require('../../src/cjs.js?imports=named%20lib_2%20name%20alias%20something!./some-library.js');
+require('../../src/cjs.js?imports=named|lib_2|name|alias|something!./some-library.js');

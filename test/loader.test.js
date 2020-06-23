@@ -764,8 +764,8 @@ describe('loader', () => {
       type: 'module',
       imports: [
         'lib_1',
-        'default lib_1 default_name',
-        'default lib_1 $',
+        'default|lib_1 default_name',
+        'default|lib_1|$',
         'default lib_2 lib_2_all',
         'named lib_2 lib2_method_1',
         'named lib_2 lib2_method_2 lib_2_method_2_short',
@@ -1159,6 +1159,17 @@ describe('loader', () => {
         'multiple lib_3 toString',
         'multiple lib_3 toString',
       ],
+    });
+    const stats = await compile(compiler);
+
+    expect(getErrors(stats)).toMatchSnapshot('errors');
+    expect(getWarnings(stats)).toMatchSnapshot('warnings');
+  });
+
+  it('should throw an error when more then one command separator', async () => {
+    const compiler = getCompiler('some-library.js', {
+      type: 'module',
+      imports: ['default | lib_1 default_name'],
     });
     const stats = await compile(compiler);
 

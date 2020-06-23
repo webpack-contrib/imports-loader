@@ -46,6 +46,10 @@ Then you can inject the `jquery` value into the module by configuring the `impor
 
 ### Inline
 
+The `|` or `%20` (space) separate command parts.
+
+> ⚠ `%20` is space in a query string, because you can't use spaces in URLs
+
 **index.js**
 
 ```js
@@ -57,8 +61,8 @@ import myLib from 'imports-loader?imports=default%20jquery%20$!./example.js';
 ```
 
 ```js
-import myLib from 'imports-loader?imports[]=default%20jquery%20$&imports[]=angular!./example.js';
-// `%20` is space in a query string, equivalently `default jquery $` and `angular`
+import myLib from 'imports-loader?imports[]=default|jquery|$&imports[]=angular!./example.js';
+// `|` is separator in a query string, equivalently `default|jquery|$` and `angular`
 // Adds the following code to the beginning of example.js:
 //
 // import $ from "jquery";
@@ -66,8 +70,8 @@ import myLib from 'imports-loader?imports[]=default%20jquery%20$&imports[]=angul
 ```
 
 ```js
-import myLib from 'imports-loader?imports[]=named%20library%20myMethod&imports[]=angular!./example.js';
-// `%20` is space in a query string, equivalently `default jquery $` and `angular`
+import myLib from 'imports-loader?imports[]=named|library|myMethod&imports[]=angular!./example.js';
+// `|` is separator in a query string, equivalently `named|library|myMethod` and `angular`
 // Adds the following code to the beginning of example.js:
 //
 // import { myMethod } from "library";
@@ -75,8 +79,8 @@ import myLib from 'imports-loader?imports[]=named%20library%20myMethod&imports[]
 ```
 
 ```js
-const myLib = require(`imports-loader?type=commonjs&imports[]=single%20jquery%20$&imports[]=angular!./example.js`);
-// `%20` is space in a query string, equivalently `single jquery $` and `angular`
+const myLib = require(`imports-loader?type=commonjs&imports[]=single|jquery|$&imports[]=angular!./example.js`);
+// `|` is separator in a query string, equivalently `single|jquery|$` and `angular`
 // Adds the following code to the beginning of example.js:
 //
 // var $ = require("jquery");
@@ -84,8 +88,8 @@ const myLib = require(`imports-loader?type=commonjs&imports[]=single%20jquery%20
 ```
 
 ```js
-const myLib = require(`imports-loader?type=commonjs&imports=single%20myLib%20myMethod&&wrapper=window&!./example.js`);
-// `%20` is space in a query string, equivalently `single jquery $` and `angular`
+const myLib = require(`imports-loader?type=commonjs&imports=single|myLib|myMethod&&wrapper=window&!./example.js`);
+// `|` is separator in a query string, equivalently `single|myLib|myMethod` and `angular`
 // Adds the following code to the example.js:
 //
 // const myMethod = require('myLib');
@@ -242,9 +246,11 @@ Allows to use a string to describe an export.
 
 ##### `Syntax`
 
+The `" "` or `|` (space) separate command parts.
+
 String values let you specify import `syntax`, `moduleName`, `name` and `alias`.
 
-String syntax - `[[syntax] [moduleName] [name] [alias]]`, where:
+String syntax - `[[syntax] [moduleName] [name] [alias]]` or `[[syntax]|[moduleName]|[name]|[alias]]`, where:
 
 - `[syntax]`:
 
