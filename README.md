@@ -53,7 +53,7 @@ import myLib from 'imports-loader?imports=default%20jquery%20$!./example.js';
 // `%20` is space in a query string, equivalently `default jquery $`
 // Adds the following code to the beginning of example.js:
 //
-// import $ from "jquery";` to `example.js
+// import $ from "jquery";
 ```
 
 ```js
