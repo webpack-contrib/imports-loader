@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [1.1.0](https://github.com/webpack-contrib/imports-loader/compare/v1.0.0...v1.1.0) (2020-06-24)
+
+
+### Features
+
+* "|" character can be used as delimiter for inline string syntax ([00697de](https://github.com/webpack-contrib/imports-loader/commit/00697dee3d0108bf632b3f82bd3adc62bd7aa907))
+
 ## [1.0.0](https://github.com/webpack-contrib/imports-loader/compare/v0.8.0...v1.0.0) (2020-06-17)
 
 

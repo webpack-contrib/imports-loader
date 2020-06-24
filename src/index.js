@@ -48,7 +48,7 @@ export default function loader(content, sourceMap) {
   }
 
   if (typeof options.additionalCode !== 'undefined') {
-    importsCode += `\n${options.additionalCode}`;
+    importsCode += `\n${options.additionalCode}\n`;
   }
 
   let codeAfterModule = '';
