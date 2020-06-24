@@ -979,6 +979,17 @@ describe('loader', () => {
     expect(getWarnings(stats)).toMatchSnapshot('warnings');
   });
 
+  it('should work with inline syntax #3', async () => {
+    const compiler = getCompiler('inline4.js', {}, {}, true);
+    const stats = await compile(compiler);
+
+    expect(getModuleSource('./some-library.js', stats)).toMatchSnapshot(
+      'module'
+    );
+    expect(getErrors(stats)).toMatchSnapshot('errors');
+    expect(getWarnings(stats)).toMatchSnapshot('warnings');
+  });
+
   it('should throw error on invalid inline syntax', async () => {
     const compiler = getCompiler('inline-broken.js', {}, {}, true);
     const stats = await compile(compiler);

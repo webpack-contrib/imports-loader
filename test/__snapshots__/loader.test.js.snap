@@ -477,6 +477,7 @@ exports[`loader should work with "imports", "wrapper" and "additionalCode" optio
 import \\"lib_1\\";
 
 var someVariable = 1;
+
 (function() {
 var someCode = {
   number: 123,
@@ -892,6 +893,22 @@ var someCode = {
 
 exports[`loader should work with inline syntax #2: warnings 1`] = `Array []`;
 
+exports[`loader should work with inline syntax #3: errors 1`] = `Array []`;
+
+exports[`loader should work with inline syntax #3: module 1`] = `
+"/*** IMPORTS FROM imports-loader ***/
+
+var require = false;
+
+var someCode = {
+  number: 123,
+  object: { existingSubProperty: 123 }
+};
+"
+`;
+
+exports[`loader should work with inline syntax #3: warnings 1`] = `Array []`;
+
 exports[`loader should work with inline syntax: errors 1`] = `Array []`;
 
 exports[`loader should work with inline syntax: module 1`] = `
@@ -1103,6 +1120,7 @@ exports[`loader should work with the "additionalCode" option: module 1`] = `
 "/*** IMPORTS FROM imports-loader ***/
 
 var someVariable = 1;
+
 var someCode = {
   number: 123,
   object: { existingSubProperty: 123 }

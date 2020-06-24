@@ -46,18 +46,25 @@ Then you can inject the `jquery` value into the module by configuring the `impor
 
 ### Inline
 
-The `|` or `%20` (space) separate command parts.
+The `|` or `%20` (space) allow to separate the `syntax`, `moduleName`, `name` and `alias` of import.
+The documentation and syntax examples can be read [here](#syntax).
 
 > ⚠ `%20` is space in a query string, because you can't use spaces in URLs
 
-**index.js**
-
 ```js
-import myLib from 'imports-loader?imports=default%20jquery%20$!./example.js';
+// Alternative syntax:
+//
+// import myLib from 'imports-loader?imports=default%20jquery%20$!./example.js';
+//
 // `%20` is space in a query string, equivalently `default jquery $`
+import myLib from 'imports-loader?imports=default|jquery|$!./example.js';
 // Adds the following code to the beginning of example.js:
 //
 // import $ from "jquery";
+//
+// ...
+// Code
+// ...
 ```
 
 ```js
@@ -67,6 +74,10 @@ import myLib from 'imports-loader?imports[]=default|jquery|$&imports[]=angular!.
 //
 // import $ from "jquery";
 // import angular from "angular";
+//
+// ...
+// Code
+// ...
 ```
 
 ```js
@@ -76,6 +87,10 @@ import myLib from 'imports-loader?imports[]=named|library|myMethod&imports[]=ang
 //
 // import { myMethod } from "library";
 // import angular from "angular";
+//
+// ...
+// Code
+// ...
 ```
 
 ```js
@@ -85,6 +100,10 @@ const myLib = require(`imports-loader?type=commonjs&imports[]=single|jquery|$&im
 //
 // var $ = require("jquery");
 // var angular = require("angular");
+//
+// ...
+// Code
+// ...
 ```
 
 ```js
@@ -99,6 +118,17 @@ const myLib = require(`imports-loader?type=commonjs&imports=single|myLib|myMetho
 // Code
 // ...
 // }.call(window));
+```
+
+```js
+import myLib from 'imports-loader?additionalCode=var%20myVariable%20=%20false;!./example.js';
+// Adds the following code to the beginning of example.js:
+//
+// var myVariable = false;
+//
+// ...
+// Code
+// ...
 ```
 
 ### Using Configuration
