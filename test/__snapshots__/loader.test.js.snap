@@ -214,6 +214,15 @@ Error: The \\"default\\" syntax does not support \\"lib_2_method_2_short\\" alia
 
 exports[`loader should throw an error when invalid arguments for imports: warnings 1`] = `Array []`;
 
+exports[`loader should throw an error when more then one command separator: errors 1`] = `
+Array [
+  "ModuleBuildError: Module build failed (from \`replaced original path\`):
+Error: Invalid command \\"\\" in \\"default | lib_1 default_name\\" for imports. There must be only one separator: \\" \\", or \\"|\\"",
+]
+`;
+
+exports[`loader should throw an error when more then one command separator: warnings 1`] = `Array []`;
+
 exports[`loader should throw an error when multiple duplicate of names found in "multiple" format: errors 1`] = `
 Array [
   "ModuleBuildError: Module build failed (from \`replaced original path\`):
@@ -235,7 +244,7 @@ exports[`loader should throw an error when no arguments for imports: warnings 1`
 exports[`loader should throw error on invalid inline syntax: errors 1`] = `
 Array [
   "ModuleBuildError: Module build failed (from \`replaced original path\`):
-Error: Invalid \\"named lib_2 name alias something\\" value for import",
+Error: Invalid \\"named|lib_2|name|alias|something\\" value for import",
 ]
 `;
 

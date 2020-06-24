@@ -13,6 +13,23 @@ function sourceHasUseStrict(source) {
   return str.startsWith("'use strict'") || str.startsWith('"use strict"');
 }
 
+function splitCommand(command) {
+  const result = command
+    .split('|')
+    .map((item) => item.split(' '))
+    .reduce((acc, val) => acc.concat(val), []);
+
+  for (const item of result) {
+    if (!item) {
+      throw new Error(
+        `Invalid command "${item}" in "${command}" for imports. There must be only one separator: " ", or "|"`
+      );
+    }
+  }
+
+  return result;
+}
+
 function resolveImports(type, item) {
   const defaultSyntax = type === 'module' ? 'default' : 'single';
 
@@ -25,7 +42,7 @@ function resolveImports(type, item) {
       throw new Error(`Invalid "${item}" value for import`);
     }
 
-    const splittedItem = noWhitespaceItem.split(' ');
+    const splittedItem = splitCommand(noWhitespaceItem);
 
     if (splittedItem.length > 4) {
       throw new Error(`Invalid "${item}" value for import`);
