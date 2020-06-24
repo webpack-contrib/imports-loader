@@ -276,16 +276,14 @@ Allows to use a string to describe an export.
 
 ##### `Syntax`
 
-The `" "` or `|` (space) separate command parts.
-
-String values let you specify import `syntax`, `moduleName`, `name` and `alias`.
+The `|` or `%20` (space) allow to separate the `syntax`, `moduleName`, `name` and `alias` of import.
 
 String syntax - `[[syntax] [moduleName] [name] [alias]]` or `[[syntax]|[moduleName]|[name]|[alias]]`, where:
 
-- `[syntax]`:
+- `[syntax]` (**may be omitted**):
 
-  - if `type` is `module`- can be `default`, `named`, `namespace` or `side-effects`
-  - if `type` is `commonjs`- can be `single`, `multiple` or `pure`
+  - if `type` is `module`- can be `default`, `named`, `namespace` or `side-effects`, the default value is `default`.
+  - if `type` is `commonjs`- can be `single`, `multiple` or `pure`, the default value is `single`.
 
 - `[moduleName]` - name of an imported module (**required**)
 - `[name]` - name of an imported value (**required**)
