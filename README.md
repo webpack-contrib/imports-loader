@@ -689,7 +689,8 @@ module.exports = {
                 moduleName: 'jquery',
                 name: '$',
               },
-              additionalCode: 'var define = false; /* Disable AMD for misbehaving libraries */',
+              additionalCode:
+                'var define = false; /* Disable AMD for misbehaving libraries */',
             },
           },
         ],
