@@ -56,19 +56,29 @@ export default function loader(content, sourceMap) {
   if (typeof options.wrapper !== 'undefined') {
     let thisArg;
     let args;
+    let params;
 
     if (typeof options.wrapper === 'boolean') {
       thisArg = '';
+      params = '';
       args = '';
     } else if (typeof options.wrapper === 'string') {
       thisArg = options.wrapper;
+      params = '';
       args = '';
     } else {
       ({ thisArg, args } = options.wrapper);
-      args = args.join(', ');
+
+      if (Array.isArray(args)) {
+        params = '';
+        args = args.join(', ');
+      } else {
+        params = Object.keys(args).join(', ');
+        args = Object.values(args).join(', ');
+      }
     }
 
-    importsCode += `\n(function(${args}) {`;
+    importsCode += `\n(function(${params}) {`;
     codeAfterModule += `\n}.call(${thisArg}${args ? `, ${args}` : ''}));\n`;
   }
 

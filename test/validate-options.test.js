@@ -90,6 +90,7 @@ describe('validate options', () => {
         'window',
         { thisArg: 'window' },
         { thisArg: 'window', args: ['foo', 'bar'] },
+        { thisArg: 'window', args: { foo: 'bar' } },
       ],
       failure: [
         [],

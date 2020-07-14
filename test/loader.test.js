@@ -259,6 +259,25 @@ describe('loader', () => {
     expect(getWarnings(stats)).toMatchSnapshot('warnings');
   });
 
+  it('should work with the "wrapper.args" options as an object notation', async () => {
+    const compiler = getCompiler('some-library.js', {
+      wrapper: {
+        thisArg: 'window',
+        args: {
+          foo1: 'bar1',
+          foo2: 'bar2',
+        },
+      },
+    });
+    const stats = await compile(compiler);
+
+    expect(getModuleSource('./some-library.js', stats)).toMatchSnapshot(
+      'module'
+    );
+    expect(getErrors(stats)).toMatchSnapshot('errors');
+    expect(getWarnings(stats)).toMatchSnapshot('warnings');
+  });
+
   it('should work with the "additionalCode" option', async () => {
     const compiler = getCompiler('some-library.js', {
       additionalCode: 'var someVariable = 1;',
