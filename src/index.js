@@ -70,8 +70,8 @@ export default function loader(content, sourceMap) {
       ({ thisArg, args } = options.wrapper);
 
       if (Array.isArray(args)) {
-        params = '';
-        args = args.join(', ');
+        params = args.join(', ');
+        args = params;
       } else {
         params = Object.keys(args).join(', ');
         args = Object.values(args).join(', ');

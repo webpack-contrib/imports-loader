@@ -1169,7 +1169,7 @@ exports[`loader should work with the "wrapper" options as an object notation: er
 exports[`loader should work with the "wrapper" options as an object notation: module 1`] = `
 "/*** IMPORTS FROM imports-loader ***/
 
-(function() {
+(function(myGlobalVariable, myOtherGlobalVariable) {
 var someCode = {
   number: 123,
   object: { existingSubProperty: 123 }
