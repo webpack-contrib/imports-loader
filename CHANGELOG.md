@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [1.2.0](https://github.com/webpack-contrib/imports-loader/compare/v1.1.0...v1.2.0) (2020-10-07)
+
+
+### Features
+
+* add custom parameter names for wrapper args ([#86](https://github.com/webpack-contrib/imports-loader/issues/86)) ([4314ecd](https://github.com/webpack-contrib/imports-loader/commit/4314ecd2b853dec1a4f5a3fa76f8559167732cb5))
+
 ## [1.1.0](https://github.com/webpack-contrib/imports-loader/compare/v1.0.0...v1.1.0) (2020-06-24)
 
 
