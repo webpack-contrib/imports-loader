@@ -1180,3 +1180,20 @@ var someCode = {
 `;
 
 exports[`loader should work with the "wrapper" options as an object notation: warnings 1`] = `Array []`;
+
+exports[`loader should work with the "wrapper.args" options as an object notation: errors 1`] = `Array []`;
+
+exports[`loader should work with the "wrapper.args" options as an object notation: module 1`] = `
+"/*** IMPORTS FROM imports-loader ***/
+
+(function(foo1, foo2) {
+var someCode = {
+  number: 123,
+  object: { existingSubProperty: 123 }
+};
+
+}.call(window, bar1, bar2));
+"
+`;
+
+exports[`loader should work with the "wrapper.args" options as an object notation: warnings 1`] = `Array []`;

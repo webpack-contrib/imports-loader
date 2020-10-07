@@ -264,8 +264,16 @@ exports[`validate options should throw an error on the "wrapper" option with "{"
 
 exports[`validate options should throw an error on the "wrapper" option with "{"thisArg":"window","args":true}" value 1`] = `
 "Invalid options object. Imports Loader has been initialized using an options object that does not match the API schema.
- - options.wrapper.args should be an array:
-   [non-empty string, ...] (should not have fewer than 1 item)"
+ - options.wrapper should be one of these:
+   boolean | non-empty string | object { thisArg, args? }
+   Details:
+    * options.wrapper.args should be one of these:
+      [non-empty string, ...] (should not have fewer than 1 item) | object { … }
+      Details:
+       * options.wrapper.args should be an array:
+         [non-empty string, ...] (should not have fewer than 1 item)
+       * options.wrapper.args should be an object:
+         object { … }"
 `;
 
 exports[`validate options should throw an error on the "wrapper" option with "{"thisArg":1}" value 1`] = `
