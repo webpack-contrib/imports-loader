@@ -32,7 +32,11 @@ exports[`validate options should throw an error on the "additionalCode" option w
 
 exports[`validate options should throw an error on the "imports" option with "" value 1`] = `
 "Invalid options object. Imports Loader has been initialized using an options object that does not match the API schema.
- - options.imports should be an non-empty string."
+ - options.imports should be one of these:
+   non-empty string | non-empty string | object { moduleName, syntax?, name?, alias? } | [non-empty string | object { moduleName, syntax?, name?, alias? }, ...] (should not have fewer than 1 item)
+   Details:
+    * options.imports should be an non-empty string.
+    * options.imports should be an non-empty string."
 `;
 
 exports[`validate options should throw an error on the "imports" option with "/test/" value 1`] = `
@@ -65,7 +69,7 @@ exports[`validate options should throw an error on the "imports" option with "{"
 exports[`validate options should throw an error on the "imports" option with "{"type":"string","moduleName":"jQuery","list":false}" value 1`] = `
 "Invalid options object. Imports Loader has been initialized using an options object that does not match the API schema.
  - options.imports should be one of these:
-   non-empty string | object { moduleName, syntax?, name?, alias? } | [non-empty string | object { moduleName, syntax?, name?, alias? }, ...] (should not have fewer than 1 item)
+   non-empty string | non-empty string | object { moduleName, syntax?, name?, alias? } | [non-empty string | object { moduleName, syntax?, name?, alias? }, ...] (should not have fewer than 1 item)
    Details:
     * options.imports has an unknown property 'type'. These properties are valid:
       object { moduleName, syntax?, name?, alias? }
@@ -82,8 +86,9 @@ exports[`validate options should throw an error on the "imports" option with "{}
 exports[`validate options should throw an error on the "imports" option with "false" value 1`] = `
 "Invalid options object. Imports Loader has been initialized using an options object that does not match the API schema.
  - options.imports should be one of these:
-   non-empty string | object { moduleName, syntax?, name?, alias? } | [non-empty string | object { moduleName, syntax?, name?, alias? }, ...] (should not have fewer than 1 item)
+   non-empty string | non-empty string | object { moduleName, syntax?, name?, alias? } | [non-empty string | object { moduleName, syntax?, name?, alias? }, ...] (should not have fewer than 1 item)
    Details:
+    * options.imports should be a non-empty string.
     * options.imports should be one of these:
       non-empty string | object { moduleName, syntax?, name?, alias? }
       Details:
@@ -97,8 +102,9 @@ exports[`validate options should throw an error on the "imports" option with "fa
 exports[`validate options should throw an error on the "imports" option with "true" value 1`] = `
 "Invalid options object. Imports Loader has been initialized using an options object that does not match the API schema.
  - options.imports should be one of these:
-   non-empty string | object { moduleName, syntax?, name?, alias? } | [non-empty string | object { moduleName, syntax?, name?, alias? }, ...] (should not have fewer than 1 item)
+   non-empty string | non-empty string | object { moduleName, syntax?, name?, alias? } | [non-empty string | object { moduleName, syntax?, name?, alias? }, ...] (should not have fewer than 1 item)
    Details:
+    * options.imports should be a non-empty string.
     * options.imports should be one of these:
       non-empty string | object { moduleName, syntax?, name?, alias? }
       Details:

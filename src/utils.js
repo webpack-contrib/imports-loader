@@ -157,11 +157,15 @@ function duplicateBy(array, key) {
 
 function getImports(type, imports) {
   let result;
+  const importItems =
+    typeof imports === 'string' && imports.includes(',')
+      ? imports.split(',')
+      : imports;
 
-  if (typeof imports === 'string') {
-    result = [resolveImports(type, imports)];
+  if (typeof importItems === 'string') {
+    result = [resolveImports(type, importItems)];
   } else {
-    result = [].concat(imports).map((item) => resolveImports(type, item));
+    result = [].concat(importItems).map((item) => resolveImports(type, item));
   }
 
   const identifiers = getIdentifiers(result);
@@ -172,7 +176,7 @@ function getImports(type, imports) {
       `Duplicate ${duplicates
         .map((identifier) => `"${identifier.value}" (as "${identifier.type}")`)
         .join(', ')} identifiers found in "\n${JSON.stringify(
-        imports,
+        importItems,
         null,
         ' '
       )}\n" value`

@@ -4,8 +4,6 @@
 */
 
 import { SourceNode, SourceMapConsumer } from 'source-map';
-import { getOptions } from 'loader-utils';
-import { validate } from 'schema-utils';
 
 import schema from './options.json';
 
@@ -14,13 +12,7 @@ import { getImports, renderImports, sourceHasUseStrict } from './utils';
 const HEADER = '/*** IMPORTS FROM imports-loader ***/\n';
 
 export default function loader(content, sourceMap) {
-  const options = getOptions(this);
-
-  validate(schema, options, {
-    name: 'Imports Loader',
-    baseDataPath: 'options',
-  });
-
+  const options = this.getOptions(schema);
   const type = options.type || 'module';
   const callback = this.async();
 
