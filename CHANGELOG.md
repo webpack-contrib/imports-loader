@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [2.0.0](https://github.com/webpack-contrib/imports-loader/compare/v1.2.0...v2.0.0) (2021-02-01)
+
+### ⚠ BREAKING CHANGES
+
+* minimum supported `webpack` version is `5`
+* inline syntax was changed: `[]` is no longer supported (i.e. `imports-loader?imports[]=default|jquery|$&imports[]=angular!./example.js`), please use `,` comma separator (i.e. `imports-loader?imports=default|jquery|$,angular!./example.js`)
+
 ## [1.2.0](https://github.com/webpack-contrib/imports-loader/compare/v1.1.0...v1.2.0) (2020-10-07)
 
 
