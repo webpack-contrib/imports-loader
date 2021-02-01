@@ -1,4 +1,5 @@
 {
+  "title": "Imports Loader options",
   "definitions": {
     "ImportItemString": {
       "type": "string",
@@ -52,6 +53,10 @@
     },
     "imports": {
       "anyOf": [
+        {
+          "type": "string",
+          "minLength": 1
+        },
         {
           "$ref": "#/definitions/ImportItem"
         },
