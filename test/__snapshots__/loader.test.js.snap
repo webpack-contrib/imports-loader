@@ -812,6 +812,21 @@ var someCode = {
 
 exports[`loader should work with a string value: warnings 1`] = `Array []`;
 
+exports[`loader should work with an absolute path in moduleName: errors 1`] = `Array []`;
+
+exports[`loader should work with an absolute path in moduleName: module 1`] = `
+"/*** IMPORTS FROM imports-loader ***/
+import $ from \\"./lib_1\\";
+
+var someCode = {
+  number: 123,
+  object: { existingSubProperty: 123 }
+};
+"
+`;
+
+exports[`loader should work with an absolute path in moduleName: warnings 1`] = `Array []`;
+
 exports[`loader should work with an object value: errors 1`] = `Array []`;
 
 exports[`loader should work with an object value: module 1`] = `

@@ -38,6 +38,22 @@ describe('loader', () => {
     expect(getWarnings(stats)).toMatchSnapshot('warnings');
   });
 
+  it('should work with an absolute path in moduleName', async () => {
+    const compiler = getCompiler('some-library.js', {
+      imports: {
+        moduleName: path.resolve(__dirname, 'fixtures', 'lib_1'),
+        name: '$',
+      },
+    });
+    const stats = await compile(compiler);
+
+    expect(getModuleSource('./some-library.js', stats)).toMatchSnapshot(
+      'module'
+    );
+    expect(getErrors(stats)).toMatchSnapshot('errors');
+    expect(getWarnings(stats)).toMatchSnapshot('warnings');
+  });
+
   it('should work with array of strings', async () => {
     const compiler = getCompiler('some-library.js', {
       imports: ['lib_1', 'lib_2'],
