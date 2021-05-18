@@ -3,24 +3,24 @@
   Author Tobias Koppers @sokra
 */
 
-import { SourceNode, SourceMapConsumer } from 'source-map';
+import { SourceNode, SourceMapConsumer } from "source-map";
 
-import schema from './options.json';
+import schema from "./options.json";
 
-import { getImports, renderImports, sourceHasUseStrict } from './utils';
+import { getImports, renderImports, sourceHasUseStrict } from "./utils";
 
-const HEADER = '/*** IMPORTS FROM imports-loader ***/\n';
+const HEADER = "/*** IMPORTS FROM imports-loader ***/\n";
 
 export default function loader(content, sourceMap) {
   const options = this.getOptions(schema);
-  const type = options.type || 'module';
+  const type = options.type || "module";
   const callback = this.async();
 
   let importsCode = HEADER;
 
   let imports;
 
-  if (typeof options.imports !== 'undefined') {
+  if (typeof options.imports !== "undefined") {
     try {
       imports = getImports(type, options.imports);
     } catch (error) {
@@ -35,43 +35,43 @@ export default function loader(content, sourceMap) {
     importsCode += Object.entries(imports).reduce(
       (accumulator, item) =>
         `${accumulator}${renderImports(this, type, item[0], item[1])}\n`,
-      directive ? "'use strict';\n" : ''
+      directive ? "'use strict';\n" : ""
     );
   }
 
-  if (typeof options.additionalCode !== 'undefined') {
+  if (typeof options.additionalCode !== "undefined") {
     importsCode += `\n${options.additionalCode}\n`;
   }
 
-  let codeAfterModule = '';
+  let codeAfterModule = "";
 
-  if (typeof options.wrapper !== 'undefined') {
+  if (typeof options.wrapper !== "undefined") {
     let thisArg;
     let args;
     let params;
 
-    if (typeof options.wrapper === 'boolean') {
-      thisArg = '';
-      params = '';
-      args = '';
-    } else if (typeof options.wrapper === 'string') {
+    if (typeof options.wrapper === "boolean") {
+      thisArg = "";
+      params = "";
+      args = "";
+    } else if (typeof options.wrapper === "string") {
       thisArg = options.wrapper;
-      params = '';
-      args = '';
+      params = "";
+      args = "";
     } else {
       ({ thisArg, args } = options.wrapper);
 
       if (Array.isArray(args)) {
-        params = args.join(', ');
+        params = args.join(", ");
         args = params;
       } else {
-        params = Object.keys(args).join(', ');
-        args = Object.values(args).join(', ');
+        params = Object.keys(args).join(", ");
+        args = Object.values(args).join(", ");
       }
     }
 
     importsCode += `\n(function(${params}) {`;
-    codeAfterModule += `\n}.call(${thisArg}${args ? `, ${args}` : ''}));\n`;
+    codeAfterModule += `\n}.call(${thisArg}${args ? `, ${args}` : ""}));\n`;
   }
 
   if (this.sourceMap && sourceMap) {

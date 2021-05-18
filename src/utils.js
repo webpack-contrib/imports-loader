@@ -1,10 +1,55 @@
-import { stringifyRequest } from 'loader-utils';
-import strip from 'strip-comments';
+import path from "path";
+
+import strip from "strip-comments";
+
+const matchRelativePath = /^\.\.?[/\\]/;
+
+function isAbsolutePath(str) {
+  return path.posix.isAbsolute(str) || path.win32.isAbsolute(str);
+}
+
+function isRelativePath(str) {
+  return matchRelativePath.test(str);
+}
+
+function stringifyRequest(loaderContext, request) {
+  const splitted = request.split("!");
+  const { context } = loaderContext;
+
+  return JSON.stringify(
+    splitted
+      .map((part) => {
+        // First, separate singlePath from query, because the query might contain paths again
+        const splittedPart = part.match(/^(.*?)(\?.*)/);
+        const query = splittedPart ? splittedPart[2] : "";
+        let singlePath = splittedPart ? splittedPart[1] : part;
+
+        if (isAbsolutePath(singlePath) && context) {
+          singlePath = path.relative(context, singlePath);
+
+          if (isAbsolutePath(singlePath)) {
+            // If singlePath still matches an absolute path, singlePath was on a different drive than context.
+            // In this case, we leave the path platform-specific without replacing any separators.
+            // @see https://github.com/webpack/loader-utils/pull/14
+            return singlePath + query;
+          }
+
+          if (isRelativePath(singlePath) === false) {
+            // Ensure that the relative path starts at least with ./ otherwise it would be a request into the modules directory (like node_modules).
+            singlePath = `./${singlePath}`;
+          }
+        }
+
+        return singlePath.replace(/\\/g, "/") + query;
+      })
+      .join("!")
+  );
+}
 
 function forError(item) {
-  return typeof item === 'string'
+  return typeof item === "string"
     ? item
-    : `\n${JSON.stringify(item, null, ' ')}\n`;
+    : `\n${JSON.stringify(item, null, " ")}\n`;
 }
 
 function sourceHasUseStrict(source) {
@@ -15,8 +60,8 @@ function sourceHasUseStrict(source) {
 
 function splitCommand(command) {
   const result = command
-    .split('|')
-    .map((item) => item.split(' '))
+    .split("|")
+    .map((item) => item.split(" "))
     .reduce((acc, val) => acc.concat(val), []);
 
   for (const item of result) {
@@ -31,11 +76,11 @@ function splitCommand(command) {
 }
 
 function resolveImports(type, item) {
-  const defaultSyntax = type === 'module' ? 'default' : 'single';
+  const defaultSyntax = type === "module" ? "default" : "single";
 
   let result;
 
-  if (typeof item === 'string') {
+  if (typeof item === "string") {
     const noWhitespaceItem = item.trim();
 
     if (noWhitespaceItem.length === 0) {
@@ -69,13 +114,13 @@ function resolveImports(type, item) {
     result = { syntax: defaultSyntax, ...item };
   }
 
-  if (result.syntax === defaultSyntax && typeof result.name === 'undefined') {
+  if (result.syntax === defaultSyntax && typeof result.name === "undefined") {
     result.name = result.moduleName;
   }
 
   if (
-    ['default', 'side-effects', 'single', 'pure'].includes(result.syntax) &&
-    typeof result.alias !== 'undefined'
+    ["default", "side-effects", "single", "pure"].includes(result.syntax) &&
+    typeof result.alias !== "undefined"
   ) {
     throw new Error(
       `The "${result.syntax}" syntax does not support "${
@@ -85,8 +130,8 @@ function resolveImports(type, item) {
   }
 
   if (
-    ['side-effects', 'pure'].includes(result.syntax) &&
-    typeof result.name !== 'undefined'
+    ["side-effects", "pure"].includes(result.syntax) &&
+    typeof result.name !== "undefined"
   ) {
     throw new Error(
       `The "${result.syntax}" syntax does not support "${
@@ -96,8 +141,8 @@ function resolveImports(type, item) {
   }
 
   if (
-    ['default', 'namespace', 'named', 'side-effects'].includes(result.syntax) &&
-    type === 'commonjs'
+    ["default", "namespace", "named", "side-effects"].includes(result.syntax) &&
+    type === "commonjs"
   ) {
     throw new Error(
       `The "${type}" type does not support the "${
@@ -107,8 +152,8 @@ function resolveImports(type, item) {
   }
 
   if (
-    ['single', 'multiple', 'pure'].includes(result.syntax) &&
-    type === 'module'
+    ["single", "multiple", "pure"].includes(result.syntax) &&
+    type === "module"
   ) {
     throw new Error(
       `The "${type}" format does not support the "${
@@ -118,8 +163,8 @@ function resolveImports(type, item) {
   }
 
   if (
-    ['namespace', 'named', 'multiple'].includes(result.syntax) &&
-    typeof result.name === 'undefined'
+    ["namespace", "named", "multiple"].includes(result.syntax) &&
+    typeof result.name === "undefined"
   ) {
     throw new Error(
       `The "${result.syntax}" syntax needs the "name" option in "${forError(
@@ -133,14 +178,14 @@ function resolveImports(type, item) {
 
 function getIdentifiers(array) {
   return array.reduce((accumulator, item) => {
-    if (typeof item.alias !== 'undefined') {
-      accumulator.push({ type: 'alias', value: item.alias });
+    if (typeof item.alias !== "undefined") {
+      accumulator.push({ type: "alias", value: item.alias });
 
       return accumulator;
     }
 
-    if (typeof item.name !== 'undefined') {
-      accumulator.push({ type: 'name', value: item.name });
+    if (typeof item.name !== "undefined") {
+      accumulator.push({ type: "name", value: item.name });
     }
 
     return accumulator;
@@ -158,27 +203,27 @@ function duplicateBy(array, key) {
 function getImports(type, imports) {
   let result;
   const importItems =
-    typeof imports === 'string' && imports.includes(',')
-      ? imports.split(',')
+    typeof imports === "string" && imports.includes(",")
+      ? imports.split(",")
       : imports;
 
-  if (typeof importItems === 'string') {
+  if (typeof importItems === "string") {
     result = [resolveImports(type, importItems)];
   } else {
     result = [].concat(importItems).map((item) => resolveImports(type, item));
   }
 
   const identifiers = getIdentifiers(result);
-  const duplicates = duplicateBy(identifiers, 'value');
+  const duplicates = duplicateBy(identifiers, "value");
 
   if (duplicates.length > 0) {
     throw new Error(
       `Duplicate ${duplicates
         .map((identifier) => `"${identifier.value}" (as "${identifier.type}")`)
-        .join(', ')} identifiers found in "\n${JSON.stringify(
+        .join(", ")} identifiers found in "\n${JSON.stringify(
         importItems,
         null,
-        ' '
+        " "
       )}\n" value`
     );
   }
@@ -201,15 +246,15 @@ function getImports(type, imports) {
 }
 
 function renderImports(loaderContext, type, moduleName, imports) {
-  let code = '';
+  let code = "";
 
-  if (type === 'commonjs') {
-    const pure = imports.filter(({ syntax }) => syntax === 'pure');
+  if (type === "commonjs") {
+    const pure = imports.filter(({ syntax }) => syntax === "pure");
 
     // Pure
     if (pure.length > 0) {
       pure.forEach((_, i) => {
-        const needNewline = i < pure.length - 1 ? '\n' : '';
+        const needNewline = i < pure.length - 1 ? "\n" : "";
 
         code += `require(${stringifyRequest(
           loaderContext,
@@ -218,15 +263,15 @@ function renderImports(loaderContext, type, moduleName, imports) {
       });
     }
 
-    const singleImports = imports.filter(({ syntax }) => syntax === 'single');
+    const singleImports = imports.filter(({ syntax }) => syntax === "single");
 
     // Single
     if (singleImports.length > 0) {
-      code += pure.length > 0 ? '\n' : '';
+      code += pure.length > 0 ? "\n" : "";
 
       singleImports.forEach((singleImport, i) => {
         const { name } = singleImport;
-        const needNewline = i < singleImports.length - 1 ? '\n' : '';
+        const needNewline = i < singleImports.length - 1 ? "\n" : "";
 
         code += `var ${name} = require(${stringifyRequest(
           loaderContext,
@@ -236,18 +281,18 @@ function renderImports(loaderContext, type, moduleName, imports) {
     }
 
     const multipleImports = imports.filter(
-      ({ syntax }) => syntax === 'multiple'
+      ({ syntax }) => syntax === "multiple"
     );
 
     // Multiple
     if (multipleImports.length > 0) {
-      code += pure.length > 0 || singleImports.length > 0 ? '\n' : '';
+      code += pure.length > 0 || singleImports.length > 0 ? "\n" : "";
       code += `var { `;
 
       multipleImports.forEach((multipleImport, i) => {
-        const needComma = i > 0 ? ', ' : '';
+        const needComma = i > 0 ? ", " : "";
         const { name, alias } = multipleImport;
-        const separator = ': ';
+        const separator = ": ";
 
         code += alias
           ? `${needComma}${name}${separator}${alias}`
@@ -261,13 +306,13 @@ function renderImports(loaderContext, type, moduleName, imports) {
   }
 
   const sideEffectsImports = imports.filter(
-    ({ syntax }) => syntax === 'side-effects'
+    ({ syntax }) => syntax === "side-effects"
   );
 
   // Side-effects
   if (sideEffectsImports.length > 0) {
     sideEffectsImports.forEach((_, i) => {
-      const needNewline = i < sideEffectsImports.length - 1 ? '\n' : '';
+      const needNewline = i < sideEffectsImports.length - 1 ? "\n" : "";
 
       code += `import ${stringifyRequest(
         loaderContext,
@@ -278,17 +323,17 @@ function renderImports(loaderContext, type, moduleName, imports) {
     return code;
   }
 
-  const defaultImports = imports.filter(({ syntax }) => syntax === 'default');
-  const namedImports = imports.filter(({ syntax }) => syntax === 'named');
+  const defaultImports = imports.filter(({ syntax }) => syntax === "default");
+  const namedImports = imports.filter(({ syntax }) => syntax === "named");
   const namespaceImports = imports.filter(
-    ({ syntax }) => syntax === 'namespace'
+    ({ syntax }) => syntax === "namespace"
   );
 
   // Default
   if (defaultImports.length > 0) {
     defaultImports.forEach((defaultImport, i) => {
       const { name } = defaultImport;
-      const needNewline = i < defaultImports.length - 1 ? '\n' : '';
+      const needNewline = i < defaultImports.length - 1 ? "\n" : "";
 
       code += `import ${name} from ${stringifyRequest(
         loaderContext,
@@ -299,13 +344,13 @@ function renderImports(loaderContext, type, moduleName, imports) {
 
   // Named
   if (namedImports.length > 0) {
-    code += defaultImports.length > 0 ? '\n' : '';
-    code += 'import { ';
+    code += defaultImports.length > 0 ? "\n" : "";
+    code += "import { ";
 
     namedImports.forEach((namedImport, i) => {
-      const needComma = i > 0 ? ', ' : '';
+      const needComma = i > 0 ? ", " : "";
       const { name, alias } = namedImport;
-      const separator = ' as ';
+      const separator = " as ";
 
       code += alias
         ? `${needComma}${name}${separator}${alias}`
@@ -317,11 +362,11 @@ function renderImports(loaderContext, type, moduleName, imports) {
 
   // Namespace
   if (namespaceImports.length > 0) {
-    code += defaultImports.length > 0 || namedImports.length > 0 ? '\n' : '';
+    code += defaultImports.length > 0 || namedImports.length > 0 ? "\n" : "";
 
     namespaceImports.forEach((namespaceImport, i) => {
       const { name } = namespaceImport;
-      const needNewline = i < namespaceImports.length - 1 ? '\n' : '';
+      const needNewline = i < namespaceImports.length - 1 ? "\n" : "";
 
       code += `import * as ${name} from ${stringifyRequest(
         loaderContext,
