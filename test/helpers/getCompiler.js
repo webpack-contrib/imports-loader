@@ -1,7 +1,7 @@
-import path from 'path';
+import path from "path";
 
-import webpack from 'webpack';
-import { createFsFromVolume, Volume } from 'memfs';
+import webpack from "webpack";
+import { createFsFromVolume, Volume } from "memfs";
 
 export default (
   fixture,
@@ -13,10 +13,10 @@ export default (
 
   if (!disableLoader) {
     loaders.push({
-      test: path.resolve(__dirname, '../fixtures', fixture),
+      test: path.resolve(__dirname, "../fixtures", fixture),
       use: [
         {
-          loader: path.resolve(__dirname, '../../src'),
+          loader: path.resolve(__dirname, "../../src"),
           options: loaderOptions || {},
         },
       ],
@@ -24,15 +24,15 @@ export default (
   }
 
   const fullConfig = {
-    mode: 'development',
+    mode: "development",
     devtool: config.devtool || false,
-    context: path.resolve(__dirname, '../fixtures'),
-    entry: path.resolve(__dirname, '../fixtures', fixture),
+    context: path.resolve(__dirname, "../fixtures"),
+    entry: path.resolve(__dirname, "../fixtures", fixture),
     output: {
-      path: path.resolve(__dirname, '../outputs'),
-      filename: '[name].bundle.js',
-      chunkFilename: '[name].chunk.js',
-      library: 'ImportsLoader',
+      path: path.resolve(__dirname, "../outputs"),
+      filename: "[name].bundle.js",
+      chunkFilename: "[name].chunk.js",
+      library: "ImportsLoader",
       // libraryTarget: 'var',
     },
     module: {
@@ -41,10 +41,10 @@ export default (
     plugins: [],
     resolve: {
       alias: {
-        lib_1: path.resolve(__dirname, '../', 'fixtures', 'lib_1'),
-        lib_2: path.resolve(__dirname, '../', 'fixtures', 'lib_2'),
-        lib_3: path.resolve(__dirname, '../', 'fixtures', 'lib_3'),
-        lib_4: path.resolve(__dirname, '../', 'fixtures', 'lib_4'),
+        lib_1: path.resolve(__dirname, "../", "fixtures", "lib_1"),
+        lib_2: path.resolve(__dirname, "../", "fixtures", "lib_2"),
+        lib_3: path.resolve(__dirname, "../", "fixtures", "lib_3"),
+        lib_4: path.resolve(__dirname, "../", "fixtures", "lib_4"),
       },
     },
     ...config,
