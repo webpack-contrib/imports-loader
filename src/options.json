@@ -3,11 +3,15 @@
   "definitions": {
     "ImportItemString": {
       "type": "string",
-      "minLength": 1
+      "minLength": 1,
+      "description": "Allows to use a string to describe an import.",
+      "link": "https://webpack.js.org/loaders/imports-loader/#string"
     },
     "ImportItemObject": {
       "type": "object",
       "additionalProperties": false,
+      "description": "Allows to use an object to describe an import.",
+      "link": "https://webpack.js.org/loaders/imports-loader/#object",
       "properties": {
         "syntax": {
           "enum": [
@@ -47,15 +51,17 @@
     }
   },
   "type": "object",
+  "description": "Options for imports-loader",
   "properties": {
     "type": {
-      "enum": ["module", "commonjs"]
+      "enum": ["module", "commonjs"],
+      "description": "Format of generated exports.",
+      "link": "https://github.com/webpack-contrib/imports-loader#type"
     },
     "imports": {
       "anyOf": [
         {
-          "type": "string",
-          "minLength": 1
+          "$ref": "#/definitions/ImportItemString"
         },
         {
           "$ref": "#/definitions/ImportItem"
@@ -105,11 +111,15 @@
           },
           "required": ["thisArg"]
         }
-      ]
+      ],
+      "description": "Closes the module code in a function with a given 'thisArg' and 'args'",
+      "link": "https://webpack.js.org/loaders/imports-loader/#wrapper"
     },
     "additionalCode": {
       "type": "string",
-      "minLength": 1
+      "minLength": 1,
+      "description": "Adds custom code as a preamble before the module's code.",
+      "link": "https://webpack.js.org/loaders/imports-loader/#additionalcode"
     }
   },
   "anyOf": [
