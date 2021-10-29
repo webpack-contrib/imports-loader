@@ -1,7 +1,7 @@
 import path from "path";
 
-export default (asset, compiler, stats) => {
-  const usedFs = compiler.outputFileSystem;
+export default (asset, stats) => {
+  const usedFs = stats.compilation.compiler.outputFileSystem;
   const outputPath = stats.compilation.outputOptions.path;
 
   let data = "";

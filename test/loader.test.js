@@ -1,5 +1,7 @@
 import path from "path";
 
+import { SourceMapConsumer } from "source-map";
+
 import {
   compile,
   getCompiler,
@@ -7,6 +9,7 @@ import {
   getModuleSource,
   getWarnings,
 } from "./helpers";
+import readAsset from "./helpers/readAsset";
 
 describe("loader", () => {
   it("should work with a string value", async () => {
@@ -307,7 +310,7 @@ describe("loader", () => {
     expect(getWarnings(stats)).toMatchSnapshot("warnings");
   });
 
-  it('should work with source maps when the "devtool" option is enabled', async () => {
+  it('should generate source maps when the "devtool" option is enabled', async () => {
     const compiler = getCompiler(
       "some-library.js",
       {},
@@ -322,9 +325,6 @@ describe("loader", () => {
                   loader: path.resolve(__dirname, "../src"),
                   options: { imports: "lib_1" },
                 },
-                {
-                  loader: "babel-loader",
-                },
               ],
             },
           ],
@@ -332,20 +332,24 @@ describe("loader", () => {
       }
     );
     const stats = await compile(compiler);
+    const bundle = readAsset("main.bundle.js", stats).split("\n");
+    const sourceMap = readAsset("main.bundle.js.map", stats);
 
-    expect(getModuleSource("./some-library.js", stats)).toMatchSnapshot(
-      "module"
-    );
-    expect(getErrors(stats)).toMatchSnapshot("errors");
-    expect(getWarnings(stats)).toMatchSnapshot("warnings");
+    const consumer = new SourceMapConsumer(sourceMap);
+    const result = consumer.generatedPositionFor({
+      line: 1,
+      column: 0,
+      source: "webpack://ImportsLoader/some-library.js",
+    });
+    expect(bundle[result.line - 1 /* 1-indexed */]).toEqual("var someCode = {");
   });
 
-  it('should not work with source maps when the "devtool" options are disabled', async () => {
+  it('should update source maps from previous loaders when the "devtool" option is enabled', async () => {
     const compiler = getCompiler(
       "some-library.js",
       {},
       {
-        devtool: false,
+        devtool: "source-map",
         module: {
           rules: [
             {
@@ -355,9 +359,7 @@ describe("loader", () => {
                   loader: path.resolve(__dirname, "../src"),
                   options: { imports: "lib_1" },
                 },
-                {
-                  loader: "babel-loader",
-                },
+                { loader: "babel-loader" },
               ],
             },
           ],
@@ -365,12 +367,16 @@ describe("loader", () => {
       }
     );
     const stats = await compile(compiler);
+    const bundle = readAsset("main.bundle.js", stats).split("\n");
+    const sourceMap = readAsset("main.bundle.js.map", stats);
 
-    expect(getModuleSource("./some-library.js", stats)).toMatchSnapshot(
-      "module"
-    );
-    expect(getErrors(stats)).toMatchSnapshot("errors");
-    expect(getWarnings(stats)).toMatchSnapshot("warnings");
+    const consumer = new SourceMapConsumer(sourceMap);
+    const result = consumer.generatedPositionFor({
+      line: 1,
+      column: 0,
+      source: "webpack://ImportsLoader/some-library.js",
+    });
+    expect(bundle[result.line - 1 /* 1-indexed */]).toEqual("var someCode = {");
   });
 
   it('should work with "default" imports without syntax', async () => {

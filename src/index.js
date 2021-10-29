@@ -3,7 +3,7 @@
   Author Tobias Koppers @sokra
 */
 
-import { SourceNode, SourceMapConsumer } from "source-map";
+import { SourceNode, SourceMapConsumer, SourceMapGenerator } from "source-map";
 
 import schema from "./options.json";
 
@@ -74,18 +74,36 @@ export default function loader(content, sourceMap) {
     codeAfterModule += `\n}.call(${thisArg}${args ? `, ${args}` : ""}));\n`;
   }
 
-  if (this.sourceMap && sourceMap) {
-    const node = SourceNode.fromStringWithSourceMap(
-      content,
-      new SourceMapConsumer(sourceMap)
+  if (this.sourceMap) {
+    if (sourceMap) {
+      const node = SourceNode.fromStringWithSourceMap(
+        content,
+        new SourceMapConsumer(sourceMap)
+      );
+
+      node.prepend(`${importsCode}\n`);
+      node.add(codeAfterModule);
+
+      const result = node.toStringWithSourceMap({ file: this.resourcePath });
+
+      callback(null, result.code, result.map.toJSON());
+
+      return;
+    }
+    const generator = new SourceMapGenerator();
+
+    generator.setSourceContent(this.resourcePath, content);
+    generator.addMapping({
+      generated: { line: importsCode.split("\n").length + 1, column: 0 },
+      original: { line: 1, column: 0 },
+      source: this.resourcePath,
+    });
+
+    callback(
+      null,
+      `${importsCode}\n${content}\n${codeAfterModule}`,
+      generator.toString()
     );
-
-    node.prepend(`${importsCode}\n`);
-    node.add(codeAfterModule);
-
-    const result = node.toStringWithSourceMap({ file: this.resourcePath });
-
-    callback(null, result.code, result.map.toJSON());
 
     return;
   }
