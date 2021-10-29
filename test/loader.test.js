@@ -1,5 +1,7 @@
 import path from "path";
 
+import { SourceMapConsumer } from "source-map";
+
 import {
   compile,
   getCompiler,
@@ -7,6 +9,7 @@ import {
   getModuleSource,
   getWarnings,
 } from "./helpers";
+import readAsset from "./helpers/readAsset";
 
 describe("loader", () => {
   it("should work with a string value", async () => {
@@ -322,9 +325,6 @@ describe("loader", () => {
                   loader: path.resolve(__dirname, "../src"),
                   options: { imports: "lib_1" },
                 },
-                {
-                  loader: "babel-loader",
-                },
               ],
             },
           ],
@@ -332,12 +332,18 @@ describe("loader", () => {
       }
     );
     const stats = await compile(compiler);
+    const bundle = readAsset("main.bundle.js", stats).split("\n");
+    const sourceMap = readAsset("main.bundle.js.map", stats);
 
-    expect(getModuleSource("./some-library.js", stats)).toMatchSnapshot(
-      "module"
+    const consumer = new SourceMapConsumer(sourceMap);
+    const result = consumer.generatedPositionFor({
+      line: 1,
+      column: 0,
+      source: "webpack://ImportsLoader/some-library.js",
+    });
+    expect(bundle[result.line - 1 /* 1-indexed */]).not.toContain(
+      "/*** IMPORTS FROM imports-loader ***/"
     );
-    expect(getErrors(stats)).toMatchSnapshot("errors");
-    expect(getWarnings(stats)).toMatchSnapshot("warnings");
   });
 
   it('should not work with source maps when the "devtool" options are disabled', async () => {
