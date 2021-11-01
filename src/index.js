@@ -90,6 +90,7 @@ export default function loader(content, sourceMap) {
 
       return;
     }
+
     const generator = new SourceMapGenerator();
 
     generator.setSourceContent(this.resourcePath, content);
