@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [3.1.1](https://github.com/webpack-contrib/imports-loader/compare/v3.1.0...v3.1.1) (2021-11-01)
+
+
+### Bug Fixes
+
+* sourcemaps generation ([#113](https://github.com/webpack-contrib/imports-loader/issues/113)) ([6f948c2](https://github.com/webpack-contrib/imports-loader/commit/6f948c2b69d09de95a4f18ecdb4fdd5da03fb18b))
+
 ## [3.1.0](https://github.com/webpack-contrib/imports-loader/compare/v3.0.1...v3.1.0) (2021-10-22)
 
 
