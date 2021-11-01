@@ -332,8 +332,16 @@ describe("loader", () => {
       }
     );
     const stats = await compile(compiler);
-    const bundle = readAsset("main.bundle.js", stats).split("\n");
-    const sourceMap = readAsset("main.bundle.js.map", stats);
+    const bundle = readAsset(
+      "main.bundle.js",
+      stats.compilation.compiler,
+      stats
+    ).split("\n");
+    const sourceMap = readAsset(
+      "main.bundle.js.map",
+      stats.compilation.compiler,
+      stats
+    );
 
     const consumer = new SourceMapConsumer(sourceMap);
     const result = consumer.generatedPositionFor({
@@ -367,8 +375,16 @@ describe("loader", () => {
       }
     );
     const stats = await compile(compiler);
-    const bundle = readAsset("main.bundle.js", stats).split("\n");
-    const sourceMap = readAsset("main.bundle.js.map", stats);
+    const bundle = readAsset(
+      "main.bundle.js",
+      stats.compilation.compiler,
+      stats
+    ).split("\n");
+    const sourceMap = readAsset(
+      "main.bundle.js.map",
+      stats.compilation.compiler,
+      stats
+    );
 
     const consumer = new SourceMapConsumer(sourceMap);
     const result = consumer.generatedPositionFor({
