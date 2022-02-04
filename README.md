@@ -31,7 +31,19 @@ For further hints on compatibility issues, check out [Shimming](https://webpack.
 To begin, you'll need to install `imports-loader`:
 
 ```console
-$ npm install imports-loader --save-dev
+npm install imports-loader --save-dev
+```
+
+or
+
+```console
+yarn add -D imports-loader
+```
+
+or
+
+```console
+pnpm add -D imports-loader
 ```
 
 Given you have this file:
