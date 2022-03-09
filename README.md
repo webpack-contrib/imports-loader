@@ -196,16 +196,19 @@ And run `webpack` via your preferred method.
 
 ## Options
 
-|                  Name                   |                   Type                    |   Default   | Description                                                            |
-| :-------------------------------------: | :---------------------------------------: | :---------: | :--------------------------------------------------------------------- |
-|           **[`type`](#type)**           |                `{String}`                 |  `module`   | Format of generated imports                                            |
-|        **[`imports`](#imports)**        | `{String\|Object\|Array<String\|Object>}` | `undefined` | List of imports                                                        |
-|        **[`wrapper`](#wrapper)**        |        `{Boolean\|String\|Object}`        | `undefined` | Closes the module code in a function (`(function () { ... }).call();`) |
-| **[`additionalCode`](#additionalcode)** |                `{String}`                 | `undefined` | Adds custom code                                                       |
+- **[`type`](#type)**
+- **[`imports`](#imports)**
+- **[`wrapper`](#wrapper)**
+- **[`additionalCode`](#additionalcode)**
 
 ### `type`
 
-Type: `String`
+Type:
+
+```ts
+type type = string;
+```
+
 Default: `module`
 
 Format of generated exports.
@@ -277,12 +280,47 @@ import Foo from "Foo";
 
 ### `imports`
 
-Type: `String|Object|Array<String|Object>`
+Type:
+
+```ts
+type imports =
+  | string
+  | {
+      syntax:
+        | "default"
+        | "named"
+        | "namespace"
+        | "side-effects"
+        | "single"
+        | "multiple"
+        | "pure";
+      moduleName: string;
+      name: string;
+      alias: string;
+    }
+  | Array<
+      | string
+      | {
+          syntax:
+            | "default"
+            | "named"
+            | "namespace"
+            | "side-effects"
+            | "single"
+            | "multiple"
+            | "pure";
+          moduleName: string;
+          name: string;
+          alias: string;
+        }
+    >;
+```
+
 Default: `undefined`
 
 List of imports.
 
-#### `String`
+#### `string`
 
 Allows to use a string to describe an export.
 
@@ -388,7 +426,7 @@ var myName = require("lib");
 // ...
 ```
 
-#### `Object`
+#### `object`
 
 Allows to use an object to describe an import.
 
@@ -444,7 +482,7 @@ import { lib2_method_2 as lib_2_method_2_alias } from "lib_2";
 // ...
 ```
 
-#### `Array`
+#### `array`
 
 Allow to specify multiple imports.
 Each item can be a [`string`](https://github.com/webpack-contrib/imports-loader#string) or an [`object`](https://github.com/webpack-contrib/imports-loader#object).
@@ -504,14 +542,25 @@ import "lib_4";
 
 ### `wrapper`
 
-Type: `Boolean|String|Object`
+Type:
+
+```ts
+type wrapper =
+  | boolean
+  | string
+  | {
+      thisArg: string;
+      args: Record<string, string> | Array<string>;
+    };
+```
+
 Default: `undefined`
 
 Closes the module code in a function with a given `thisArg` and `args` (`(function () { ... }).call();`).
 
 > ⚠ Do not use this option if source code contains ES module import(s)
 
-#### `Boolean`
+#### `boolean`
 
 **webpack.config.js**
 
@@ -551,7 +600,7 @@ import $ from "jquery";
 }.call());
 ```
 
-#### `String`
+#### `string`
 
 **webpack.config.js**
 
@@ -591,7 +640,7 @@ import $ from "jquery";
 }.call(window));
 ```
 
-#### `Object`
+#### `object`
 
 **webpack.config.js**
 
@@ -634,7 +683,7 @@ import $ from "jquery";
 }.call(window, myVariable, myOtherVariable));
 ```
 
-#### `Object` with different parameter names
+#### `object` with different parameter names
 
 **webpack.config.js**
 
@@ -682,7 +731,12 @@ import $ from "jquery";
 
 ### `additionalCode`
 
-Type: `String`
+Type:
+
+```ts
+type additionalCode = string;
+```
+
 Default: `undefined`
 
 Adds custom code as a preamble before the module's code.
