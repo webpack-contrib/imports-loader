@@ -13,7 +13,7 @@
   },
   "main": "dist/cjs.js",
   "engines": {
-    "node": ">= 12.13.0"
+    "node": ">= 14.16.0"
   },
   "scripts": {
     "start": "npm run build -- -w",
@@ -55,17 +55,17 @@
     "cross-env": "^7.0.3",
     "del": "^6.0.0",
     "del-cli": "^4.0.1",
-    "eslint": "^8.14.0",
+    "eslint": "^8.15.0",
     "eslint-config-prettier": "^8.5.0",
     "eslint-plugin-import": "^2.26.0",
-    "husky": "^7.0.0",
+    "husky": "^8.0.1",
     "jest": "^27.5.1",
     "lint-staged": "^12.4.1",
     "memfs": "^3.4.1",
     "npm-run-all": "^4.1.5",
     "prettier": "^2.6.2",
     "standard-version": "^9.3.0",
-    "webpack": "^5.72.0"
+    "webpack": "^5.72.1"
   },
   "keywords": [
     "webpack"
