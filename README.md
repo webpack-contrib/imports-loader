@@ -21,9 +21,13 @@ The imports loader can add the necessary `require('whatever')` calls, so those m
 
 For further hints on compatibility issues, check out [Shimming](https://webpack.js.org/guides/shimming/) of the official docs.
 
-> ⚠ By default loader generate ES module named syntax.
+> **Warning**
+>
+> By default loader generate ES module named syntax.
 
-> ⚠ Be careful, existing imports (`import`/`require`) in the original code and importing new values can cause failure.
+> **Warning**
+>
+> Be careful, existing imports (`import`/`require`) in the original code and importing new values can cause failure.
 
 ## Getting Started
 
@@ -60,7 +64,9 @@ Then you can inject the `jquery` value into the module by configuring the `impor
 The `|` or `%20` (space) allow to separate the `syntax`, `moduleName`, `name` and `alias` of import.
 The documentation and syntax examples can be read [here](#syntax).
 
-> ⚠ `%20` is space in a query string, because you can't use spaces in URLs
+> **Warning**
+>
+> `%20` is space in a query string, because you can't use spaces in URLs
 
 ```js
 // Alternative syntax:
@@ -358,9 +364,13 @@ If type `commonjs`:
 - `[multiple Foo FooA Bar]` - generates `const { FooA: Bar } = require("Foo");`.
 - `[pure Foo]` - generates `require("Foo");`.
 
-> ⚠ You need to set `type: "commonjs"` to use `single`, `multiple` and `pure` syntaxes.
+> **Warning**
+>
+> You need to set `type: "commonjs"` to use `single`, `multiple` and `pure` syntaxes.
 
-> ⚠ Aliases can't be used together with `default`, `namespace`, `side-effects`, `single` and `pure` syntaxes.
+> **Warning**
+>
+> Aliases can't be used together with `default`, `namespace`, `side-effects`, `single` and `pure` syntaxes.
 
 ###### Examples
 
@@ -440,7 +450,9 @@ Properties:
 - `name` - name of an imported value (**required**)
 - `alias` - alias of an imported value (**may be omitted**)
 
-> ⚠ Alias can't be used together with `default`, `namespace`, `side-effects`, `single` and `pure` syntaxes.
+> **Warning**
+>
+> Alias can't be used together with `default`, `namespace`, `side-effects`, `single` and `pure` syntaxes.
 
 ##### Examples
 
@@ -557,7 +569,9 @@ Default: `undefined`
 
 Closes the module code in a function with a given `thisArg` and `args` (`(function () { ... }).call();`).
 
-> ⚠ Do not use this option if source code contains ES module import(s)
+> **Warning**
+>
+> Do not use this option if source code contains ES module import(s)
 
 #### `boolean`
 
