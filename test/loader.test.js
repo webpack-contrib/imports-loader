@@ -1,15 +1,15 @@
-import path from "path";
+const path = require("path");
 
-import { SourceMapConsumer } from "source-map";
+const { SourceMapConsumer } = require("source-map");
 
-import {
+const {
   compile,
   getCompiler,
   getErrors,
   getModuleSource,
   getWarnings,
-} from "./helpers";
-import readAsset from "./helpers/readAsset";
+} = require("./helpers");
+const readAsset = require("./helpers/readAsset");
 
 describe("loader", () => {
   it("should work with a string value", async () => {

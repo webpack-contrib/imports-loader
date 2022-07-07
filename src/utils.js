@@ -1,6 +1,6 @@
-import path from "path";
+const path = require("path");
 
-import strip from "strip-comments";
+const strip = require("strip-comments");
 
 const matchRelativePath = /^\.\.?[/\\]/;
 
@@ -388,4 +388,4 @@ function renderImports(loaderContext, type, moduleName, imports) {
   return code;
 }
 
-export { sourceHasUseStrict, getImports, renderImports };
+module.exports = { sourceHasUseStrict, getImports, renderImports };

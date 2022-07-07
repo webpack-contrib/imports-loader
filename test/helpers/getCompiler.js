@@ -1,9 +1,10 @@
-import path from "path";
+const path = require("path");
 
-import webpack from "webpack";
-import { createFsFromVolume, Volume } from "memfs";
+const webpack = require("webpack");
 
-export default (
+const { createFsFromVolume, Volume } = require("memfs");
+
+module.exports = (
   fixture,
   loaderOptions = {},
   config = {},

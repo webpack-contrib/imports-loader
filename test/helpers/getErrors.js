@@ -1,3 +1,3 @@
-import normalizeErrors from "./normalizeErrors";
+const normalizeErrors = require("./normalizeErrors");
 
-export default (stats) => normalizeErrors(stats.compilation.errors);
+module.exports = (stats) => normalizeErrors(stats.compilation.errors);

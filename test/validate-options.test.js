@@ -1,4 +1,4 @@
-import { getCompiler, compile } from "./helpers";
+const { getCompiler, compile } = require("./helpers");
 
 describe("validate options", () => {
   const tests = {

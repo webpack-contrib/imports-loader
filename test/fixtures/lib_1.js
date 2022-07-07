@@ -1,1 +1,1 @@
-export default function lib() {}
+module.exports = function lib() {}

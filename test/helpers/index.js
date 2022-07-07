@@ -1,13 +1,13 @@
-import compile from "./compile";
-import getCompiler from "./getCompiler";
-import getErrors from "./getErrors";
-import getModuleSource from "./getModuleSource";
-import getWarnings from "./getWarnings";
-import normalizeErrors from "./normalizeErrors";
-import readAsset from "./readAsset";
-import readsAssets from "./readAssets";
+const compile = require("./compile");
+const getCompiler = require("./getCompiler");
+const getErrors = require("./getErrors");
+const getModuleSource = require("./getModuleSource");
+const getWarnings = require("./getWarnings");
+const normalizeErrors = require("./normalizeErrors");
+const readAsset = require("./readAsset");
+const readsAssets = require("./readAssets");
 
-export {
+module.exports = {
   compile,
   getCompiler,
   getErrors,
