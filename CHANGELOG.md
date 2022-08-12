@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [4.0.1](https://github.com/webpack-contrib/imports-loader/compare/v4.0.0...v4.0.1) (2022-08-12)
+
+
+### Bug Fixes
+
+* source map for other loaders ([#146](https://github.com/webpack-contrib/imports-loader/issues/146)) ([5a1f866](https://github.com/webpack-contrib/imports-loader/commit/5a1f866e9755452ad991960cd2db58c93da3aa77))
+
 ## [4.0.0](https://github.com/webpack-contrib/imports-loader/compare/v3.1.1...v4.0.0) (2022-05-17)
 
 
