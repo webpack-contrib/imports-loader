@@ -103,7 +103,7 @@ export default function loader(content, sourceMap) {
     callback(
       null,
       `${importsCode}\n${content}\n${codeAfterModule}`,
-      generator.toString()
+      generator.toJSON()
     );
 
     return;
