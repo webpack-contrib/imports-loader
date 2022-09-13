@@ -1,246 +1,246 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`loader should throw an error on the empty string: errors 1`] = `
-Array [
+[
   "ModuleBuildError: Module build failed (from \`replaced original path\`):
-Error: Invalid \\"      \\" value for import",
+Error: Invalid "      " value for import",
 ]
 `;
 
-exports[`loader should throw an error on the empty string: warnings 1`] = `Array []`;
+exports[`loader should throw an error on the empty string: warnings 1`] = `[]`;
 
 exports[`loader should throw an error when "alias" can not be set using a string notation: errors 1`] = `
-Array [
+[
   "ModuleBuildError: Module build failed (from \`replaced original path\`):
-Error: The \\"side-effects\\" syntax does not support \\"some_alias\\" alias in \\"side-effects lib_1 name some_alias\\" value",
+Error: The "side-effects" syntax does not support "some_alias" alias in "side-effects lib_1 name some_alias" value",
 ]
 `;
 
-exports[`loader should throw an error when "alias" can not be set using a string notation: warnings 1`] = `Array []`;
+exports[`loader should throw an error when "alias" can not be set using a string notation: warnings 1`] = `[]`;
 
 exports[`loader should throw an error when "alias" can not be set using an object notation: errors 1`] = `
-Array [
+[
   "ModuleBuildError: Module build failed (from \`replaced original path\`):
-Error: The \\"side-effects\\" syntax does not support \\"some_alias\\" alias in \\"",
+Error: The "side-effects" syntax does not support "some_alias" alias in "",
 ]
 `;
 
-exports[`loader should throw an error when "alias" can not be set using an object notation: warnings 1`] = `Array []`;
+exports[`loader should throw an error when "alias" can not be set using an object notation: warnings 1`] = `[]`;
 
 exports[`loader should throw an error when "name" can not be used for a string notation: errors 1`] = `
-Array [
+[
   "ModuleBuildError: Module build failed (from \`replaced original path\`):
-Error: The \\"side-effects\\" syntax does not support \\"some_alias\\" name in \\"side-effects lib_1 some_alias\\" value",
+Error: The "side-effects" syntax does not support "some_alias" name in "side-effects lib_1 some_alias" value",
 ]
 `;
 
-exports[`loader should throw an error when "name" can not be used for a string notation: warnings 1`] = `Array []`;
+exports[`loader should throw an error when "name" can not be used for a string notation: warnings 1`] = `[]`;
 
 exports[`loader should throw an error when "name" can not be used for an object notation: errors 1`] = `
-Array [
+[
   "ModuleBuildError: Module build failed (from \`replaced original path\`):
-Error: The \\"side-effects\\" syntax does not support \\"some_name\\" name in \\"",
+Error: The "side-effects" syntax does not support "some_name" name in "",
 ]
 `;
 
-exports[`loader should throw an error when "name" can not be used for an object notation: warnings 1`] = `Array []`;
+exports[`loader should throw an error when "name" can not be used for an object notation: warnings 1`] = `[]`;
 
 exports[`loader should throw an error when "name" do not exist using a string notation: errors 1`] = `
-Array [
+[
   "ModuleBuildError: Module build failed (from \`replaced original path\`):
-Error: The \\"named\\" syntax needs the \\"name\\" option in \\"named lib_2.js\\" value",
+Error: The "named" syntax needs the "name" option in "named lib_2.js" value",
 ]
 `;
 
-exports[`loader should throw an error when "name" do not exist using a string notation: warnings 1`] = `Array []`;
+exports[`loader should throw an error when "name" do not exist using a string notation: warnings 1`] = `[]`;
 
 exports[`loader should throw an error when "name" do not exist using an object notation: errors 1`] = `
-Array [
+[
   "ModuleBuildError: Module build failed (from \`replaced original path\`):
-Error: The \\"named\\" syntax needs the \\"name\\" option in \\"",
+Error: The "named" syntax needs the "name" option in "",
 ]
 `;
 
-exports[`loader should throw an error when "name" do not exist using an object notation: warnings 1`] = `Array []`;
+exports[`loader should throw an error when "name" do not exist using an object notation: warnings 1`] = `[]`;
 
 exports[`loader should throw an error when "namespace" ca not be used in CommonJS using a string notation: errors 1`] = `
-Array [
+[
   "ModuleBuildError: Module build failed (from \`replaced original path\`):
-Error: The \\"commonjs\\" type does not support the \\"namespace\\" syntax in \\"namespace lib_4 namespace\\" value",
+Error: The "commonjs" type does not support the "namespace" syntax in "namespace lib_4 namespace" value",
 ]
 `;
 
-exports[`loader should throw an error when "namespace" ca not be used in CommonJS using a string notation: warnings 1`] = `Array []`;
+exports[`loader should throw an error when "namespace" ca not be used in CommonJS using a string notation: warnings 1`] = `[]`;
 
 exports[`loader should throw an error when "namespace" ca not be used in CommonJS using an object notation: errors 1`] = `
-Array [
+[
   "ModuleBuildError: Module build failed (from \`replaced original path\`):
-Error: The \\"commonjs\\" type does not support the \\"namespace\\" syntax in \\"",
+Error: The "commonjs" type does not support the "namespace" syntax in "",
 ]
 `;
 
-exports[`loader should throw an error when "namespace" ca not be used in CommonJS using an object notation: warnings 1`] = `Array []`;
+exports[`loader should throw an error when "namespace" ca not be used in CommonJS using an object notation: warnings 1`] = `[]`;
 
 exports[`loader should throw an error when "single" ca not be used in ES module using a string notation: errors 1`] = `
-Array [
+[
   "ModuleBuildError: Module build failed (from \`replaced original path\`):
-Error: The \\"module\\" format does not support the \\"single\\" syntax in \\"single lib_4 lib_4_all\\" value",
+Error: The "module" format does not support the "single" syntax in "single lib_4 lib_4_all" value",
 ]
 `;
 
-exports[`loader should throw an error when "single" ca not be used in ES module using a string notation: warnings 1`] = `Array []`;
+exports[`loader should throw an error when "single" ca not be used in ES module using a string notation: warnings 1`] = `[]`;
 
 exports[`loader should throw an error when "single" ca not be used in ES module using an object notation: errors 1`] = `
-Array [
+[
   "ModuleBuildError: Module build failed (from \`replaced original path\`):
-Error: The \\"module\\" format does not support the \\"single\\" syntax in \\"",
+Error: The "module" format does not support the "single" syntax in "",
 ]
 `;
 
-exports[`loader should throw an error when "single" ca not be used in ES module using an object notation: warnings 1`] = `Array []`;
+exports[`loader should throw an error when "single" ca not be used in ES module using an object notation: warnings 1`] = `[]`;
 
 exports[`loader should throw an error when duplicate of alias and name found in "multiple": errors 1`] = `
-Array [
+[
   "ModuleBuildError: Module build failed (from \`replaced original path\`):
-Error: Duplicate \\"lib1\\" (as \\"name\\"), \\"lib1\\" (as \\"alias\\"), \\"lib1\\" (as \\"name\\"), \\"toString\\" (as \\"name\\"), \\"toString\\" (as \\"name\\") identifiers found in \\"",
+Error: Duplicate "lib1" (as "name"), "lib1" (as "alias"), "lib1" (as "name"), "toString" (as "name"), "toString" (as "name") identifiers found in "",
 ]
 `;
 
-exports[`loader should throw an error when duplicate of alias and name found in "multiple": warnings 1`] = `Array []`;
+exports[`loader should throw an error when duplicate of alias and name found in "multiple": warnings 1`] = `[]`;
 
 exports[`loader should throw an error when duplicate of alias and name found in "named": errors 1`] = `
-Array [
+[
   "ModuleBuildError: Module build failed (from \`replaced original path\`):
-Error: Duplicate \\"lib1\\" (as \\"name\\"), \\"lib1\\" (as \\"alias\\"), \\"lib1\\" (as \\"name\\"), \\"toString\\" (as \\"name\\"), \\"toString\\" (as \\"name\\") identifiers found in \\"",
+Error: Duplicate "lib1" (as "name"), "lib1" (as "alias"), "lib1" (as "name"), "toString" (as "name"), "toString" (as "name") identifiers found in "",
 ]
 `;
 
-exports[`loader should throw an error when duplicate of alias and name found in "named": warnings 1`] = `Array []`;
+exports[`loader should throw an error when duplicate of alias and name found in "named": warnings 1`] = `[]`;
 
 exports[`loader should throw an error when duplicate of aliases found in "multiple": errors 1`] = `
-Array [
+[
   "ModuleBuildError: Module build failed (from \`replaced original path\`):
-Error: Duplicate \\"alias1\\" (as \\"alias\\"), \\"alias1\\" (as \\"alias\\") identifiers found in \\"",
+Error: Duplicate "alias1" (as "alias"), "alias1" (as "alias") identifiers found in "",
 ]
 `;
 
-exports[`loader should throw an error when duplicate of aliases found in "multiple": warnings 1`] = `Array []`;
+exports[`loader should throw an error when duplicate of aliases found in "multiple": warnings 1`] = `[]`;
 
 exports[`loader should throw an error when duplicate of aliases found in "named": errors 1`] = `
-Array [
+[
   "ModuleBuildError: Module build failed (from \`replaced original path\`):
-Error: Duplicate \\"alias1\\" (as \\"alias\\"), \\"alias1\\" (as \\"alias\\") identifiers found in \\"",
+Error: Duplicate "alias1" (as "alias"), "alias1" (as "alias") identifiers found in "",
 ]
 `;
 
-exports[`loader should throw an error when duplicate of aliases found in "named": warnings 1`] = `Array []`;
+exports[`loader should throw an error when duplicate of aliases found in "named": warnings 1`] = `[]`;
 
 exports[`loader should throw an error when duplicate of names found in "default" format: errors 1`] = `
-Array [
+[
   "ModuleBuildError: Module build failed (from \`replaced original path\`):
-Error: Duplicate \\"lib_1\\" (as \\"name\\"), \\"lib_1\\" (as \\"name\\") identifiers found in \\"",
+Error: Duplicate "lib_1" (as "name"), "lib_1" (as "name") identifiers found in "",
 ]
 `;
 
-exports[`loader should throw an error when duplicate of names found in "default" format: warnings 1`] = `Array []`;
+exports[`loader should throw an error when duplicate of names found in "default" format: warnings 1`] = `[]`;
 
 exports[`loader should throw an error when duplicate of names found in "multiple" format with other syntaxes: errors 1`] = `
-Array [
+[
   "ModuleBuildError: Module build failed (from \`replaced original path\`):
-Error: Duplicate \\"lib1\\" (as \\"name\\"), \\"lib1\\" (as \\"name\\"), \\"lib2\\" (as \\"name\\"), \\"lib2\\" (as \\"name\\") identifiers found in \\"",
+Error: Duplicate "lib1" (as "name"), "lib1" (as "name"), "lib2" (as "name"), "lib2" (as "name") identifiers found in "",
 ]
 `;
 
-exports[`loader should throw an error when duplicate of names found in "multiple" format with other syntaxes: warnings 1`] = `Array []`;
+exports[`loader should throw an error when duplicate of names found in "multiple" format with other syntaxes: warnings 1`] = `[]`;
 
 exports[`loader should throw an error when duplicate of names found in "named" format with other syntaxes: errors 1`] = `
-Array [
+[
   "ModuleBuildError: Module build failed (from \`replaced original path\`):
-Error: Duplicate \\"lib1\\" (as \\"name\\"), \\"lib1\\" (as \\"name\\"), \\"lib2\\" (as \\"name\\"), \\"lib2\\" (as \\"name\\") identifiers found in \\"",
+Error: Duplicate "lib1" (as "name"), "lib1" (as "name"), "lib2" (as "name"), "lib2" (as "name") identifiers found in "",
 ]
 `;
 
-exports[`loader should throw an error when duplicate of names found in "named" format with other syntaxes: warnings 1`] = `Array []`;
+exports[`loader should throw an error when duplicate of names found in "named" format with other syntaxes: warnings 1`] = `[]`;
 
 exports[`loader should throw an error when duplicate of names found in "named" format: errors 1`] = `
-Array [
+[
   "ModuleBuildError: Module build failed (from \`replaced original path\`):
-Error: Duplicate \\"foo\\" (as \\"name\\"), \\"foo\\" (as \\"name\\") identifiers found in \\"",
+Error: Duplicate "foo" (as "name"), "foo" (as "name") identifiers found in "",
 ]
 `;
 
-exports[`loader should throw an error when duplicate of names found in "named" format: warnings 1`] = `Array []`;
+exports[`loader should throw an error when duplicate of names found in "named" format: warnings 1`] = `[]`;
 
 exports[`loader should throw an error when duplicate of names found in "namespace" format: errors 1`] = `
-Array [
+[
   "ModuleBuildError: Module build failed (from \`replaced original path\`):
-Error: Duplicate \\"foo\\" (as \\"name\\"), \\"foo\\" (as \\"name\\") identifiers found in \\"",
+Error: Duplicate "foo" (as "name"), "foo" (as "name") identifiers found in "",
 ]
 `;
 
-exports[`loader should throw an error when duplicate of names found in "namespace" format: warnings 1`] = `Array []`;
+exports[`loader should throw an error when duplicate of names found in "namespace" format: warnings 1`] = `[]`;
 
 exports[`loader should throw an error when duplicate of names found in "single" format: errors 1`] = `
-Array [
+[
   "ModuleBuildError: Module build failed (from \`replaced original path\`):
-Error: Duplicate \\"lib_1\\" (as \\"name\\"), \\"lib_1\\" (as \\"name\\") identifiers found in \\"",
+Error: Duplicate "lib_1" (as "name"), "lib_1" (as "name") identifiers found in "",
 ]
 `;
 
-exports[`loader should throw an error when duplicate of names found in "single" format: warnings 1`] = `Array []`;
+exports[`loader should throw an error when duplicate of names found in "single" format: warnings 1`] = `[]`;
 
 exports[`loader should throw an error when invalid arguments for imports: errors 1`] = `
-Array [
+[
   "ModuleBuildError: Module build failed (from \`replaced original path\`):
-Error: The \\"default\\" syntax does not support \\"lib_2_method_2_short\\" alias in \\"",
+Error: The "default" syntax does not support "lib_2_method_2_short" alias in "",
 ]
 `;
 
-exports[`loader should throw an error when invalid arguments for imports: warnings 1`] = `Array []`;
+exports[`loader should throw an error when invalid arguments for imports: warnings 1`] = `[]`;
 
 exports[`loader should throw an error when more then one command separator: errors 1`] = `
-Array [
+[
   "ModuleBuildError: Module build failed (from \`replaced original path\`):
-Error: Invalid command \\"\\" in \\"default | lib_1 default_name\\" for imports. There must be only one separator: \\" \\", or \\"|\\"",
+Error: Invalid command "" in "default | lib_1 default_name" for imports. There must be only one separator: " ", or "|"",
 ]
 `;
 
-exports[`loader should throw an error when more then one command separator: warnings 1`] = `Array []`;
+exports[`loader should throw an error when more then one command separator: warnings 1`] = `[]`;
 
 exports[`loader should throw an error when multiple duplicate of names found in "multiple" format: errors 1`] = `
-Array [
+[
   "ModuleBuildError: Module build failed (from \`replaced original path\`):
-Error: Duplicate \\"lib1\\" (as \\"name\\"), \\"lib1\\" (as \\"name\\"), \\"lib2\\" (as \\"name\\"), \\"lib2\\" (as \\"name\\") identifiers found in \\"",
+Error: Duplicate "lib1" (as "name"), "lib1" (as "name"), "lib2" (as "name"), "lib2" (as "name") identifiers found in "",
 ]
 `;
 
-exports[`loader should throw an error when multiple duplicate of names found in "multiple" format: warnings 1`] = `Array []`;
+exports[`loader should throw an error when multiple duplicate of names found in "multiple" format: warnings 1`] = `[]`;
 
 exports[`loader should throw an error when no arguments for imports: errors 1`] = `
-Array [
+[
   "ModuleBuildError: Module build failed (from \`replaced original path\`):
 ValidationError: Invalid options object. Imports Loader has been initialized using an options object that does not match the API schema.",
 ]
 `;
 
-exports[`loader should throw an error when no arguments for imports: warnings 1`] = `Array []`;
+exports[`loader should throw an error when no arguments for imports: warnings 1`] = `[]`;
 
 exports[`loader should throw error on invalid inline syntax: errors 1`] = `
-Array [
+[
   "ModuleBuildError: Module build failed (from \`replaced original path\`):
-Error: Invalid \\"named|lib_2|name|alias|something\\" value for import",
+Error: Invalid "named|lib_2|name|alias|something" value for import",
 ]
 `;
 
-exports[`loader should throw error on invalid inline syntax: warnings 1`] = `Array []`;
+exports[`loader should throw error on invalid inline syntax: warnings 1`] = `[]`;
 
-exports[`loader should work "pure" and "multiple" imports: errors 1`] = `Array []`;
+exports[`loader should work "pure" and "multiple" imports: errors 1`] = `[]`;
 
 exports[`loader should work "pure" and "multiple" imports: module 1`] = `
 "/*** IMPORTS FROM imports-loader ***/
-require(\\"lib_1\\");
-var { lib_2_n } = require(\\"lib_1\\");
-var { lib_2 } = require(\\"lib_2\\");
+require("lib_1");
+var { lib_2_n } = require("lib_1");
+var { lib_2 } = require("lib_2");
 
 var someCode = {
   number: 123,
@@ -249,15 +249,15 @@ var someCode = {
 "
 `;
 
-exports[`loader should work "pure" and "multiple" imports: warnings 1`] = `Array []`;
+exports[`loader should work "pure" and "multiple" imports: warnings 1`] = `[]`;
 
-exports[`loader should work "pure" and "single" imports: errors 1`] = `Array []`;
+exports[`loader should work "pure" and "single" imports: errors 1`] = `[]`;
 
 exports[`loader should work "pure" and "single" imports: module 1`] = `
 "/*** IMPORTS FROM imports-loader ***/
-require(\\"lib_1\\");
-var lib_1 = require(\\"lib_1\\");
-var lib_2 = require(\\"lib_2\\");
+require("lib_1");
+var lib_1 = require("lib_1");
+var lib_2 = require("lib_2");
 
 var someCode = {
   number: 123,
@@ -266,13 +266,13 @@ var someCode = {
 "
 `;
 
-exports[`loader should work "pure" and "single" imports: warnings 1`] = `Array []`;
+exports[`loader should work "pure" and "single" imports: warnings 1`] = `[]`;
 
-exports[`loader should work "pure" imports: errors 1`] = `Array []`;
+exports[`loader should work "pure" imports: errors 1`] = `[]`;
 
 exports[`loader should work "pure" imports: module 1`] = `
 "/*** IMPORTS FROM imports-loader ***/
-require(\\"lib_1\\");
+require("lib_1");
 
 var someCode = {
   number: 123,
@@ -281,13 +281,13 @@ var someCode = {
 "
 `;
 
-exports[`loader should work "pure" imports: warnings 1`] = `Array []`;
+exports[`loader should work "pure" imports: warnings 1`] = `[]`;
 
-exports[`loader should work and prefer "default" syntax for CommonJS modules using a string notation: errors 1`] = `Array []`;
+exports[`loader should work and prefer "default" syntax for CommonJS modules using a string notation: errors 1`] = `[]`;
 
 exports[`loader should work and prefer "default" syntax for CommonJS modules using a string notation: module 1`] = `
 "/*** IMPORTS FROM imports-loader ***/
-var lib_1 = require(\\"lib_1\\");
+var lib_1 = require("lib_1");
 
 var someCode = {
   number: 123,
@@ -296,13 +296,13 @@ var someCode = {
 "
 `;
 
-exports[`loader should work and prefer "default" syntax for CommonJS modules using a string notation: warnings 1`] = `Array []`;
+exports[`loader should work and prefer "default" syntax for CommonJS modules using a string notation: warnings 1`] = `[]`;
 
-exports[`loader should work and prefer "default" syntax for CommonJS modules using an object notation: errors 1`] = `Array []`;
+exports[`loader should work and prefer "default" syntax for CommonJS modules using an object notation: errors 1`] = `[]`;
 
 exports[`loader should work and prefer "default" syntax for CommonJS modules using an object notation: module 1`] = `
 "/*** IMPORTS FROM imports-loader ***/
-var lib_1 = require(\\"lib_1\\");
+var lib_1 = require("lib_1");
 
 var someCode = {
   number: 123,
@@ -311,13 +311,13 @@ var someCode = {
 "
 `;
 
-exports[`loader should work and prefer "default" syntax for CommonJS modules using an object notation: warnings 1`] = `Array []`;
+exports[`loader should work and prefer "default" syntax for CommonJS modules using an object notation: warnings 1`] = `[]`;
 
-exports[`loader should work and prefer "default" syntax for ES modules using a string notation: errors 1`] = `Array []`;
+exports[`loader should work and prefer "default" syntax for ES modules using a string notation: errors 1`] = `[]`;
 
 exports[`loader should work and prefer "default" syntax for ES modules using a string notation: module 1`] = `
 "/*** IMPORTS FROM imports-loader ***/
-import lib_1 from \\"lib_1\\";
+import lib_1 from "lib_1";
 
 var someCode = {
   number: 123,
@@ -326,13 +326,13 @@ var someCode = {
 "
 `;
 
-exports[`loader should work and prefer "default" syntax for ES modules using a string notation: warnings 1`] = `Array []`;
+exports[`loader should work and prefer "default" syntax for ES modules using a string notation: warnings 1`] = `[]`;
 
-exports[`loader should work and prefer "default" syntax for ES modules using an object notation: errors 1`] = `Array []`;
+exports[`loader should work and prefer "default" syntax for ES modules using an object notation: errors 1`] = `[]`;
 
 exports[`loader should work and prefer "default" syntax for ES modules using an object notation: module 1`] = `
 "/*** IMPORTS FROM imports-loader ***/
-import lib_1 from \\"lib_1\\";
+import lib_1 from "lib_1";
 
 var someCode = {
   number: 123,
@@ -341,14 +341,14 @@ var someCode = {
 "
 `;
 
-exports[`loader should work and prefer "default" syntax for ES modules using an object notation: warnings 1`] = `Array []`;
+exports[`loader should work and prefer "default" syntax for ES modules using an object notation: warnings 1`] = `[]`;
 
-exports[`loader should work and union "default" with "named": errors 1`] = `Array []`;
+exports[`loader should work and union "default" with "named": errors 1`] = `[]`;
 
 exports[`loader should work and union "default" with "named": module 1`] = `
 "/*** IMPORTS FROM imports-loader ***/
-import lib_1 from \\"lib_1\\";
-import { lib_method } from \\"lib_1\\";
+import lib_1 from "lib_1";
+import { lib_method } from "lib_1";
 
 var someCode = {
   number: 123,
@@ -357,14 +357,14 @@ var someCode = {
 "
 `;
 
-exports[`loader should work and union "default" with "named": warnings 1`] = `Array []`;
+exports[`loader should work and union "default" with "named": warnings 1`] = `[]`;
 
-exports[`loader should work and union "default" with "namespace": errors 1`] = `Array []`;
+exports[`loader should work and union "default" with "namespace": errors 1`] = `[]`;
 
 exports[`loader should work and union "default" with "namespace": module 1`] = `
 "/*** IMPORTS FROM imports-loader ***/
-import lib_1 from \\"lib_1\\";
-import * as ns from \\"lib_1\\";
+import lib_1 from "lib_1";
+import * as ns from "lib_1";
 
 var someCode = {
   number: 123,
@@ -373,15 +373,15 @@ var someCode = {
 "
 `;
 
-exports[`loader should work and union "default" with "namespace": warnings 1`] = `Array []`;
+exports[`loader should work and union "default" with "namespace": warnings 1`] = `[]`;
 
-exports[`loader should work with "default" and "named" imports": errors 1`] = `Array []`;
+exports[`loader should work with "default" and "named" imports": errors 1`] = `[]`;
 
 exports[`loader should work with "default" and "named" imports": module 1`] = `
 "/*** IMPORTS FROM imports-loader ***/
-import lib2_default from \\"lib_2\\";
-import { lib2_method_1, lib2_method_2 as lib_2_method_2_short } from \\"lib_2\\";
-import { lib1_method } from \\"lib_1\\";
+import lib2_default from "lib_2";
+import { lib2_method_1, lib2_method_2 as lib_2_method_2_short } from "lib_2";
+import { lib1_method } from "lib_1";
 
 var someCode = {
   number: 123,
@@ -390,15 +390,15 @@ var someCode = {
 "
 `;
 
-exports[`loader should work with "default" and "named" imports": warnings 1`] = `Array []`;
+exports[`loader should work with "default" and "named" imports": warnings 1`] = `[]`;
 
-exports[`loader should work with "default" and "namespace" imports": errors 1`] = `Array []`;
+exports[`loader should work with "default" and "namespace" imports": errors 1`] = `[]`;
 
 exports[`loader should work with "default" and "namespace" imports": module 1`] = `
 "/*** IMPORTS FROM imports-loader ***/
-import lib2_default from \\"lib_2\\";
-import * as lib2_namespace from \\"lib_2\\";
-import * as lib1_namespace from \\"lib_1\\";
+import lib2_default from "lib_2";
+import * as lib2_namespace from "lib_2";
+import * as lib1_namespace from "lib_1";
 
 var someCode = {
   number: 123,
@@ -407,13 +407,13 @@ var someCode = {
 "
 `;
 
-exports[`loader should work with "default" and "namespace" imports": warnings 1`] = `Array []`;
+exports[`loader should work with "default" and "namespace" imports": warnings 1`] = `[]`;
 
-exports[`loader should work with "default" imports with syntax and name: errors 1`] = `Array []`;
+exports[`loader should work with "default" imports with syntax and name: errors 1`] = `[]`;
 
 exports[`loader should work with "default" imports with syntax and name: module 1`] = `
 "/*** IMPORTS FROM imports-loader ***/
-import lib_name from \\"lib_1\\";
+import lib_name from "lib_1";
 
 var someCode = {
   number: 123,
@@ -422,13 +422,13 @@ var someCode = {
 "
 `;
 
-exports[`loader should work with "default" imports with syntax and name: warnings 1`] = `Array []`;
+exports[`loader should work with "default" imports with syntax and name: warnings 1`] = `[]`;
 
-exports[`loader should work with "default" imports with syntax: errors 1`] = `Array []`;
+exports[`loader should work with "default" imports with syntax: errors 1`] = `[]`;
 
 exports[`loader should work with "default" imports with syntax: module 1`] = `
 "/*** IMPORTS FROM imports-loader ***/
-import lib_1 from \\"lib_1\\";
+import lib_1 from "lib_1";
 
 var someCode = {
   number: 123,
@@ -437,13 +437,13 @@ var someCode = {
 "
 `;
 
-exports[`loader should work with "default" imports with syntax: warnings 1`] = `Array []`;
+exports[`loader should work with "default" imports with syntax: warnings 1`] = `[]`;
 
-exports[`loader should work with "default" imports without syntax: errors 1`] = `Array []`;
+exports[`loader should work with "default" imports without syntax: errors 1`] = `[]`;
 
 exports[`loader should work with "default" imports without syntax: module 1`] = `
 "/*** IMPORTS FROM imports-loader ***/
-import lib_1 from \\"lib_1\\";
+import lib_1 from "lib_1";
 
 var someCode = {
   number: 123,
@@ -452,13 +452,13 @@ var someCode = {
 "
 `;
 
-exports[`loader should work with "default" imports without syntax: warnings 1`] = `Array []`;
+exports[`loader should work with "default" imports without syntax: warnings 1`] = `[]`;
 
-exports[`loader should work with "imports", "wrapper" and "additionalCode" options: errors 1`] = `Array []`;
+exports[`loader should work with "imports", "wrapper" and "additionalCode" options: errors 1`] = `[]`;
 
 exports[`loader should work with "imports", "wrapper" and "additionalCode" options: module 1`] = `
 "/*** IMPORTS FROM imports-loader ***/
-import \\"lib_1\\";
+import "lib_1";
 
 var someVariable = 1;
 
@@ -472,13 +472,13 @@ var someCode = {
 "
 `;
 
-exports[`loader should work with "imports", "wrapper" and "additionalCode" options: warnings 1`] = `Array []`;
+exports[`loader should work with "imports", "wrapper" and "additionalCode" options: warnings 1`] = `[]`;
 
-exports[`loader should work with "multiple" imports: errors 1`] = `Array []`;
+exports[`loader should work with "multiple" imports: errors 1`] = `[]`;
 
 exports[`loader should work with "multiple" imports: module 1`] = `
 "/*** IMPORTS FROM imports-loader ***/
-var { lib_method } = require(\\"lib_1\\");
+var { lib_method } = require("lib_1");
 
 var someCode = {
   number: 123,
@@ -487,14 +487,14 @@ var someCode = {
 "
 `;
 
-exports[`loader should work with "multiple" imports: warnings 1`] = `Array []`;
+exports[`loader should work with "multiple" imports: warnings 1`] = `[]`;
 
-exports[`loader should work with "named" and "side-effects" imports: errors 1`] = `Array []`;
+exports[`loader should work with "named" and "side-effects" imports: errors 1`] = `[]`;
 
 exports[`loader should work with "named" and "side-effects" imports: module 1`] = `
 "/*** IMPORTS FROM imports-loader ***/
-import { lib_2 } from \\"lib_2\\";
-import \\"lib_1\\";
+import { lib_2 } from "lib_2";
+import "lib_1";
 
 var someCode = {
   number: 123,
@@ -503,13 +503,13 @@ var someCode = {
 "
 `;
 
-exports[`loader should work with "named" and "side-effects" imports: warnings 1`] = `Array []`;
+exports[`loader should work with "named" and "side-effects" imports: warnings 1`] = `[]`;
 
-exports[`loader should work with "named" imports: errors 1`] = `Array []`;
+exports[`loader should work with "named" imports: errors 1`] = `[]`;
 
 exports[`loader should work with "named" imports: module 1`] = `
 "/*** IMPORTS FROM imports-loader ***/
-import { lib_1_name } from \\"lib_1\\";
+import { lib_1_name } from "lib_1";
 
 var someCode = {
   number: 123,
@@ -518,13 +518,13 @@ var someCode = {
 "
 `;
 
-exports[`loader should work with "named" imports: warnings 1`] = `Array []`;
+exports[`loader should work with "named" imports: warnings 1`] = `[]`;
 
-exports[`loader should work with "namespace" imports: errors 1`] = `Array []`;
+exports[`loader should work with "namespace" imports: errors 1`] = `[]`;
 
 exports[`loader should work with "namespace" imports: module 1`] = `
 "/*** IMPORTS FROM imports-loader ***/
-import * as lib_1_all from \\"lib_1\\";
+import * as lib_1_all from "lib_1";
 
 var someCode = {
   number: 123,
@@ -533,14 +533,14 @@ var someCode = {
 "
 `;
 
-exports[`loader should work with "namespace" imports: warnings 1`] = `Array []`;
+exports[`loader should work with "namespace" imports: warnings 1`] = `[]`;
 
-exports[`loader should work with "side-effects" and "default" imports: errors 1`] = `Array []`;
+exports[`loader should work with "side-effects" and "default" imports: errors 1`] = `[]`;
 
 exports[`loader should work with "side-effects" and "default" imports: module 1`] = `
 "/*** IMPORTS FROM imports-loader ***/
-import \\"lib_1\\";
-import lib_2 from \\"lib_2\\";
+import "lib_1";
+import lib_2 from "lib_2";
 
 var someCode = {
   number: 123,
@@ -549,14 +549,14 @@ var someCode = {
 "
 `;
 
-exports[`loader should work with "side-effects" and "default" imports: warnings 1`] = `Array []`;
+exports[`loader should work with "side-effects" and "default" imports: warnings 1`] = `[]`;
 
-exports[`loader should work with "side-effects" and "named" imports: errors 1`] = `Array []`;
+exports[`loader should work with "side-effects" and "named" imports: errors 1`] = `[]`;
 
 exports[`loader should work with "side-effects" and "named" imports: module 1`] = `
 "/*** IMPORTS FROM imports-loader ***/
-import \\"lib_1\\";
-import { lib_2 } from \\"lib_2\\";
+import "lib_1";
+import { lib_2 } from "lib_2";
 
 var someCode = {
   number: 123,
@@ -565,14 +565,14 @@ var someCode = {
 "
 `;
 
-exports[`loader should work with "side-effects" and "named" imports: warnings 1`] = `Array []`;
+exports[`loader should work with "side-effects" and "named" imports: warnings 1`] = `[]`;
 
-exports[`loader should work with "side-effects" and "namespace" imports: errors 1`] = `Array []`;
+exports[`loader should work with "side-effects" and "namespace" imports: errors 1`] = `[]`;
 
 exports[`loader should work with "side-effects" and "namespace" imports: module 1`] = `
 "/*** IMPORTS FROM imports-loader ***/
-import \\"lib_1\\";
-import * as lib_2 from \\"lib_2\\";
+import "lib_1";
+import * as lib_2 from "lib_2";
 
 var someCode = {
   number: 123,
@@ -581,13 +581,13 @@ var someCode = {
 "
 `;
 
-exports[`loader should work with "side-effects" and "namespace" imports: warnings 1`] = `Array []`;
+exports[`loader should work with "side-effects" and "namespace" imports: warnings 1`] = `[]`;
 
-exports[`loader should work with "side-effects" imports: errors 1`] = `Array []`;
+exports[`loader should work with "side-effects" imports: errors 1`] = `[]`;
 
 exports[`loader should work with "side-effects" imports: module 1`] = `
 "/*** IMPORTS FROM imports-loader ***/
-import \\"lib_1\\";
+import "lib_1";
 
 var someCode = {
   number: 123,
@@ -596,13 +596,13 @@ var someCode = {
 "
 `;
 
-exports[`loader should work with "side-effects" imports: warnings 1`] = `Array []`;
+exports[`loader should work with "side-effects" imports: warnings 1`] = `[]`;
 
-exports[`loader should work with "single" imports with syntax and alias: errors 1`] = `Array []`;
+exports[`loader should work with "single" imports with syntax and alias: errors 1`] = `[]`;
 
 exports[`loader should work with "single" imports with syntax and alias: module 1`] = `
 "/*** IMPORTS FROM imports-loader ***/
-var lib_name = require(\\"lib_1\\");
+var lib_name = require("lib_1");
 
 var someCode = {
   number: 123,
@@ -611,13 +611,13 @@ var someCode = {
 "
 `;
 
-exports[`loader should work with "single" imports with syntax and alias: warnings 1`] = `Array []`;
+exports[`loader should work with "single" imports with syntax and alias: warnings 1`] = `[]`;
 
-exports[`loader should work with "single" imports with syntax: errors 1`] = `Array []`;
+exports[`loader should work with "single" imports with syntax: errors 1`] = `[]`;
 
 exports[`loader should work with "single" imports with syntax: module 1`] = `
 "/*** IMPORTS FROM imports-loader ***/
-var lib_1 = require(\\"lib_1\\");
+var lib_1 = require("lib_1");
 
 var someCode = {
   number: 123,
@@ -626,13 +626,13 @@ var someCode = {
 "
 `;
 
-exports[`loader should work with "single" imports with syntax: warnings 1`] = `Array []`;
+exports[`loader should work with "single" imports with syntax: warnings 1`] = `[]`;
 
-exports[`loader should work with "single" imports without syntax: errors 1`] = `Array []`;
+exports[`loader should work with "single" imports without syntax: errors 1`] = `[]`;
 
 exports[`loader should work with "single" imports without syntax: module 1`] = `
 "/*** IMPORTS FROM imports-loader ***/
-var lib_1 = require(\\"lib_1\\");
+var lib_1 = require("lib_1");
 
 var someCode = {
   number: 123,
@@ -641,13 +641,13 @@ var someCode = {
 "
 `;
 
-exports[`loader should work with "single" imports without syntax: warnings 1`] = `Array []`;
+exports[`loader should work with "single" imports without syntax: warnings 1`] = `[]`;
 
-exports[`loader should work with "use-strict" not in program with CommonJS modules: errors 1`] = `Array []`;
+exports[`loader should work with "use-strict" not in program with CommonJS modules: errors 1`] = `[]`;
 
 exports[`loader should work with "use-strict" not in program with CommonJS modules: module 1`] = `
 "/*** IMPORTS FROM imports-loader ***/
-var lib_1 = require(\\"lib_1\\");
+var lib_1 = require("lib_1");
 
 var myObject = { foo: 'bar' };
 
@@ -659,13 +659,13 @@ function test() {
 "
 `;
 
-exports[`loader should work with "use-strict" not in program with CommonJS modules: warnings 1`] = `Array []`;
+exports[`loader should work with "use-strict" not in program with CommonJS modules: warnings 1`] = `[]`;
 
-exports[`loader should work with "use-strict" not in program with ES modules: errors 1`] = `Array []`;
+exports[`loader should work with "use-strict" not in program with ES modules: errors 1`] = `[]`;
 
 exports[`loader should work with "use-strict" not in program with ES modules: module 1`] = `
 "/*** IMPORTS FROM imports-loader ***/
-import lib_1 from \\"lib_1\\";
+import lib_1 from "lib_1";
 
 var myObject = { foo: 'bar' };
 
@@ -677,14 +677,14 @@ function test() {
 "
 `;
 
-exports[`loader should work with "use-strict" not in program with ES modules: warnings 1`] = `Array []`;
+exports[`loader should work with "use-strict" not in program with ES modules: warnings 1`] = `[]`;
 
-exports[`loader should work with "use-strict" with CommonJS modules: errors 1`] = `Array []`;
+exports[`loader should work with "use-strict" with CommonJS modules: errors 1`] = `[]`;
 
 exports[`loader should work with "use-strict" with CommonJS modules: module 1`] = `
 "/*** IMPORTS FROM imports-loader ***/
 'use strict';
-var lib_1 = require(\\"lib_1\\");
+var lib_1 = require("lib_1");
 
 /* Comment */
 
@@ -700,14 +700,14 @@ function test() {
 "
 `;
 
-exports[`loader should work with "use-strict" with CommonJS modules: warnings 1`] = `Array []`;
+exports[`loader should work with "use-strict" with CommonJS modules: warnings 1`] = `[]`;
 
-exports[`loader should work with "use-strict" with ES modules: errors 1`] = `Array []`;
+exports[`loader should work with "use-strict" with ES modules: errors 1`] = `[]`;
 
 exports[`loader should work with "use-strict" with ES modules: module 1`] = `
 "/*** IMPORTS FROM imports-loader ***/
 'use strict';
-import lib_1 from \\"lib_1\\";
+import lib_1 from "lib_1";
 
 /* Comment */
 
@@ -723,17 +723,17 @@ function test() {
 "
 `;
 
-exports[`loader should work with "use-strict" with ES modules: warnings 1`] = `Array []`;
+exports[`loader should work with "use-strict" with ES modules: warnings 1`] = `[]`;
 
-exports[`loader should work with a string syntax using CommonJS: errors 1`] = `Array []`;
+exports[`loader should work with a string syntax using CommonJS: errors 1`] = `[]`;
 
 exports[`loader should work with a string syntax using CommonJS: module 1`] = `
 "/*** IMPORTS FROM imports-loader ***/
-var lib_1 = require(\\"lib_1\\");
-var $ = require(\\"lib_1\\");
-var lib_2_all = require(\\"lib_2\\");
-var { lib2_method_1, lib2_method_2: lib_2_method_2_short } = require(\\"lib_2\\");
-require(\\"lib_3\\");
+var lib_1 = require("lib_1");
+var $ = require("lib_1");
+var lib_2_all = require("lib_2");
+var { lib2_method_1, lib2_method_2: lib_2_method_2_short } = require("lib_2");
+require("lib_3");
 
 var someCode = {
   number: 123,
@@ -742,20 +742,20 @@ var someCode = {
 "
 `;
 
-exports[`loader should work with a string syntax using CommonJS: warnings 1`] = `Array []`;
+exports[`loader should work with a string syntax using CommonJS: warnings 1`] = `[]`;
 
-exports[`loader should work with a string syntax using ES modules: errors 1`] = `Array []`;
+exports[`loader should work with a string syntax using ES modules: errors 1`] = `[]`;
 
 exports[`loader should work with a string syntax using ES modules: module 1`] = `
 "/*** IMPORTS FROM imports-loader ***/
-import lib_1 from \\"lib_1\\";
-import default_name from \\"lib_1\\";
-import $ from \\"lib_1\\";
-import lib_2_all from \\"lib_2\\";
-import { lib2_method_1, lib2_method_2 as lib_2_method_2_short } from \\"lib_2\\";
-import lib_3_default from \\"lib_3\\";
-import * as lib_3_all from \\"lib_3\\";
-import \\"lib_4\\";
+import lib_1 from "lib_1";
+import default_name from "lib_1";
+import $ from "lib_1";
+import lib_2_all from "lib_2";
+import { lib2_method_1, lib2_method_2 as lib_2_method_2_short } from "lib_2";
+import lib_3_default from "lib_3";
+import * as lib_3_all from "lib_3";
+import "lib_4";
 
 var someCode = {
   number: 123,
@@ -764,13 +764,13 @@ var someCode = {
 "
 `;
 
-exports[`loader should work with a string syntax using ES modules: warnings 1`] = `Array []`;
+exports[`loader should work with a string syntax using ES modules: warnings 1`] = `[]`;
 
-exports[`loader should work with a string value with spaces: errors 1`] = `Array []`;
+exports[`loader should work with a string value with spaces: errors 1`] = `[]`;
 
 exports[`loader should work with a string value with spaces: module 1`] = `
 "/*** IMPORTS FROM imports-loader ***/
-import lib_1 from \\"lib_1\\";
+import lib_1 from "lib_1";
 
 var someCode = {
   number: 123,
@@ -779,13 +779,13 @@ var someCode = {
 "
 `;
 
-exports[`loader should work with a string value with spaces: warnings 1`] = `Array []`;
+exports[`loader should work with a string value with spaces: warnings 1`] = `[]`;
 
-exports[`loader should work with a string value: errors 1`] = `Array []`;
+exports[`loader should work with a string value: errors 1`] = `[]`;
 
 exports[`loader should work with a string value: module 1`] = `
 "/*** IMPORTS FROM imports-loader ***/
-import lib_1 from \\"lib_1\\";
+import lib_1 from "lib_1";
 
 var someCode = {
   number: 123,
@@ -794,13 +794,13 @@ var someCode = {
 "
 `;
 
-exports[`loader should work with a string value: warnings 1`] = `Array []`;
+exports[`loader should work with a string value: warnings 1`] = `[]`;
 
-exports[`loader should work with an absolute path in moduleName: errors 1`] = `Array []`;
+exports[`loader should work with an absolute path in moduleName: errors 1`] = `[]`;
 
 exports[`loader should work with an absolute path in moduleName: module 1`] = `
 "/*** IMPORTS FROM imports-loader ***/
-import $ from \\"./lib_1\\";
+import $ from "./lib_1";
 
 var someCode = {
   number: 123,
@@ -809,13 +809,13 @@ var someCode = {
 "
 `;
 
-exports[`loader should work with an absolute path in moduleName: warnings 1`] = `Array []`;
+exports[`loader should work with an absolute path in moduleName: warnings 1`] = `[]`;
 
-exports[`loader should work with an object value: errors 1`] = `Array []`;
+exports[`loader should work with an object value: errors 1`] = `[]`;
 
 exports[`loader should work with an object value: module 1`] = `
 "/*** IMPORTS FROM imports-loader ***/
-import $ from \\"lib_1\\";
+import $ from "lib_1";
 
 var someCode = {
   number: 123,
@@ -824,14 +824,14 @@ var someCode = {
 "
 `;
 
-exports[`loader should work with an object value: warnings 1`] = `Array []`;
+exports[`loader should work with an object value: warnings 1`] = `[]`;
 
-exports[`loader should work with array of objects and strings: errors 1`] = `Array []`;
+exports[`loader should work with array of objects and strings: errors 1`] = `[]`;
 
 exports[`loader should work with array of objects and strings: module 1`] = `
 "/*** IMPORTS FROM imports-loader ***/
-import lib_1 from \\"lib_1\\";
-import { lib_2_name } from \\"lib_2\\";
+import lib_1 from "lib_1";
+import { lib_2_name } from "lib_2";
 
 var someCode = {
   number: 123,
@@ -840,14 +840,14 @@ var someCode = {
 "
 `;
 
-exports[`loader should work with array of objects and strings: warnings 1`] = `Array []`;
+exports[`loader should work with array of objects and strings: warnings 1`] = `[]`;
 
-exports[`loader should work with array of strings: errors 1`] = `Array []`;
+exports[`loader should work with array of strings: errors 1`] = `[]`;
 
 exports[`loader should work with array of strings: module 1`] = `
 "/*** IMPORTS FROM imports-loader ***/
-import lib_1 from \\"lib_1\\";
-import lib_2 from \\"lib_2\\";
+import lib_1 from "lib_1";
+import lib_2 from "lib_2";
 
 var someCode = {
   number: 123,
@@ -856,14 +856,14 @@ var someCode = {
 "
 `;
 
-exports[`loader should work with array of strings: warnings 1`] = `Array []`;
+exports[`loader should work with array of strings: warnings 1`] = `[]`;
 
-exports[`loader should work with inline syntax #1: errors 1`] = `Array []`;
+exports[`loader should work with inline syntax #1: errors 1`] = `[]`;
 
 exports[`loader should work with inline syntax #1: module 1`] = `
 "/*** IMPORTS FROM imports-loader ***/
-var lib_2_all = require(\\"lib_2\\");
-var { lib_2_method: lib_2_method_alias } = require(\\"lib_2\\");
+var lib_2_all = require("lib_2");
+var { lib_2_method: lib_2_method_alias } = require("lib_2");
 
 var someCode = {
   number: 123,
@@ -872,13 +872,13 @@ var someCode = {
 "
 `;
 
-exports[`loader should work with inline syntax #1: warnings 1`] = `Array []`;
+exports[`loader should work with inline syntax #1: warnings 1`] = `[]`;
 
-exports[`loader should work with inline syntax #2: errors 1`] = `Array []`;
+exports[`loader should work with inline syntax #2: errors 1`] = `[]`;
 
 exports[`loader should work with inline syntax #2: module 1`] = `
 "/*** IMPORTS FROM imports-loader ***/
-import $ from \\"lib_2\\";
+import $ from "lib_2";
 
 (function() {
 var someCode = {
@@ -890,9 +890,9 @@ var someCode = {
 "
 `;
 
-exports[`loader should work with inline syntax #2: warnings 1`] = `Array []`;
+exports[`loader should work with inline syntax #2: warnings 1`] = `[]`;
 
-exports[`loader should work with inline syntax #3: errors 1`] = `Array []`;
+exports[`loader should work with inline syntax #3: errors 1`] = `[]`;
 
 exports[`loader should work with inline syntax #3: module 1`] = `
 "/*** IMPORTS FROM imports-loader ***/
@@ -906,14 +906,14 @@ var someCode = {
 "
 `;
 
-exports[`loader should work with inline syntax #3: warnings 1`] = `Array []`;
+exports[`loader should work with inline syntax #3: warnings 1`] = `[]`;
 
-exports[`loader should work with inline syntax: errors 1`] = `Array []`;
+exports[`loader should work with inline syntax: errors 1`] = `[]`;
 
 exports[`loader should work with inline syntax: module 1`] = `
 "/*** IMPORTS FROM imports-loader ***/
-import lib_1 from \\"lib_1\\";
-import lib_2 from \\"lib_2\\";
+import lib_1 from "lib_1";
+import lib_2 from "lib_2";
 
 var someCode = {
   number: 123,
@@ -922,14 +922,14 @@ var someCode = {
 "
 `;
 
-exports[`loader should work with inline syntax: warnings 1`] = `Array []`;
+exports[`loader should work with inline syntax: warnings 1`] = `[]`;
 
-exports[`loader should work with multiple "default" imports and different names: errors 1`] = `Array []`;
+exports[`loader should work with multiple "default" imports and different names: errors 1`] = `[]`;
 
 exports[`loader should work with multiple "default" imports and different names: module 1`] = `
 "/*** IMPORTS FROM imports-loader ***/
-import lib_2 from \\"lib_2\\";
-import lib_3 from \\"lib_2\\";
+import lib_2 from "lib_2";
+import lib_3 from "lib_2";
 
 var someCode = {
   number: 123,
@@ -938,13 +938,13 @@ var someCode = {
 "
 `;
 
-exports[`loader should work with multiple "default" imports and different names: warnings 1`] = `Array []`;
+exports[`loader should work with multiple "default" imports and different names: warnings 1`] = `[]`;
 
-exports[`loader should work with multiple "multiple" imports from the one lib: errors 1`] = `Array []`;
+exports[`loader should work with multiple "multiple" imports from the one lib: errors 1`] = `[]`;
 
 exports[`loader should work with multiple "multiple" imports from the one lib: module 1`] = `
 "/*** IMPORTS FROM imports-loader ***/
-var { lib_2, lib_3: alias, lib_4 } = require(\\"lib_2\\");
+var { lib_2, lib_3: alias, lib_4 } = require("lib_2");
 
 var someCode = {
   number: 123,
@@ -953,15 +953,15 @@ var someCode = {
 "
 `;
 
-exports[`loader should work with multiple "multiple" imports from the one lib: warnings 1`] = `Array []`;
+exports[`loader should work with multiple "multiple" imports from the one lib: warnings 1`] = `[]`;
 
-exports[`loader should work with multiple "multiple" imports: errors 1`] = `Array []`;
+exports[`loader should work with multiple "multiple" imports: errors 1`] = `[]`;
 
-exports[`loader should work with multiple "multiple" imports: errors 2`] = `Array []`;
+exports[`loader should work with multiple "multiple" imports: errors 2`] = `[]`;
 
 exports[`loader should work with multiple "multiple" imports: module 1`] = `
 "/*** IMPORTS FROM imports-loader ***/
-var { lib2_method_1, lib2_method_2: lib_2_method_2_short } = require(\\"lib_2\\");
+var { lib2_method_1, lib2_method_2: lib_2_method_2_short } = require("lib_2");
 
 var someCode = {
   number: 123,
@@ -972,8 +972,8 @@ var someCode = {
 
 exports[`loader should work with multiple "multiple" imports: module 2`] = `
 "/*** IMPORTS FROM imports-loader ***/
-var { lib_2, lib_3: alias } = require(\\"lib_2\\");
-var { lib_4 } = require(\\"lib_3\\");
+var { lib_2, lib_3: alias } = require("lib_2");
+var { lib_4 } = require("lib_3");
 
 var someCode = {
   number: 123,
@@ -982,15 +982,15 @@ var someCode = {
 "
 `;
 
-exports[`loader should work with multiple "multiple" imports: warnings 1`] = `Array []`;
+exports[`loader should work with multiple "multiple" imports: warnings 1`] = `[]`;
 
-exports[`loader should work with multiple "multiple" imports: warnings 2`] = `Array []`;
+exports[`loader should work with multiple "multiple" imports: warnings 2`] = `[]`;
 
-exports[`loader should work with multiple "named" imports from the one lib: errors 1`] = `Array []`;
+exports[`loader should work with multiple "named" imports from the one lib: errors 1`] = `[]`;
 
 exports[`loader should work with multiple "named" imports from the one lib: module 1`] = `
 "/*** IMPORTS FROM imports-loader ***/
-import { lib_2, lib_3 as alias, lib_4 } from \\"lib_2\\";
+import { lib_2, lib_3 as alias, lib_4 } from "lib_2";
 
 var someCode = {
   number: 123,
@@ -999,14 +999,14 @@ var someCode = {
 "
 `;
 
-exports[`loader should work with multiple "named" imports from the one lib: warnings 1`] = `Array []`;
+exports[`loader should work with multiple "named" imports from the one lib: warnings 1`] = `[]`;
 
-exports[`loader should work with multiple "named" imports: errors 1`] = `Array []`;
+exports[`loader should work with multiple "named" imports: errors 1`] = `[]`;
 
 exports[`loader should work with multiple "named" imports: module 1`] = `
 "/*** IMPORTS FROM imports-loader ***/
-import { lib_2, lib_3 as alias } from \\"lib_2\\";
-import { lib_4 } from \\"lib_3\\";
+import { lib_2, lib_3 as alias } from "lib_2";
+import { lib_4 } from "lib_3";
 
 var someCode = {
   number: 123,
@@ -1015,14 +1015,14 @@ var someCode = {
 "
 `;
 
-exports[`loader should work with multiple "named" imports: warnings 1`] = `Array []`;
+exports[`loader should work with multiple "named" imports: warnings 1`] = `[]`;
 
-exports[`loader should work with multiple "namespace" imports: errors 1`] = `Array []`;
+exports[`loader should work with multiple "namespace" imports: errors 1`] = `[]`;
 
 exports[`loader should work with multiple "namespace" imports: module 1`] = `
 "/*** IMPORTS FROM imports-loader ***/
-import * as lib_2 from \\"lib_2\\";
-import * as lib_3 from \\"lib_2\\";
+import * as lib_2 from "lib_2";
+import * as lib_3 from "lib_2";
 
 var someCode = {
   number: 123,
@@ -1031,14 +1031,14 @@ var someCode = {
 "
 `;
 
-exports[`loader should work with multiple "namespace" imports: warnings 1`] = `Array []`;
+exports[`loader should work with multiple "namespace" imports: warnings 1`] = `[]`;
 
-exports[`loader should work with multiple "pure" imports: errors 1`] = `Array []`;
+exports[`loader should work with multiple "pure" imports: errors 1`] = `[]`;
 
 exports[`loader should work with multiple "pure" imports: module 1`] = `
 "/*** IMPORTS FROM imports-loader ***/
-require(\\"lib_2\\");
-require(\\"lib_2\\");
+require("lib_2");
+require("lib_2");
 
 var someCode = {
   number: 123,
@@ -1047,14 +1047,14 @@ var someCode = {
 "
 `;
 
-exports[`loader should work with multiple "pure" imports: warnings 1`] = `Array []`;
+exports[`loader should work with multiple "pure" imports: warnings 1`] = `[]`;
 
-exports[`loader should work with multiple "side-effects" imports: errors 1`] = `Array []`;
+exports[`loader should work with multiple "side-effects" imports: errors 1`] = `[]`;
 
 exports[`loader should work with multiple "side-effects" imports: module 1`] = `
 "/*** IMPORTS FROM imports-loader ***/
-import \\"lib_2\\";
-import \\"lib_2\\";
+import "lib_2";
+import "lib_2";
 
 var someCode = {
   number: 123,
@@ -1063,14 +1063,14 @@ var someCode = {
 "
 `;
 
-exports[`loader should work with multiple "side-effects" imports: warnings 1`] = `Array []`;
+exports[`loader should work with multiple "side-effects" imports: warnings 1`] = `[]`;
 
-exports[`loader should work with multiple "single" imports and different names: errors 1`] = `Array []`;
+exports[`loader should work with multiple "single" imports and different names: errors 1`] = `[]`;
 
 exports[`loader should work with multiple "single" imports and different names: module 1`] = `
 "/*** IMPORTS FROM imports-loader ***/
-var lib_2 = require(\\"lib_2\\");
-var lib_3 = require(\\"lib_2\\");
+var lib_2 = require("lib_2");
+var lib_3 = require("lib_2");
 
 var someCode = {
   number: 123,
@@ -1079,14 +1079,14 @@ var someCode = {
 "
 `;
 
-exports[`loader should work with multiple "single" imports and different names: warnings 1`] = `Array []`;
+exports[`loader should work with multiple "single" imports and different names: warnings 1`] = `[]`;
 
-exports[`loader should work with relative requests: errors 1`] = `Array []`;
+exports[`loader should work with relative requests: errors 1`] = `[]`;
 
 exports[`loader should work with relative requests: module 1`] = `
 "/*** IMPORTS FROM imports-loader ***/
-import lib_1 from \\"./lib_1\\";
-import { lib_2_name } from \\"./lib_2\\";
+import lib_1 from "./lib_1";
+import { lib_2_name } from "./lib_2";
 
 var someCode = {
   number: 123,
@@ -1095,9 +1095,9 @@ var someCode = {
 "
 `;
 
-exports[`loader should work with relative requests: warnings 1`] = `Array []`;
+exports[`loader should work with relative requests: warnings 1`] = `[]`;
 
-exports[`loader should work with the "additionalCode" option: errors 1`] = `Array []`;
+exports[`loader should work with the "additionalCode" option: errors 1`] = `[]`;
 
 exports[`loader should work with the "additionalCode" option: module 1`] = `
 "/*** IMPORTS FROM imports-loader ***/
@@ -1111,9 +1111,9 @@ var someCode = {
 "
 `;
 
-exports[`loader should work with the "additionalCode" option: warnings 1`] = `Array []`;
+exports[`loader should work with the "additionalCode" option: warnings 1`] = `[]`;
 
-exports[`loader should work with the "wrapper" option as a boolean notation: errors 1`] = `Array []`;
+exports[`loader should work with the "wrapper" option as a boolean notation: errors 1`] = `[]`;
 
 exports[`loader should work with the "wrapper" option as a boolean notation: module 1`] = `
 "/*** IMPORTS FROM imports-loader ***/
@@ -1128,9 +1128,9 @@ var someCode = {
 "
 `;
 
-exports[`loader should work with the "wrapper" option as a boolean notation: warnings 1`] = `Array []`;
+exports[`loader should work with the "wrapper" option as a boolean notation: warnings 1`] = `[]`;
 
-exports[`loader should work with the "wrapper" option as a string notation: errors 1`] = `Array []`;
+exports[`loader should work with the "wrapper" option as a string notation: errors 1`] = `[]`;
 
 exports[`loader should work with the "wrapper" option as a string notation: module 1`] = `
 "/*** IMPORTS FROM imports-loader ***/
@@ -1145,9 +1145,9 @@ var someCode = {
 "
 `;
 
-exports[`loader should work with the "wrapper" option as a string notation: warnings 1`] = `Array []`;
+exports[`loader should work with the "wrapper" option as a string notation: warnings 1`] = `[]`;
 
-exports[`loader should work with the "wrapper" options as an object notation: errors 1`] = `Array []`;
+exports[`loader should work with the "wrapper" options as an object notation: errors 1`] = `[]`;
 
 exports[`loader should work with the "wrapper" options as an object notation: module 1`] = `
 "/*** IMPORTS FROM imports-loader ***/
@@ -1162,9 +1162,9 @@ var someCode = {
 "
 `;
 
-exports[`loader should work with the "wrapper" options as an object notation: warnings 1`] = `Array []`;
+exports[`loader should work with the "wrapper" options as an object notation: warnings 1`] = `[]`;
 
-exports[`loader should work with the "wrapper.args" options as an object notation: errors 1`] = `Array []`;
+exports[`loader should work with the "wrapper.args" options as an object notation: errors 1`] = `[]`;
 
 exports[`loader should work with the "wrapper.args" options as an object notation: module 1`] = `
 "/*** IMPORTS FROM imports-loader ***/
@@ -1179,4 +1179,4 @@ var someCode = {
 "
 `;
 
-exports[`loader should work with the "wrapper.args" options as an object notation: warnings 1`] = `Array []`;
+exports[`loader should work with the "wrapper.args" options as an object notation: warnings 1`] = `[]`;
