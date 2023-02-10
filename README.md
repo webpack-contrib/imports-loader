@@ -610,7 +610,7 @@ import $ from "jquery";
   // ...
   // Code
   // ...
-}.call());
+}).call();
 ```
 
 #### `string`
@@ -650,7 +650,7 @@ import $ from "jquery";
   // ...
   // Code
   // ...
-}.call(window));
+}).call(window);
 ```
 
 #### `object`
@@ -693,7 +693,7 @@ import $ from "jquery";
   // ...
   // Code
   // ...
-}.call(window, myVariable, myOtherVariable));
+}).call(window, myVariable, myOtherVariable);
 ```
 
 #### `object` with different parameter names
@@ -739,7 +739,7 @@ import $ from "jquery";
   // ...
   // Code
   // ...
-}.call(window, myVariable, myOtherVariable));
+}).call(window, myVariable, myOtherVariable);
 ```
 
 ### `additionalCode`
