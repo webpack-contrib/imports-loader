@@ -1,6 +1,6 @@
 import path from "path";
 
-import { SourceMapConsumer } from "source-map";
+import { SourceMapConsumer } from "source-map-js";
 
 import {
   compile,
@@ -19,7 +19,7 @@ describe("loader", () => {
     const stats = await compile(compiler);
 
     expect(getModuleSource("./some-library.js", stats)).toMatchSnapshot(
-      "module"
+      "module",
     );
     expect(getErrors(stats)).toMatchSnapshot("errors");
     expect(getWarnings(stats)).toMatchSnapshot("warnings");
@@ -35,7 +35,7 @@ describe("loader", () => {
     const stats = await compile(compiler);
 
     expect(getModuleSource("./some-library.js", stats)).toMatchSnapshot(
-      "module"
+      "module",
     );
     expect(getErrors(stats)).toMatchSnapshot("errors");
     expect(getWarnings(stats)).toMatchSnapshot("warnings");
@@ -51,7 +51,7 @@ describe("loader", () => {
     const stats = await compile(compiler);
 
     expect(getModuleSource("./some-library.js", stats)).toMatchSnapshot(
-      "module"
+      "module",
     );
     expect(getErrors(stats)).toMatchSnapshot("errors");
     expect(getWarnings(stats)).toMatchSnapshot("warnings");
@@ -64,7 +64,7 @@ describe("loader", () => {
     const stats = await compile(compiler);
 
     expect(getModuleSource("./some-library.js", stats)).toMatchSnapshot(
-      "module"
+      "module",
     );
     expect(getErrors(stats)).toMatchSnapshot("errors");
     expect(getWarnings(stats)).toMatchSnapshot("warnings");
@@ -84,7 +84,7 @@ describe("loader", () => {
     const stats = await compile(compiler);
 
     expect(getModuleSource("./some-library.js", stats)).toMatchSnapshot(
-      "module"
+      "module",
     );
     expect(getErrors(stats)).toMatchSnapshot("errors");
     expect(getWarnings(stats)).toMatchSnapshot("warnings");
@@ -104,7 +104,7 @@ describe("loader", () => {
     const stats = await compile(compiler);
 
     expect(getModuleSource("./some-library.js", stats)).toMatchSnapshot(
-      "module"
+      "module",
     );
     expect(getErrors(stats)).toMatchSnapshot("errors");
     expect(getWarnings(stats)).toMatchSnapshot("warnings");
@@ -117,7 +117,7 @@ describe("loader", () => {
     const stats = await compile(compiler);
 
     expect(getModuleSource("./some-library.js", stats)).toMatchSnapshot(
-      "module"
+      "module",
     );
     expect(getErrors(stats)).toMatchSnapshot("errors");
     expect(getWarnings(stats)).toMatchSnapshot("warnings");
@@ -130,7 +130,7 @@ describe("loader", () => {
     const stats = await compile(compiler);
 
     expect(getModuleSource("./some-library.js", stats)).toMatchSnapshot(
-      "module"
+      "module",
     );
     expect(getErrors(stats)).toMatchSnapshot("errors");
     expect(getWarnings(stats)).toMatchSnapshot("warnings");
@@ -144,7 +144,7 @@ describe("loader", () => {
     const stats = await compile(compiler);
 
     expect(getModuleSource("./some-library.js", stats)).toMatchSnapshot(
-      "module"
+      "module",
     );
     expect(getErrors(stats)).toMatchSnapshot("errors");
     expect(getWarnings(stats)).toMatchSnapshot("warnings");
@@ -162,7 +162,7 @@ describe("loader", () => {
     const stats = await compile(compiler);
 
     expect(getModuleSource("./some-library.js", stats)).toMatchSnapshot(
-      "module"
+      "module",
     );
     expect(getErrors(stats)).toMatchSnapshot("errors");
     expect(getWarnings(stats)).toMatchSnapshot("warnings");
@@ -198,7 +198,7 @@ describe("loader", () => {
     const stats = await compile(compiler);
 
     expect(
-      getModuleSource("./use-strict-in-function.js", stats)
+      getModuleSource("./use-strict-in-function.js", stats),
     ).toMatchSnapshot("module");
     expect(getErrors(stats)).toMatchSnapshot("errors");
     expect(getWarnings(stats)).toMatchSnapshot("warnings");
@@ -212,7 +212,7 @@ describe("loader", () => {
     const stats = await compile(compiler);
 
     expect(
-      getModuleSource("./use-strict-in-function.js", stats)
+      getModuleSource("./use-strict-in-function.js", stats),
     ).toMatchSnapshot("module");
     expect(getErrors(stats)).toMatchSnapshot("errors");
     expect(getWarnings(stats)).toMatchSnapshot("warnings");
@@ -230,7 +230,7 @@ describe("loader", () => {
     const stats = await compile(compiler);
 
     expect(getModuleSource("./some-library.js", stats)).toMatchSnapshot(
-      "module"
+      "module",
     );
     expect(getErrors(stats)).toMatchSnapshot("errors");
     expect(getWarnings(stats)).toMatchSnapshot("warnings");
@@ -243,7 +243,7 @@ describe("loader", () => {
     const stats = await compile(compiler);
 
     expect(getModuleSource("./some-library.js", stats)).toMatchSnapshot(
-      "module"
+      "module",
     );
     expect(getErrors(stats)).toMatchSnapshot("errors");
     expect(getWarnings(stats)).toMatchSnapshot("warnings");
@@ -256,7 +256,7 @@ describe("loader", () => {
     const stats = await compile(compiler);
 
     expect(getModuleSource("./some-library.js", stats)).toMatchSnapshot(
-      "module"
+      "module",
     );
     expect(getErrors(stats)).toMatchSnapshot("errors");
     expect(getWarnings(stats)).toMatchSnapshot("warnings");
@@ -272,7 +272,7 @@ describe("loader", () => {
     const stats = await compile(compiler);
 
     expect(getModuleSource("./some-library.js", stats)).toMatchSnapshot(
-      "module"
+      "module",
     );
     expect(getErrors(stats)).toMatchSnapshot("errors");
     expect(getWarnings(stats)).toMatchSnapshot("warnings");
@@ -291,7 +291,7 @@ describe("loader", () => {
     const stats = await compile(compiler);
 
     expect(getModuleSource("./some-library.js", stats)).toMatchSnapshot(
-      "module"
+      "module",
     );
     expect(getErrors(stats)).toMatchSnapshot("errors");
     expect(getWarnings(stats)).toMatchSnapshot("warnings");
@@ -304,7 +304,7 @@ describe("loader", () => {
     const stats = await compile(compiler);
 
     expect(getModuleSource("./some-library.js", stats)).toMatchSnapshot(
-      "module"
+      "module",
     );
     expect(getErrors(stats)).toMatchSnapshot("errors");
     expect(getWarnings(stats)).toMatchSnapshot("warnings");
@@ -329,18 +329,18 @@ describe("loader", () => {
             },
           ],
         },
-      }
+      },
     );
     const stats = await compile(compiler);
     const bundle = readAsset(
       "main.bundle.js",
       stats.compilation.compiler,
-      stats
+      stats,
     ).split("\n");
     const sourceMap = readAsset(
       "main.bundle.js.map",
       stats.compilation.compiler,
-      stats
+      stats,
     );
 
     const consumer = new SourceMapConsumer(sourceMap);
@@ -367,23 +367,23 @@ describe("loader", () => {
                   loader: path.resolve(__dirname, "../src"),
                   options: { imports: "lib_1" },
                 },
-                { loader: "babel-loader" },
+                { loader: require.resolve("babel-loader") },
               ],
             },
           ],
         },
-      }
+      },
     );
     const stats = await compile(compiler);
     const bundle = readAsset(
       "main.bundle.js",
       stats.compilation.compiler,
-      stats
+      stats,
     ).split("\n");
     const sourceMap = readAsset(
       "main.bundle.js.map",
       stats.compilation.compiler,
-      stats
+      stats,
     );
 
     const consumer = new SourceMapConsumer(sourceMap);
@@ -402,7 +402,7 @@ describe("loader", () => {
     const stats = await compile(compiler);
 
     expect(getModuleSource("./some-library.js", stats)).toMatchSnapshot(
-      "module"
+      "module",
     );
     expect(getErrors(stats)).toMatchSnapshot("errors");
     expect(getWarnings(stats)).toMatchSnapshot("warnings");
@@ -415,7 +415,7 @@ describe("loader", () => {
     const stats = await compile(compiler);
 
     expect(getModuleSource("./some-library.js", stats)).toMatchSnapshot(
-      "module"
+      "module",
     );
     expect(getErrors(stats)).toMatchSnapshot("errors");
     expect(getWarnings(stats)).toMatchSnapshot("warnings");
@@ -428,7 +428,7 @@ describe("loader", () => {
     const stats = await compile(compiler);
 
     expect(getModuleSource("./some-library.js", stats)).toMatchSnapshot(
-      "module"
+      "module",
     );
     expect(getErrors(stats)).toMatchSnapshot("errors");
     expect(getWarnings(stats)).toMatchSnapshot("warnings");
@@ -442,7 +442,7 @@ describe("loader", () => {
     const stats = await compile(compiler);
 
     expect(getModuleSource("./some-library.js", stats)).toMatchSnapshot(
-      "module"
+      "module",
     );
     expect(getErrors(stats)).toMatchSnapshot("errors");
     expect(getWarnings(stats)).toMatchSnapshot("warnings");
@@ -460,7 +460,7 @@ describe("loader", () => {
     const stats = await compile(compiler);
 
     expect(getModuleSource("./some-library.js", stats)).toMatchSnapshot(
-      "module"
+      "module",
     );
     expect(getErrors(stats)).toMatchSnapshot("errors");
     expect(getWarnings(stats)).toMatchSnapshot("warnings");
@@ -477,7 +477,7 @@ describe("loader", () => {
     const stats = await compile(compiler);
 
     expect(getModuleSource("./some-library.js", stats)).toMatchSnapshot(
-      "module"
+      "module",
     );
     expect(getErrors(stats)).toMatchSnapshot("errors");
     expect(getWarnings(stats)).toMatchSnapshot("warnings");
@@ -490,7 +490,7 @@ describe("loader", () => {
     const stats = await compile(compiler);
 
     expect(getModuleSource("./some-library.js", stats)).toMatchSnapshot(
-      "module"
+      "module",
     );
     expect(getErrors(stats)).toMatchSnapshot("errors");
     expect(getWarnings(stats)).toMatchSnapshot("warnings");
@@ -507,7 +507,7 @@ describe("loader", () => {
     const stats = await compile(compiler);
 
     expect(getModuleSource("./some-library.js", stats)).toMatchSnapshot(
-      "module"
+      "module",
     );
     expect(getErrors(stats)).toMatchSnapshot("errors");
     expect(getWarnings(stats)).toMatchSnapshot("warnings");
@@ -524,7 +524,7 @@ describe("loader", () => {
     const stats = await compile(compiler);
 
     expect(getModuleSource("./some-library.js", stats)).toMatchSnapshot(
-      "module"
+      "module",
     );
     expect(getErrors(stats)).toMatchSnapshot("errors");
     expect(getWarnings(stats)).toMatchSnapshot("warnings");
@@ -537,7 +537,7 @@ describe("loader", () => {
     const stats = await compile(compiler);
 
     expect(getModuleSource("./some-library.js", stats)).toMatchSnapshot(
-      "module"
+      "module",
     );
     expect(getErrors(stats)).toMatchSnapshot("errors");
     expect(getWarnings(stats)).toMatchSnapshot("warnings");
@@ -550,7 +550,7 @@ describe("loader", () => {
     const stats = await compile(compiler);
 
     expect(getModuleSource("./some-library.js", stats)).toMatchSnapshot(
-      "module"
+      "module",
     );
     expect(getErrors(stats)).toMatchSnapshot("errors");
     expect(getWarnings(stats)).toMatchSnapshot("warnings");
@@ -563,7 +563,7 @@ describe("loader", () => {
     const stats = await compile(compiler);
 
     expect(getModuleSource("./some-library.js", stats)).toMatchSnapshot(
-      "module"
+      "module",
     );
     expect(getErrors(stats)).toMatchSnapshot("errors");
     expect(getWarnings(stats)).toMatchSnapshot("warnings");
@@ -579,7 +579,7 @@ describe("loader", () => {
     const stats = await compile(compiler);
 
     expect(getModuleSource("./some-library.js", stats)).toMatchSnapshot(
-      "module"
+      "module",
     );
     expect(getErrors(stats)).toMatchSnapshot("errors");
     expect(getWarnings(stats)).toMatchSnapshot("warnings");
@@ -592,7 +592,7 @@ describe("loader", () => {
     const stats = await compile(compiler);
 
     expect(getModuleSource("./some-library.js", stats)).toMatchSnapshot(
-      "module"
+      "module",
     );
     expect(getErrors(stats)).toMatchSnapshot("errors");
     expect(getWarnings(stats)).toMatchSnapshot("warnings");
@@ -605,7 +605,7 @@ describe("loader", () => {
     const stats = await compile(compiler);
 
     expect(getModuleSource("./some-library.js", stats)).toMatchSnapshot(
-      "module"
+      "module",
     );
     expect(getErrors(stats)).toMatchSnapshot("errors");
     expect(getWarnings(stats)).toMatchSnapshot("warnings");
@@ -618,7 +618,7 @@ describe("loader", () => {
     const stats = await compile(compiler);
 
     expect(getModuleSource("./some-library.js", stats)).toMatchSnapshot(
-      "module"
+      "module",
     );
     expect(getErrors(stats)).toMatchSnapshot("errors");
     expect(getWarnings(stats)).toMatchSnapshot("warnings");
@@ -631,7 +631,7 @@ describe("loader", () => {
     const stats = await compile(compiler);
 
     expect(getModuleSource("./some-library.js", stats)).toMatchSnapshot(
-      "module"
+      "module",
     );
     expect(getErrors(stats)).toMatchSnapshot("errors");
     expect(getWarnings(stats)).toMatchSnapshot("warnings");
@@ -645,7 +645,7 @@ describe("loader", () => {
     const stats = await compile(compiler);
 
     expect(getModuleSource("./some-library.js", stats)).toMatchSnapshot(
-      "module"
+      "module",
     );
     expect(getErrors(stats)).toMatchSnapshot("errors");
     expect(getWarnings(stats)).toMatchSnapshot("warnings");
@@ -659,7 +659,7 @@ describe("loader", () => {
     const stats = await compile(compiler);
 
     expect(getModuleSource("./some-library.js", stats)).toMatchSnapshot(
-      "module"
+      "module",
     );
     expect(getErrors(stats)).toMatchSnapshot("errors");
     expect(getWarnings(stats)).toMatchSnapshot("warnings");
@@ -673,7 +673,7 @@ describe("loader", () => {
     const stats = await compile(compiler);
 
     expect(getModuleSource("./some-library.js", stats)).toMatchSnapshot(
-      "module"
+      "module",
     );
     expect(getErrors(stats)).toMatchSnapshot("errors");
     expect(getWarnings(stats)).toMatchSnapshot("warnings");
@@ -687,7 +687,7 @@ describe("loader", () => {
     const stats = await compile(compiler);
 
     expect(getModuleSource("./some-library.js", stats)).toMatchSnapshot(
-      "module"
+      "module",
     );
     expect(getErrors(stats)).toMatchSnapshot("errors");
     expect(getWarnings(stats)).toMatchSnapshot("warnings");
@@ -701,7 +701,7 @@ describe("loader", () => {
     const stats = await compile(compiler);
 
     expect(getModuleSource("./some-library.js", stats)).toMatchSnapshot(
-      "module"
+      "module",
     );
     expect(getErrors(stats)).toMatchSnapshot("errors");
     expect(getWarnings(stats)).toMatchSnapshot("warnings");
@@ -718,7 +718,7 @@ describe("loader", () => {
     const stats = await compile(compiler);
 
     expect(getModuleSource("./some-library.js", stats)).toMatchSnapshot(
-      "module"
+      "module",
     );
     expect(getErrors(stats)).toMatchSnapshot("errors");
     expect(getWarnings(stats)).toMatchSnapshot("warnings");
@@ -736,7 +736,7 @@ describe("loader", () => {
     const stats = await compile(compiler);
 
     expect(getModuleSource("./some-library.js", stats)).toMatchSnapshot(
-      "module"
+      "module",
     );
     expect(getErrors(stats)).toMatchSnapshot("errors");
     expect(getWarnings(stats)).toMatchSnapshot("warnings");
@@ -754,7 +754,7 @@ describe("loader", () => {
     const stats = await compile(compiler);
 
     expect(getModuleSource("./some-library.js", stats)).toMatchSnapshot(
-      "module"
+      "module",
     );
     expect(getErrors(stats)).toMatchSnapshot("errors");
     expect(getWarnings(stats)).toMatchSnapshot("warnings");
@@ -768,7 +768,7 @@ describe("loader", () => {
     const stats = await compile(compiler);
 
     expect(getModuleSource("./some-library.js", stats)).toMatchSnapshot(
-      "module"
+      "module",
     );
     expect(getErrors(stats)).toMatchSnapshot("errors");
     expect(getWarnings(stats)).toMatchSnapshot("warnings");
@@ -782,7 +782,7 @@ describe("loader", () => {
     const stats = await compile(compiler);
 
     expect(getModuleSource("./some-library.js", stats)).toMatchSnapshot(
-      "module"
+      "module",
     );
     expect(getErrors(stats)).toMatchSnapshot("errors");
     expect(getWarnings(stats)).toMatchSnapshot("warnings");
@@ -796,7 +796,7 @@ describe("loader", () => {
     const stats = await compile(compiler);
 
     expect(getModuleSource("./some-library.js", stats)).toMatchSnapshot(
-      "module"
+      "module",
     );
     expect(getErrors(stats)).toMatchSnapshot("errors");
     expect(getWarnings(stats)).toMatchSnapshot("warnings");
@@ -810,7 +810,7 @@ describe("loader", () => {
     const stats = await compile(compiler);
 
     expect(getModuleSource("./some-library.js", stats)).toMatchSnapshot(
-      "module"
+      "module",
     );
     expect(getErrors(stats)).toMatchSnapshot("errors");
     expect(getWarnings(stats)).toMatchSnapshot("warnings");
@@ -834,7 +834,7 @@ describe("loader", () => {
     const stats = await compile(compiler);
 
     expect(getModuleSource("./some-library.js", stats)).toMatchSnapshot(
-      "module"
+      "module",
     );
     expect(getErrors(stats)).toMatchSnapshot("errors");
     expect(getWarnings(stats)).toMatchSnapshot("warnings");
@@ -855,7 +855,7 @@ describe("loader", () => {
     const stats = await compile(compiler);
 
     expect(getModuleSource("./some-library.js", stats)).toMatchSnapshot(
-      "module"
+      "module",
     );
     expect(getErrors(stats)).toMatchSnapshot("errors");
     expect(getWarnings(stats)).toMatchSnapshot("warnings");
@@ -1008,7 +1008,7 @@ describe("loader", () => {
     const stats = await compile(compiler);
 
     expect(getModuleSource("./some-library.js", stats)).toMatchSnapshot(
-      "module"
+      "module",
     );
     expect(getErrors(stats)).toMatchSnapshot("errors");
     expect(getWarnings(stats)).toMatchSnapshot("warnings");
@@ -1019,7 +1019,7 @@ describe("loader", () => {
     const stats = await compile(compiler);
 
     expect(getModuleSource("./some-library.js", stats)).toMatchSnapshot(
-      "module"
+      "module",
     );
     expect(getErrors(stats)).toMatchSnapshot("errors");
     expect(getWarnings(stats)).toMatchSnapshot("warnings");
@@ -1030,7 +1030,7 @@ describe("loader", () => {
     const stats = await compile(compiler);
 
     expect(getModuleSource("./some-library.js", stats)).toMatchSnapshot(
-      "module"
+      "module",
     );
     expect(getErrors(stats)).toMatchSnapshot("errors");
     expect(getWarnings(stats)).toMatchSnapshot("warnings");
@@ -1041,7 +1041,7 @@ describe("loader", () => {
     const stats = await compile(compiler);
 
     expect(getModuleSource("./some-library.js", stats)).toMatchSnapshot(
-      "module"
+      "module",
     );
     expect(getErrors(stats)).toMatchSnapshot("errors");
     expect(getWarnings(stats)).toMatchSnapshot("warnings");
@@ -1062,7 +1062,7 @@ describe("loader", () => {
     const stats = await compile(compiler);
 
     expect(getModuleSource("./some-library.js", stats)).toMatchSnapshot(
-      "module"
+      "module",
     );
     expect(getErrors(stats)).toMatchSnapshot("errors");
     expect(getWarnings(stats)).toMatchSnapshot("warnings");
@@ -1252,7 +1252,7 @@ describe("loader", () => {
     const stats = await compile(compiler);
 
     expect(getModuleSource("./some-library.js", stats)).toMatchSnapshot(
-      "module"
+      "module",
     );
     expect(getErrors(stats)).toMatchSnapshot("errors");
     expect(getWarnings(stats)).toMatchSnapshot("warnings");
@@ -1265,7 +1265,7 @@ describe("loader", () => {
     const stats = await compile(compiler);
 
     expect(getModuleSource("./some-library.js", stats)).toMatchSnapshot(
-      "module"
+      "module",
     );
     expect(getErrors(stats)).toMatchSnapshot("errors");
     expect(getWarnings(stats)).toMatchSnapshot("warnings");

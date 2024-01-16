@@ -3,8 +3,6 @@
   Author Tobias Koppers @sokra
 */
 
-import { SourceNode, SourceMapConsumer, SourceMapGenerator } from "source-map";
-
 import schema from "./options.json";
 
 import { getImports, renderImports, sourceHasUseStrict } from "./utils";
@@ -35,7 +33,7 @@ export default function loader(content, sourceMap) {
     importsCode += Object.entries(imports).reduce(
       (accumulator, item) =>
         `${accumulator}${renderImports(this, type, item[0], item[1])}\n`,
-      directive ? "'use strict';\n" : ""
+      directive ? "'use strict';\n" : "",
     );
   }
 
@@ -75,10 +73,16 @@ export default function loader(content, sourceMap) {
   }
 
   if (this.sourceMap) {
+    const {
+      SourceNode,
+      SourceMapConsumer,
+      SourceMapGenerator,
+    } = require("source-map-js"); // eslint-disable-line global-require
+
     if (sourceMap) {
       const node = SourceNode.fromStringWithSourceMap(
         content,
-        new SourceMapConsumer(sourceMap)
+        new SourceMapConsumer(sourceMap),
       );
 
       node.prepend(`${importsCode}\n`);
@@ -103,7 +107,7 @@ export default function loader(content, sourceMap) {
     callback(
       null,
       `${importsCode}\n${content}\n${codeAfterModule}`,
-      generator.toJSON()
+      generator.toJSON(),
     );
 
     return;
