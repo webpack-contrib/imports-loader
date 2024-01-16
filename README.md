@@ -158,7 +158,7 @@ module.exports = {
     rules: [
       {
         // You can use `regexp`
-        // test: /example\.js/$
+        // test: /example\.js$/
         test: require.resolve("example.js"),
         use: [
           {
