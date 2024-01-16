@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [5.0.0](https://github.com/webpack-contrib/imports-loader/compare/v4.0.1...v5.0.0) (2024-01-16)
+
+
+### ⚠ BREAKING CHANGES
+
+* minimum supported Node.js version is `18.12.0` ([#188](https://github.com/webpack-contrib/imports-loader/issues/188)) ([44163ca](https://github.com/webpack-contrib/imports-loader/commit/44163ca0be6b85bc8a6934d5ea7967cd9cc5e847))
+
 ### [4.0.1](https://github.com/webpack-contrib/imports-loader/compare/v4.0.0...v4.0.1) (2022-08-12)
 
 

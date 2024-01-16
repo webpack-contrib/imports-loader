@@ -1,6 +1,6 @@
 {
   "name": "imports-loader",
-  "version": "4.0.1",
+  "version": "5.0.0",
   "description": "imports loader module for webpack",
   "license": "MIT",
   "repository": "webpack-contrib/imports-loader",
