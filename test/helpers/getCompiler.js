@@ -7,7 +7,7 @@ export default (
   fixture,
   loaderOptions = {},
   config = {},
-  disableLoader = false
+  disableLoader = false,
 ) => {
   const loaders = [];
 

@@ -19,7 +19,7 @@ function stringifyRequest(loaderContext, request) {
     typeof loaderContext.utils.contextify === "function"
   ) {
     return JSON.stringify(
-      loaderContext.utils.contextify(loaderContext.context, request)
+      loaderContext.utils.contextify(loaderContext.context, request),
     );
   }
 
@@ -52,7 +52,7 @@ function stringifyRequest(loaderContext, request) {
 
         return singlePath.replace(/\\/g, "/") + query;
       })
-      .join("!")
+      .join("!"),
   );
 }
 
@@ -77,7 +77,7 @@ function splitCommand(command) {
   for (const item of result) {
     if (!item) {
       throw new Error(
-        `Invalid command "${item}" in "${command}" for imports. There must be only one separator: " ", or "|"`
+        `Invalid command "${item}" in "${command}" for imports. There must be only one separator: " ", or "|"`,
       );
     }
   }
@@ -135,7 +135,7 @@ function resolveImports(type, item) {
     throw new Error(
       `The "${result.syntax}" syntax does not support "${
         result.alias
-      }" alias in "${forError(item)}" value`
+      }" alias in "${forError(item)}" value`,
     );
   }
 
@@ -146,7 +146,7 @@ function resolveImports(type, item) {
     throw new Error(
       `The "${result.syntax}" syntax does not support "${
         result.name
-      }" name in "${forError(item)}" value`
+      }" name in "${forError(item)}" value`,
     );
   }
 
@@ -157,7 +157,7 @@ function resolveImports(type, item) {
     throw new Error(
       `The "${type}" type does not support the "${
         result.syntax
-      }" syntax in "${forError(item)}" value`
+      }" syntax in "${forError(item)}" value`,
     );
   }
 
@@ -168,7 +168,7 @@ function resolveImports(type, item) {
     throw new Error(
       `The "${type}" format does not support the "${
         result.syntax
-      }" syntax in "${forError(item)}" value`
+      }" syntax in "${forError(item)}" value`,
     );
   }
 
@@ -178,8 +178,8 @@ function resolveImports(type, item) {
   ) {
     throw new Error(
       `The "${result.syntax}" syntax needs the "name" option in "${forError(
-        item
-      )}" value`
+        item,
+      )}" value`,
     );
   }
 
@@ -206,7 +206,7 @@ function duplicateBy(array, key) {
   return array.filter(
     (a, aIndex) =>
       array.filter((b, bIndex) => b[key] === a[key] && aIndex !== bIndex)
-        .length > 0
+        .length > 0,
   );
 }
 
@@ -233,8 +233,8 @@ function getImports(type, imports) {
         .join(", ")} identifiers found in "\n${JSON.stringify(
         importItems,
         null,
-        " "
-      )}\n" value`
+        " ",
+      )}\n" value`,
     );
   }
 
@@ -268,7 +268,7 @@ function renderImports(loaderContext, type, moduleName, imports) {
 
         code += `require(${stringifyRequest(
           loaderContext,
-          moduleName
+          moduleName,
         )});${needNewline}`;
       });
     }
@@ -285,13 +285,13 @@ function renderImports(loaderContext, type, moduleName, imports) {
 
         code += `var ${name} = require(${stringifyRequest(
           loaderContext,
-          moduleName
+          moduleName,
         )});${needNewline}`;
       });
     }
 
     const multipleImports = imports.filter(
-      ({ syntax }) => syntax === "multiple"
+      ({ syntax }) => syntax === "multiple",
     );
 
     // Multiple
@@ -316,7 +316,7 @@ function renderImports(loaderContext, type, moduleName, imports) {
   }
 
   const sideEffectsImports = imports.filter(
-    ({ syntax }) => syntax === "side-effects"
+    ({ syntax }) => syntax === "side-effects",
   );
 
   // Side-effects
@@ -326,7 +326,7 @@ function renderImports(loaderContext, type, moduleName, imports) {
 
       code += `import ${stringifyRequest(
         loaderContext,
-        moduleName
+        moduleName,
       )};${needNewline}`;
     });
 
@@ -336,7 +336,7 @@ function renderImports(loaderContext, type, moduleName, imports) {
   const defaultImports = imports.filter(({ syntax }) => syntax === "default");
   const namedImports = imports.filter(({ syntax }) => syntax === "named");
   const namespaceImports = imports.filter(
-    ({ syntax }) => syntax === "namespace"
+    ({ syntax }) => syntax === "namespace",
   );
 
   // Default
@@ -347,7 +347,7 @@ function renderImports(loaderContext, type, moduleName, imports) {
 
       code += `import ${name} from ${stringifyRequest(
         loaderContext,
-        moduleName
+        moduleName,
       )};${needNewline}`;
     });
   }
@@ -380,7 +380,7 @@ function renderImports(loaderContext, type, moduleName, imports) {
 
       code += `import * as ${name} from ${stringifyRequest(
         loaderContext,
-        moduleName
+        moduleName,
       )};${needNewline}`;
     });
   }
