@@ -1,7 +1,6 @@
 <div align="center">
   <a href="https://github.com/webpack/webpack">
-    <img width="200" height="200"
-      src="https://webpack.js.org/assets/icon-square-big.svg">
+    <img width="200" height="200" src="https://webpack.js.org/assets/icon-square-big.svg">
   </a>
 </div>
 
@@ -16,14 +15,13 @@
 
 The imports loader allows you to use modules that depend on specific global variables.
 
-This is useful for third-party modules that rely on global variables like `$` or `this` being the `window` object.
-The imports loader can add the necessary `require('whatever')` calls, so those modules work with webpack.
+This is especially useful for third-party modules that rely on global variables like `$` or where `this` is expected to be the `window` object. The imports loader can add the necessary `require('whatever')` calls, so those modules work with webpack.
 
-For further hints on compatibility issues, check out [Shimming](https://webpack.js.org/guides/shimming/) of the official docs.
+For further hints on compatibility issues, see the official webpack documentation on [Shimming](https://webpack.js.org/guides/shimming/).
 
 > [!WARNING]
 >
-> By default loader generate ES module named syntax.
+> By default, this loader generates ES module named syntax.
 
 > [!WARNING]
 >
@@ -66,7 +64,7 @@ The documentation and syntax examples can be read [here](#syntax).
 
 > [!WARNING]
 >
-> `%20` is space in a query string, because you can't use spaces in URLs
+> `%20` represents a `space` in a query string, because you can't use spaces in URLs
 
 ```js
 // Alternative syntax:
@@ -201,7 +199,7 @@ import "lib_5";
 import angular from "angular";
 ```
 
-And run `webpack` via your preferred method.
+Finally, run `webpack` using the method you normally use (e.g., via CLI or an npm script).
 
 ## Options
 
@@ -220,9 +218,12 @@ type type = string;
 
 Default: `module`
 
-Format of generated exports.
+Defines the format of generated exports.
 
-Possible values - `commonjs` (CommonJS module syntax) and `module` (ES module syntax).
+Possible values:
+
+- `commonjs` (CommonJS module syntax)
+- `module` (ES module syntax).
 
 #### `commonjs`
 
@@ -500,7 +501,7 @@ import { lib2_method_2 as lib_2_method_2_alias } from "lib_2";
 #### `array`
 
 Allow to specify multiple imports.
-Each item can be a [`string`](https://github.com/webpack-contrib/imports-loader#string) or an [`object`](https://github.com/webpack-contrib/imports-loader#object).
+Each item can be either a [`string`](https://github.com/webpack-contrib/imports-loader#string) or an [`object`](https://github.com/webpack-contrib/imports-loader#object).
 
 ##### Examples
 
@@ -575,9 +576,11 @@ Closes the module code in a function with a given `thisArg` and `args` (`(functi
 
 > [!WARNING]
 >
-> Do not use this option if source code contains ES module import(s)
+> Do not use this option if source code contains ES module import(s). It is intended for legacy or non-ESM compatible code.
 
 #### `boolean`
+
+Wraps the code in an IIFE (Immediately Invoked Function Expression) with default context.
 
 **webpack.config.js**
 
@@ -619,6 +622,8 @@ import $ from "jquery";
 
 #### `string`
 
+Passes a custom thisArg to the .call() context.
+
 **webpack.config.js**
 
 ```js
@@ -658,6 +663,8 @@ import $ from "jquery";
 ```
 
 #### `object`
+
+Allows advanced control: specify the this context and custom arguments passed into the IIFE
 
 **webpack.config.js**
 
@@ -701,6 +708,8 @@ import $ from "jquery";
 ```
 
 #### `object` with different parameter names
+
+Allows remapping argument names in the function signature using a key-value object.
 
 **webpack.config.js**
 
@@ -843,7 +852,8 @@ var define = false; /* Disable AMD for misbehaving libraries */
 
 ## Contributing
 
-Please take a moment to read our contributing guidelines if you haven't yet done so.
+We welcome contributions!
+If you’re interested in helping improve this loader, please take a moment to read our contributing guidelines.
 
 [CONTRIBUTING](./.github/CONTRIBUTING.md)
 
