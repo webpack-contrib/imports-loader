@@ -183,114 +183,58 @@ exports[`validate options should throw an error on the "type" option with "strin
 
 exports[`validate options should throw an error on the "unknown" option with "/test/" value 1`] = `
 "Invalid options object. Imports Loader has been initialized using an options object that does not match the API schema.
- - options should be one of these:
+ - options has an unknown property 'unknown'. These properties are valid:
    object { imports, … } | object { wrapper, … } | object { additionalCode, … }
-   -> Options for imports-loader
-   Details:
-    * options has an unknown property 'unknown'. These properties are valid:
-      object { imports, … } | object { wrapper, … } | object { additionalCode, … }
-      -> Options for imports-loader
-    * options misses the property 'imports' | should be any non-object.
-    * options misses the property 'wrapper' | should be any non-object.
-    * options misses the property 'additionalCode' | should be any non-object."
+   -> Options for imports-loader"
 `;
 
 exports[`validate options should throw an error on the "unknown" option with "[]" value 1`] = `
 "Invalid options object. Imports Loader has been initialized using an options object that does not match the API schema.
- - options should be one of these:
+ - options has an unknown property 'unknown'. These properties are valid:
    object { imports, … } | object { wrapper, … } | object { additionalCode, … }
-   -> Options for imports-loader
-   Details:
-    * options has an unknown property 'unknown'. These properties are valid:
-      object { imports, … } | object { wrapper, … } | object { additionalCode, … }
-      -> Options for imports-loader
-    * options misses the property 'imports' | should be any non-object.
-    * options misses the property 'wrapper' | should be any non-object.
-    * options misses the property 'additionalCode' | should be any non-object."
+   -> Options for imports-loader"
 `;
 
 exports[`validate options should throw an error on the "unknown" option with "{"foo":"bar"}" value 1`] = `
 "Invalid options object. Imports Loader has been initialized using an options object that does not match the API schema.
- - options should be one of these:
+ - options has an unknown property 'unknown'. These properties are valid:
    object { imports, … } | object { wrapper, … } | object { additionalCode, … }
-   -> Options for imports-loader
-   Details:
-    * options has an unknown property 'unknown'. These properties are valid:
-      object { imports, … } | object { wrapper, … } | object { additionalCode, … }
-      -> Options for imports-loader
-    * options misses the property 'imports' | should be any non-object.
-    * options misses the property 'wrapper' | should be any non-object.
-    * options misses the property 'additionalCode' | should be any non-object."
+   -> Options for imports-loader"
 `;
 
 exports[`validate options should throw an error on the "unknown" option with "{}" value 1`] = `
 "Invalid options object. Imports Loader has been initialized using an options object that does not match the API schema.
- - options should be one of these:
+ - options has an unknown property 'unknown'. These properties are valid:
    object { imports, … } | object { wrapper, … } | object { additionalCode, … }
-   -> Options for imports-loader
-   Details:
-    * options has an unknown property 'unknown'. These properties are valid:
-      object { imports, … } | object { wrapper, … } | object { additionalCode, … }
-      -> Options for imports-loader
-    * options misses the property 'imports' | should be any non-object.
-    * options misses the property 'wrapper' | should be any non-object.
-    * options misses the property 'additionalCode' | should be any non-object."
+   -> Options for imports-loader"
 `;
 
 exports[`validate options should throw an error on the "unknown" option with "1" value 1`] = `
 "Invalid options object. Imports Loader has been initialized using an options object that does not match the API schema.
- - options should be one of these:
+ - options has an unknown property 'unknown'. These properties are valid:
    object { imports, … } | object { wrapper, … } | object { additionalCode, … }
-   -> Options for imports-loader
-   Details:
-    * options has an unknown property 'unknown'. These properties are valid:
-      object { imports, … } | object { wrapper, … } | object { additionalCode, … }
-      -> Options for imports-loader
-    * options misses the property 'imports' | should be any non-object.
-    * options misses the property 'wrapper' | should be any non-object.
-    * options misses the property 'additionalCode' | should be any non-object."
+   -> Options for imports-loader"
 `;
 
 exports[`validate options should throw an error on the "unknown" option with "false" value 1`] = `
 "Invalid options object. Imports Loader has been initialized using an options object that does not match the API schema.
- - options should be one of these:
+ - options has an unknown property 'unknown'. These properties are valid:
    object { imports, … } | object { wrapper, … } | object { additionalCode, … }
-   -> Options for imports-loader
-   Details:
-    * options has an unknown property 'unknown'. These properties are valid:
-      object { imports, … } | object { wrapper, … } | object { additionalCode, … }
-      -> Options for imports-loader
-    * options misses the property 'imports' | should be any non-object.
-    * options misses the property 'wrapper' | should be any non-object.
-    * options misses the property 'additionalCode' | should be any non-object."
+   -> Options for imports-loader"
 `;
 
 exports[`validate options should throw an error on the "unknown" option with "test" value 1`] = `
 "Invalid options object. Imports Loader has been initialized using an options object that does not match the API schema.
- - options should be one of these:
+ - options has an unknown property 'unknown'. These properties are valid:
    object { imports, … } | object { wrapper, … } | object { additionalCode, … }
-   -> Options for imports-loader
-   Details:
-    * options has an unknown property 'unknown'. These properties are valid:
-      object { imports, … } | object { wrapper, … } | object { additionalCode, … }
-      -> Options for imports-loader
-    * options misses the property 'imports' | should be any non-object.
-    * options misses the property 'wrapper' | should be any non-object.
-    * options misses the property 'additionalCode' | should be any non-object."
+   -> Options for imports-loader"
 `;
 
 exports[`validate options should throw an error on the "unknown" option with "true" value 1`] = `
 "Invalid options object. Imports Loader has been initialized using an options object that does not match the API schema.
- - options should be one of these:
+ - options has an unknown property 'unknown'. These properties are valid:
    object { imports, … } | object { wrapper, … } | object { additionalCode, … }
-   -> Options for imports-loader
-   Details:
-    * options has an unknown property 'unknown'. These properties are valid:
-      object { imports, … } | object { wrapper, … } | object { additionalCode, … }
-      -> Options for imports-loader
-    * options misses the property 'imports' | should be any non-object.
-    * options misses the property 'wrapper' | should be any non-object.
-    * options misses the property 'additionalCode' | should be any non-object."
+   -> Options for imports-loader"
 `;
 
 exports[`validate options should throw an error on the "wrapper" option with "/test/" value 1`] = `
@@ -358,10 +302,10 @@ exports[`validate options should throw an error on the "wrapper" option with "{"
    -> Closes the module code in a function with a given 'thisArg' and 'args'
    -> Read more at https://webpack.js.org/loaders/imports-loader/#wrapper
    Details:
-    * options.wrapper has an unknown property 'unknown'. These properties are valid:
-      object { thisArg, args? }
     * options.wrapper misses the property 'thisArg'. Should be:
-      non-empty string"
+      non-empty string
+    * options.wrapper has an unknown property 'unknown'. These properties are valid:
+      object { thisArg, args? }"
 `;
 
 exports[`validate options should throw an error on the "wrapper" option with "{}" value 1`] = `
