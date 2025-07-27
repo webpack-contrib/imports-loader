@@ -1,4 +1,4 @@
-// Jest Snapshot v1, https://goo.gl/fbAQLP
+// Jest Snapshot v1, https://jestjs.io/docs/snapshot-testing
 
 exports[`loader should throw an error on the empty string: errors 1`] = `
 [
@@ -940,6 +940,37 @@ var someCode = {
 
 exports[`loader should work with multiple "default" imports and different names: warnings 1`] = `[]`;
 
+exports[`loader should work with multiple "multiple" imports from different libraries: errors 1`] = `[]`;
+
+exports[`loader should work with multiple "multiple" imports from different libraries: module 1`] = `
+"/*** IMPORTS FROM imports-loader ***/
+var { lib_2, lib_3: alias } = require("lib_2");
+var { lib_4 } = require("lib_3");
+
+var someCode = {
+  number: 123,
+  object: { existingSubProperty: 123 }
+};
+"
+`;
+
+exports[`loader should work with multiple "multiple" imports from different libraries: warnings 1`] = `[]`;
+
+exports[`loader should work with multiple "multiple" imports from same library: errors 1`] = `[]`;
+
+exports[`loader should work with multiple "multiple" imports from same library: module 1`] = `
+"/*** IMPORTS FROM imports-loader ***/
+var { lib2_method_1, lib2_method_2: lib_2_method_2_short } = require("lib_2");
+
+var someCode = {
+  number: 123,
+  object: { existingSubProperty: 123 }
+};
+"
+`;
+
+exports[`loader should work with multiple "multiple" imports from same library: warnings 1`] = `[]`;
+
 exports[`loader should work with multiple "multiple" imports from the one lib: errors 1`] = `[]`;
 
 exports[`loader should work with multiple "multiple" imports from the one lib: module 1`] = `
@@ -954,37 +985,6 @@ var someCode = {
 `;
 
 exports[`loader should work with multiple "multiple" imports from the one lib: warnings 1`] = `[]`;
-
-exports[`loader should work with multiple "multiple" imports: errors 1`] = `[]`;
-
-exports[`loader should work with multiple "multiple" imports: errors 2`] = `[]`;
-
-exports[`loader should work with multiple "multiple" imports: module 1`] = `
-"/*** IMPORTS FROM imports-loader ***/
-var { lib2_method_1, lib2_method_2: lib_2_method_2_short } = require("lib_2");
-
-var someCode = {
-  number: 123,
-  object: { existingSubProperty: 123 }
-};
-"
-`;
-
-exports[`loader should work with multiple "multiple" imports: module 2`] = `
-"/*** IMPORTS FROM imports-loader ***/
-var { lib_2, lib_3: alias } = require("lib_2");
-var { lib_4 } = require("lib_3");
-
-var someCode = {
-  number: 123,
-  object: { existingSubProperty: 123 }
-};
-"
-`;
-
-exports[`loader should work with multiple "multiple" imports: warnings 1`] = `[]`;
-
-exports[`loader should work with multiple "multiple" imports: warnings 2`] = `[]`;
 
 exports[`loader should work with multiple "named" imports from the one lib: errors 1`] = `[]`;
 
