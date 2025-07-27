@@ -1,4 +1,4 @@
-import path from "path";
+import path from "node:path";
 
 import strip from "strip-comments";
 
@@ -50,7 +50,7 @@ function stringifyRequest(loaderContext, request) {
           }
         }
 
-        return singlePath.replace(/\\/g, "/") + query;
+        return singlePath.replaceAll("\\", "/") + query;
       })
       .join("!"),
   );
@@ -69,10 +69,7 @@ function sourceHasUseStrict(source) {
 }
 
 function splitCommand(command) {
-  const result = command
-    .split("|")
-    .map((item) => item.split(" "))
-    .reduce((acc, val) => acc.concat(val), []);
+  const result = command.split("|").flatMap((item) => item.split(" "));
 
   for (const item of result) {
     if (!item) {
@@ -108,7 +105,7 @@ function resolveImports(type, item) {
         syntax: defaultSyntax,
         moduleName: splittedItem[0],
         name: splittedItem[0],
-        // eslint-disable-next-line no-undefined
+
         alias: undefined,
       };
     } else {
@@ -116,8 +113,8 @@ function resolveImports(type, item) {
         syntax: splittedItem[0],
         moduleName: splittedItem[1],
         name: splittedItem[2],
-        // eslint-disable-next-line no-undefined
-        alias: splittedItem[3] ? splittedItem[3] : undefined,
+
+        alias: splittedItem[3] || undefined,
       };
     }
   } else {
@@ -203,25 +200,21 @@ function getIdentifiers(array) {
 }
 
 function duplicateBy(array, key) {
-  return array.filter(
-    (a, aIndex) =>
-      array.filter((b, bIndex) => b[key] === a[key] && aIndex !== bIndex)
-        .length > 0,
+  return array.filter((a, aIndex) =>
+    array.some((b, bIndex) => b[key] === a[key] && aIndex !== bIndex),
   );
 }
 
 function getImports(type, imports) {
-  let result;
   const importItems =
     typeof imports === "string" && imports.includes(",")
       ? imports.split(",")
       : imports;
 
-  if (typeof importItems === "string") {
-    result = [resolveImports(type, importItems)];
-  } else {
-    result = [].concat(importItems).map((item) => resolveImports(type, item));
-  }
+  const result =
+    typeof importItems === "string"
+      ? [resolveImports(type, importItems)]
+      : [importItems].flat().map((item) => resolveImports(type, item));
 
   const identifiers = getIdentifiers(result);
   const duplicates = duplicateBy(identifiers, "value");
@@ -263,14 +256,14 @@ function renderImports(loaderContext, type, moduleName, imports) {
 
     // Pure
     if (pure.length > 0) {
-      pure.forEach((_, i) => {
+      for (const [i, _] of pure.entries()) {
         const needNewline = i < pure.length - 1 ? "\n" : "";
 
         code += `require(${stringifyRequest(
           loaderContext,
           moduleName,
         )});${needNewline}`;
-      });
+      }
     }
 
     const singleImports = imports.filter(({ syntax }) => syntax === "single");
@@ -279,7 +272,7 @@ function renderImports(loaderContext, type, moduleName, imports) {
     if (singleImports.length > 0) {
       code += pure.length > 0 ? "\n" : "";
 
-      singleImports.forEach((singleImport, i) => {
+      for (const [i, singleImport] of singleImports.entries()) {
         const { name } = singleImport;
         const needNewline = i < singleImports.length - 1 ? "\n" : "";
 
@@ -287,7 +280,7 @@ function renderImports(loaderContext, type, moduleName, imports) {
           loaderContext,
           moduleName,
         )});${needNewline}`;
-      });
+      }
     }
 
     const multipleImports = imports.filter(
@@ -297,9 +290,9 @@ function renderImports(loaderContext, type, moduleName, imports) {
     // Multiple
     if (multipleImports.length > 0) {
       code += pure.length > 0 || singleImports.length > 0 ? "\n" : "";
-      code += `var { `;
+      code += "var { ";
 
-      multipleImports.forEach((multipleImport, i) => {
+      for (const [i, multipleImport] of multipleImports.entries()) {
         const needComma = i > 0 ? ", " : "";
         const { name, alias } = multipleImport;
         const separator = ": ";
@@ -307,7 +300,7 @@ function renderImports(loaderContext, type, moduleName, imports) {
         code += alias
           ? `${needComma}${name}${separator}${alias}`
           : `${needComma}${name}`;
-      });
+      }
 
       code += ` } = require(${stringifyRequest(loaderContext, moduleName)});`;
     }
@@ -321,14 +314,14 @@ function renderImports(loaderContext, type, moduleName, imports) {
 
   // Side-effects
   if (sideEffectsImports.length > 0) {
-    sideEffectsImports.forEach((_, i) => {
+    for (const [i, _] of sideEffectsImports.entries()) {
       const needNewline = i < sideEffectsImports.length - 1 ? "\n" : "";
 
       code += `import ${stringifyRequest(
         loaderContext,
         moduleName,
       )};${needNewline}`;
-    });
+    }
 
     return code;
   }
@@ -341,7 +334,7 @@ function renderImports(loaderContext, type, moduleName, imports) {
 
   // Default
   if (defaultImports.length > 0) {
-    defaultImports.forEach((defaultImport, i) => {
+    for (const [i, defaultImport] of defaultImports.entries()) {
       const { name } = defaultImport;
       const needNewline = i < defaultImports.length - 1 ? "\n" : "";
 
@@ -349,7 +342,7 @@ function renderImports(loaderContext, type, moduleName, imports) {
         loaderContext,
         moduleName,
       )};${needNewline}`;
-    });
+    }
   }
 
   // Named
@@ -357,7 +350,7 @@ function renderImports(loaderContext, type, moduleName, imports) {
     code += defaultImports.length > 0 ? "\n" : "";
     code += "import { ";
 
-    namedImports.forEach((namedImport, i) => {
+    for (const [i, namedImport] of namedImports.entries()) {
       const needComma = i > 0 ? ", " : "";
       const { name, alias } = namedImport;
       const separator = " as ";
@@ -365,7 +358,7 @@ function renderImports(loaderContext, type, moduleName, imports) {
       code += alias
         ? `${needComma}${name}${separator}${alias}`
         : `${needComma}${name}`;
-    });
+    }
 
     code += ` } from ${stringifyRequest(loaderContext, moduleName)};`;
   }
@@ -374,7 +367,7 @@ function renderImports(loaderContext, type, moduleName, imports) {
   if (namespaceImports.length > 0) {
     code += defaultImports.length > 0 || namedImports.length > 0 ? "\n" : "";
 
-    namespaceImports.forEach((namespaceImport, i) => {
+    for (const [i, namespaceImport] of namespaceImports.entries()) {
       const { name } = namespaceImport;
       const needNewline = i < namespaceImports.length - 1 ? "\n" : "";
 
@@ -382,10 +375,10 @@ function renderImports(loaderContext, type, moduleName, imports) {
         loaderContext,
         moduleName,
       )};${needNewline}`;
-    });
+    }
   }
 
   return code;
 }
 
-export { sourceHasUseStrict, getImports, renderImports };
+export { getImports, renderImports, sourceHasUseStrict };

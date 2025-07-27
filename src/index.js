@@ -74,10 +74,10 @@ export default function loader(content, sourceMap) {
 
   if (this.sourceMap) {
     const {
-      SourceNode,
       SourceMapConsumer,
       SourceMapGenerator,
-    } = require("source-map-js"); // eslint-disable-line global-require
+      SourceNode,
+    } = require("source-map-js");
 
     if (sourceMap) {
       const node = SourceNode.fromStringWithSourceMap(

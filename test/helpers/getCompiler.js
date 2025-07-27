@@ -1,7 +1,7 @@
-import path from "path";
+import path from "node:path";
 
+import { Volume, createFsFromVolume } from "memfs";
 import webpack from "webpack";
-import { createFsFromVolume, Volume } from "memfs";
 
 export default (
   fixture,
@@ -41,9 +41,13 @@ export default (
     plugins: [],
     resolve: {
       alias: {
+        // eslint-disable-next-line camelcase
         lib_1: path.resolve(__dirname, "../", "fixtures", "lib_1"),
+        // eslint-disable-next-line camelcase
         lib_2: path.resolve(__dirname, "../", "fixtures", "lib_2"),
+        // eslint-disable-next-line camelcase
         lib_3: path.resolve(__dirname, "../", "fixtures", "lib_3"),
+        // eslint-disable-next-line camelcase
         lib_4: path.resolve(__dirname, "../", "fixtures", "lib_4"),
       },
     },
