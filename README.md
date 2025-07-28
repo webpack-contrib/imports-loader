@@ -339,7 +339,6 @@ The `|` or `%20` (space) allow to separate the `syntax`, `moduleName`, `name` an
 String syntax - `[[syntax] [moduleName] [name] [alias]]` or `[[syntax]|[moduleName]|[name]|[alias]]`, where:
 
 - `[syntax]` (**may be omitted**):
-
   - if `type` is `module`- can be `default`, `named`, `namespace` or `side-effects`, the default value is `default`.
   - if `type` is `commonjs`- can be `single`, `multiple` or `pure`, the default value is `single`.
 
@@ -445,7 +444,6 @@ Allows to use an object to describe an import.
 Properties:
 
 - `syntax`:
-
   - if `type` is `module`- can be `default`, `named`, `namespace` or `side-effects`
   - if `type` is `commonjs`- can be `single`, `multiple` or `pure`
 
