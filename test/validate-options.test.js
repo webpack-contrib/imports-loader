@@ -1,4 +1,4 @@
-import { getCompiler, compile } from "./helpers";
+import { compile, getCompiler } from "./helpers";
 
 describe("validate options", () => {
   const tests = {
@@ -149,13 +149,13 @@ describe("validate options", () => {
         if (type === "success") {
           const validationErrors = [];
 
-          stats.compilation.errors.forEach((error) => {
-            if (error.message.indexOf("ValidationError") !== -1) {
+          for (const error of stats.compilation.errors) {
+            if (error.message.includes("ValidationError")) {
               validationErrors.push(error);
             }
-          });
+          }
 
-          expect(validationErrors.length).toBe(0);
+          expect(validationErrors).toHaveLength(0);
         } else if (type === "failure") {
           const {
             compilation: { errors },

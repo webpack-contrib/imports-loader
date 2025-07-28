@@ -109,9 +109,7 @@ import myLib from "imports-loader?imports=named|library|myMethod,angular!./examp
 ```
 
 ```js
-const myLib = require(
-  `imports-loader?type=commonjs&imports=single|jquery|$,angular!./example.js`,
-);
+const myLib = require("imports-loader?type=commonjs&imports=single|jquery|$,angular!./example.js");
 // `|` is separator in a query string, equivalently `single|jquery|$` and `angular`
 // Adds the following code to the beginning of example.js:
 //
@@ -124,9 +122,7 @@ const myLib = require(
 ```
 
 ```js
-const myLib = require(
-  `imports-loader?type=commonjs&imports=single|myLib|myMethod&wrapper=window&!./example.js`,
-);
+const myLib = require("imports-loader?type=commonjs&imports=single|myLib|myMethod&wrapper=window&!./example.js");
 // `|` is separator in a query string, equivalently `single|myLib|myMethod` and `angular`
 // Adds the following code to the example.js:
 //
@@ -190,13 +186,15 @@ module.exports = {
 
 Generate output:
 
+<!-- eslint-skip -->
+
 ```js
+import angular from "angular";
 import $ from "jquery";
 import lib_2_default from "lib_2";
 import { lib2_method_1, lib2_method_2 as lib_2_method_2_short } from "lib_3";
 import * as my_namespace from "lib_4";
 import "lib_5";
-import angular from "angular";
 ```
 
 Finally, run `webpack` using the method you normally use (e.g., via CLI or an npm script).
@@ -250,7 +248,7 @@ module.exports = {
 Generate output:
 
 ```js
-var Foo = require("Foo");
+const Foo = require("Foo");
 
 // ...
 // Code
@@ -308,7 +306,7 @@ type imports =
       name: string;
       alias: string;
     }
-  | Array<
+  | (
       | string
       | {
           syntax:
@@ -323,7 +321,7 @@ type imports =
           name: string;
           alias: string;
         }
-    >;
+    )[];
 ```
 
 Default: `undefined`
@@ -341,7 +339,6 @@ The `|` or `%20` (space) allow to separate the `syntax`, `moduleName`, `name` an
 String syntax - `[[syntax] [moduleName] [name] [alias]]` or `[[syntax]|[moduleName]|[name]|[alias]]`, where:
 
 - `[syntax]` (**may be omitted**):
-
   - if `type` is `module`- can be `default`, `named`, `namespace` or `side-effects`, the default value is `default`.
   - if `type` is `commonjs`- can be `single`, `multiple` or `pure`, the default value is `single`.
 
@@ -433,7 +430,7 @@ module.exports = {
 Generate output:
 
 ```js
-var myName = require("lib");
+const myName = require("lib");
 
 // ...
 // Code
@@ -447,7 +444,6 @@ Allows to use an object to describe an import.
 Properties:
 
 - `syntax`:
-
   - if `type` is `module`- can be `default`, `named`, `namespace` or `side-effects`
   - if `type` is `commonjs`- can be `single`, `multiple` or `pure`
 
@@ -543,6 +539,8 @@ module.exports = {
 
 Generate output:
 
+<!-- eslint-skip -->
+
 ```js
 import angular from "angular";
 import $ from "jquery";
@@ -566,7 +564,7 @@ type wrapper =
   | string
   | {
       thisArg: string;
-      args: Record<string, string> | Array<string>;
+      args: Record<string, string> | string[];
     };
 ```
 
@@ -610,6 +608,8 @@ module.exports = {
 
 Generate output:
 
+<!-- eslint-skip -->
+
 ```js
 import $ from "jquery";
 
@@ -652,6 +652,8 @@ module.exports = {
 
 Generate output:
 
+<!-- eslint-skip -->
+
 ```js
 import $ from "jquery";
 
@@ -659,7 +661,7 @@ import $ from "jquery";
   // ...
   // Code
   // ...
-}).call(window);
+}).call(globalThis);
 ```
 
 #### `object`
@@ -697,6 +699,8 @@ module.exports = {
 
 Generate output:
 
+<!-- eslint-skip -->
+
 ```js
 import $ from "jquery";
 
@@ -704,7 +708,7 @@ import $ from "jquery";
   // ...
   // Code
   // ...
-}).call(window, myVariable, myOtherVariable);
+}).call(globalThis, myVariable, myOtherVariable);
 ```
 
 #### `object` with different parameter names
@@ -745,6 +749,8 @@ module.exports = {
 
 Generate output:
 
+<!-- eslint-skip -->
+
 ```js
 import $ from "jquery";
 
@@ -752,7 +758,7 @@ import $ from "jquery";
   // ...
   // Code
   // ...
-}).call(window, myVariable, myOtherVariable);
+}).call(globalThis, myVariable, myOtherVariable);
 ```
 
 ### `additionalCode`
@@ -802,7 +808,7 @@ Generate output:
 ```js
 import $ from "jquery";
 
-var myVariable = false;
+const myVariable = false;
 
 // ...
 // Code
@@ -843,7 +849,7 @@ Generate output:
 ```js
 import $ from "jquery";
 
-var define = false; /* Disable AMD for misbehaving libraries */
+const define = false; /* Disable AMD for misbehaving libraries */
 
 // ...
 // Code

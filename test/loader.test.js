@@ -1,4 +1,4 @@
-import path from "path";
+import path from "node:path";
 
 import { SourceMapConsumer } from "source-map-js";
 
@@ -349,7 +349,7 @@ describe("loader", () => {
       column: 0,
       source: "webpack://ImportsLoader/some-library.js",
     });
-    expect(bundle[result.line - 1 /* 1-indexed */]).toEqual("var someCode = {");
+    expect(bundle[result.line - 1 /* 1-indexed */]).toBe("var someCode = {");
   });
 
   it('should update source maps from previous loaders when the "devtool" option is enabled', async () => {
@@ -392,7 +392,7 @@ describe("loader", () => {
       column: 0,
       source: "webpack://ImportsLoader/some-library.js",
     });
-    expect(bundle[result.line - 1 /* 1-indexed */]).toEqual("var someCode = {");
+    expect(bundle[result.line - 1 /* 1-indexed */]).toBe("var someCode = {");
   });
 
   it('should work with "default" imports without syntax', async () => {
@@ -707,7 +707,7 @@ describe("loader", () => {
     expect(getWarnings(stats)).toMatchSnapshot("warnings");
   });
 
-  it('should work with multiple "multiple" imports', async () => {
+  it('should work with multiple "multiple" imports from same library', async () => {
     const compiler = getCompiler("some-library.js", {
       type: "commonjs",
       imports: [
@@ -724,7 +724,7 @@ describe("loader", () => {
     expect(getWarnings(stats)).toMatchSnapshot("warnings");
   });
 
-  it('should work with multiple "multiple" imports', async () => {
+  it('should work with multiple "multiple" imports from different libraries', async () => {
     const compiler = getCompiler("some-library.js", {
       type: "commonjs",
       imports: [
